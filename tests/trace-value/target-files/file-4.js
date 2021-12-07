@@ -21,30 +21,36 @@ e = 'A literal'; // e is now safe
 // Object cases
 const f = { a: a_001, b: 'another definite string' };
 
-const g = { a: a_001, b: c }; // g.b_001 is now unsafe
+const g = { a: a_001, b: c }; // g.b is now unsafe
 
-const h = { ...f, ...g }; // h.b_001 is now unsafe
+const h = { ...f, ...g }; // h.b is now unsafe
 
 const i = { ...g, ...f };
 
-const j = { ...i, ...h }; // j.b_001 is now unsafe
+const j = { ...i, ...h }; // j.b is now unsafe
 
 const k = { ...j, b: f.b };
 
-const l = { ...k, b: g.b }; // l.b_001 is now unsafe
+const l = { ...k, b: g.b }; // l.b is now unsafe
 
-const m = { a: c, b: a_001 }; // m.a_001 is now unsafe
+const m = { a: c, b: a_001 }; // m.a is now unsafe
 
-// Template string cases
+// TODO Use some examples with 4 spreads
+
+// String manipulation, template strings, concatenations
 //.. with object properties inside, var references inside, direct values inside good + bad.
 
 // Array cases
+// TODO Show that arrays can contain unsafe or only safe values Ex and Ax cases
+// TODO Show that single array item access cannot be deemed safe if array contains some unsafe element (we can't know the order at STA time)
+// TODO test with push(?)
+// TODO test with spread operator
+// TODO test with array concat
+// TODO test with re-assignment
 
 // Mathematics cases
 
 // Logic expression cases
-
-// Simple loops
 
 // Conditional branching - code path analysis
 
@@ -52,5 +58,12 @@ const m = { a: c, b: a_001 }; // m.a_001 is now unsafe
 
 // Function cases - code path analysis
 
+// Simple loops
+// TODO concatenation / aggregation
+// TODO function calls
+// TODO api calls
+
 // Maps cases
 //.. both simple and advanced, like maps of functions!
+
+// Different types of exports
