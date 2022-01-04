@@ -10,6 +10,8 @@ const a_001 = 'A definite string';
 let b_001 = 'A definite string';
 b_001 = 'Still a_001 definite string';
 
+const b_002 = a_001;
+
 var c = 'A definite string';
 c = fetch('no-longer-a-definite-string!'); // c is now unsafe
 
@@ -64,6 +66,6 @@ const m = { a: c, b: a_001 }; // m.a is now unsafe
 // TODO api calls
 
 // Maps cases
-//.. both simple and advanced, like maps of functions!
+// both simple and advanced, like maps of functions!
 
 // Different types of exports
