@@ -5,37 +5,54 @@
  */
 
 // Const, let, var and re-assignment cases
-const a_001 = 'A definite string';
+// sim = simple
+const sim_001 = 'A definite string';                            // safe
+const sim_002 = fetch('https://evilcorp.com/hackyhacky'); // unsafe
 
-let b_001 = 'A definite string';
-b_001 = 'Still a_001 definite string';
+let sim_003 = 'A safe value';                                 // declared with safe
+sim_003 = 'Still a safe value';                               // re-assigned to safe
 
-const b_002 = a_001;
+let sim_004 = 'A safe value';                                 // declared with safe
+sim_004 = fetch('https://evilcorp.com/hackyhacky');     // re-assigned to unsafe
 
-var c = 'A definite string';
-c = fetch('no-longer-a-definite-string!'); // c is now unsafe
+let sim_005 = fetch('https://evilcorp.com/hackyhacky'); // declared as unsafe
+sim_005 = 'A safe value';                                    // re-assigned to safe
 
-const d = fetch('not-a-definite-string!'); // d is now unsafe
+// show var also works
+var sim_006 = fetch('https://evilcorp.com/hackyhacky'); // declared as unsafe
+sim_006 = fetch('https://evilcorp.com/hackyhacky');     // re-assigned to unsafe
 
-let e = fetch('not-a-literal!'); // e is now unsafe
-e = 'A literal'; // e is now safe
+let sim_007 = 'A safe value';                                // declared as safe
+sim_007 = sim_001;                                           // re-assigned to safe variable
+
+let sim_008 = 'A safe value';                                // declared as safe
+sim_008 = sim_002;                                           // re-assigned to unsafe variable
+
+let sim_009 = fetch('https://evilcorp.com/hackyhacky'); // declared as unsafe
+sim_009 = sim_001;                                           // re-assigned to safe variable
+
+let sim_010 = fetch('https://evilcorp.com/hackyhacky'); // declared as unsafe
+sim_010 = sim_002;                                           // re-assigned to unsafe variable
 
 // Object cases
-const f = { a: a_001, b: 'another definite string' };
+// obj = object
+const obj_001 = { a: 'A safe string', b: 'A safe string' }; // all properties safe
 
-const g = { a: a_001, b: c }; // g.b is now unsafe
+const obj_002 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' }; // unsafe property
 
-const h = { ...f, ...g }; // h.b is now unsafe
+const obj_003 = { a: sim_001, b: 'A safe string' }; // all properties safe
 
-const i = { ...g, ...f };
+const obj_004 = { a: sim_002, b: 'A safe string' }; // unsafe property from variable
 
-const j = { ...i, ...h }; // j.b is now unsafe
+const obj_005 = { a: obj_002.a, b: obj_001.b }; // unsafe property
 
-const k = { ...j, b: f.b };
+const obj_006 = { ...obj_001, ...obj_002 }; // unsafe property in obj_002
 
-const l = { ...k, b: g.b }; // l.b is now unsafe
+const obj_007 = { ...obj_002, ...obj_001 }; // safe property in obj_002
 
-const m = { a: c, b: a_001 }; // m.a is now unsafe
+const obj_008 = { ...k, b: g.b }; // l.b is now unsafe
+
+const obj_009 = { a: c, b: sim_001 }; // m.a is now unsafe
 
 // TODO Use some examples with 4 spreads
 

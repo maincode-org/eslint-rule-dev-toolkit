@@ -3,60 +3,30 @@ A toolkit of awesome helpers for developing advanced ESLint rules with ease!
 
 ## The traceValue algorithm
 ### The function parameters
-The function takes three parameters - an AST node, a rule context, and optionally a verifier function.
+The function takes three parameters; an AST node, a rule context, and optionally a verifier function.
 Because this function is a helper function for rule developers, the AST node provided by the user, is whatever node the rule developer wants to check.
 The rule context is just the context of the rule being developed.
-The verifier function is a function that describes a recipe of how to deem the node safe.
+The verifier function is a function that describes a recipe of how to verify the node/deem the node safe.
 
 ### The function return
-traceValue returns a boolean and an AST. The boolean describes whether the AST node can be deemed safe or not,
-and the AST is a representation of the visited nodes in the process of analyzing whether the value of the node is safe.
-If no verifier function is provided, the function returns true, and an AST of all relevant nodes in regard to the value of the provided AST node.
+traceValue returns an object containing a result and a trace. The result includes a boolean and an AST node.
+This node is the determining node from the process of verifying the provided node.
+The boolean describes whether the AST node can be deemed safe or not.
+
+The `nodeComponentTrace` field is a representation of all the value nodes that were visited in the process of verifying the provided node.
 
 ### Input/output examples
 #### Example 1
-**Arguments**
-
-Node --> `b`
-
-Context --> The context with the following program.
-
-```js
-const a = "maincode";
-let b = a;
-b = "eslint";
-const c = b;
-```
-where the value node of `c = b` is b.
-
-Verifier --> `(node: ESTree.Node) => node.type === "Literal";`
-
-**The function call**
-`traceValue(bNode, context, verify);`
-
-**Returned value**
-
-{ verified: true, ast: AST }
-
-The AST includes:
-```js
-[identifierBNode, assignmentBNode, literalNode]
-```
-
-Note that the AST does not include values that are not considered in the analysis of deeming the value of the provided node safe or not.
-
-#### Example 2
-**Arguments**
-
-**The function call**
-
-**The returned value**
 
 #### Example takeaways
-Returns the path to the first node referenced that does not pass verify() or the full path until the value is no longer a reference.
+The trace includes all the nodes that were visited in the verification process ending with the node that determined the answer.
+In the positive case, the trace includes all value nodes, whereas the negative case (something unsafe is found) the trace includes the value nodes up to the unsafe node.
+If the unsafe node is the last the algorithm had to check,
+the trace will include the same nodes as if it could be verified, which is the complete set of value nodes involved in the traversal.
 
+TODO: Fix the following section <br/>
+It should rather be like: "Use the includes parameter to add tracing of values other than the Literals"
 ### Analyzing the node identifier
-If you want to analyze the identifier of the node instead of the value, you can use the AST returned from traceValue to analyze yourself.
-
-For example if you wanted to make a rule that checks if all variable names are ice cream flavors, you can traverse the returned AST yourself, and do the checking. 
+If you want to analyze the identifier of the node instead of the value, you can use the AST returned from traceValue to analyze it yourself.
+For example if you wanted to make a rule that checks if all variable names are ice cream flavors, you can traverse the returned AST yourself, and do the checking.
 
