@@ -11,6 +11,14 @@ enum ETestFiles {
   FILE4 = 'file-4',
 }
 
+const makeScopeManager = () => {
+  const fileContents = readFileSync('tests/trace-value/target-files/scopetest.js', 'utf-8');
+
+  const linter = new Linter();
+  linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2018 }, env: { es6: true } });
+  return linter.getSourceCode().scopeManager;
+}
+
 const createSourceCode = (file: ETestFiles): SourceCode => {
   const fileContents = readFileSync('tests/trace-value/target-files/' + file + '.js', 'utf-8');
 
@@ -38,8 +46,25 @@ test('adds 1 + 2 to equal 3', () => {
   expect(1 + 2).toBe(3);
 });
 
-test('Tracing value of a_001 - the trivial case of a Literal value', () => {
-  const variableName = 'a_001';
+test('Verifying value of sim_001 - the trivial case of a Literal value', () => {
+  const variableName = 'sim_001';
+
+  // ESLint SourceCode object
+  const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+  const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+  console.log('var decl node', varDeclaration);
+
+  const traceValueResult = varDeclaration && varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+
+  // const expectedResult: ITraceValueReturn = { result: { isVerified: true, determiningNode: { type: "Literal", value: "A safe value" } }, nodeComponentTrace: []};
+  expect(traceValueResult?.result.isVerified).toBe(true);
+  expect((traceValueResult?.result.determiningNode as ESTree.SimpleLiteral).type).toBe("Literal");
+  expect((traceValueResult?.result.determiningNode as ESTree.SimpleLiteral).value).toBe("A safe value");
+});
+
+test('Verifying value of sim_007 - an identifier where the value is a reference to sim_001', () => {
+  const variableName = 'sim_011';
 
   // ESLint SourceCode object
   const sourceCode = createSourceCode(ETestFiles.FILE4);
@@ -47,7 +72,11 @@ test('Tracing value of a_001 - the trivial case of a Literal value', () => {
   const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
   // console.log('var decl node', varDeclaration);
 
-  // If the test falls through the bottom - the problem is here.
   const traceValueResult = varDeclaration && varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
-  expect(traceValueResult).toBe(true);
+  expect(traceValueResult?.result.isVerified).toBe(false);
+});
+
+test('Test scope management theory', () => {
+  const scopes = makeScopeManager();
+  console.log(scopes);
 });

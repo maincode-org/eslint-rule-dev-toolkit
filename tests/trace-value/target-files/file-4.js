@@ -6,11 +6,11 @@
 
 // Const, let, var and re-assignment cases
 // sim = simple
-const sim_001 = 'A definite string';                            // safe
+const sim_001 = 'A safe value';                                 // safe
 const sim_002 = fetch('https://evilcorp.com/hackyhacky'); // unsafe
 
-let sim_003 = 'A safe value';                                 // declared with safe
-sim_003 = 'Still a safe value';                               // re-assigned to safe
+let sim_003 = 'A safe value';                                  // declared with safe
+sim_003 = 'Still a safe value';                                // re-assigned to safe
 
 let sim_004 = 'A safe value';                                 // declared with safe
 sim_004 = fetch('https://evilcorp.com/hackyhacky');     // re-assigned to unsafe
@@ -34,25 +34,29 @@ sim_009 = sim_001;                                           // re-assigned to s
 let sim_010 = fetch('https://evilcorp.com/hackyhacky'); // declared as unsafe
 sim_010 = sim_002;                                           // re-assigned to unsafe variable
 
+const sim_011 = sim_001;                                     // declared with safe identifier
+
 // Object cases
 // obj = object
-const obj_001 = { a: 'A safe string', b: 'A safe string' }; // all properties safe
+const obj_001 = { a: 'A safe string', b: 'A safe string' };                                                                                      // all properties safe
 
-const obj_002 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' }; // unsafe property
+const obj_002 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' };                                                       // unsafe property
 
-const obj_003 = { a: sim_001, b: 'A safe string' }; // all properties safe
+const obj_003 = { a: 'A safe string', b: 'A safe string', c: 'A safe string', d: fetch('https://evilcorp.com/hackyhacky') };               // unsafe property
 
-const obj_004 = { a: sim_002, b: 'A safe string' }; // unsafe property from variable
+const obj_004 = { a: sim_001, b: 'A safe string' };                                                                                              // all properties safe
 
-const obj_005 = { a: obj_002.a, b: obj_001.b }; // unsafe property
+const obj_005 = { a: sim_002, b: 'A safe string' };                                                                                              // unsafe property from variable
 
-const obj_006 = { ...obj_001, ...obj_002 }; // unsafe property in obj_002
+const obj_006 = { a: obj_002.a, b: obj_001.b };                                                                                                  // unsafe property
 
-const obj_007 = { ...obj_002, ...obj_001 }; // safe property in obj_002
+const obj_007 = { ...obj_001, ...obj_002 };                                                                                                      // unsafe property in obj_002
 
-const obj_008 = { ...k, b: g.b }; // l.b is now unsafe
+const obj_008 = { ...obj_002, ...obj_001 };                                                                                                      // safe property in obj_002
 
-const obj_009 = { a: c, b: sim_001 }; // m.a is now unsafe
+const obj_009 = { ...{ a: 'A safe string', b: 'A safe string' }, ...{ c: 'A safe string', d: 'A safe string' } };                                // all properties are safe
+
+const obj_010 = { ...{ a: 'A safe string', b: 'A safe string' }, ...{ c: 'A safe string', d: fetch('https://evilcorp.com/hackyhacky') } }; // unsafe property from spread object
 
 // TODO Use some examples with 4 spreads
 

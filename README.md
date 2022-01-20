@@ -15,6 +15,8 @@ The boolean describes whether the AST node can be deemed safe or not.
 
 The `nodeComponentTrace` field is a representation of all the value nodes that were visited in the process of verifying the provided node.
 
+{ result: { isVerified: boolean, determiningNode: Node }, nodeComponentTrace: Node[] }
+
 ### Input/output examples
 #### Example 1
 
