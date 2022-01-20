@@ -1,6 +1,6 @@
 import ESTree from 'estree';
 import estraverse from 'estraverse';
-import { Linter, SourceCode } from "eslint";
+import { Linter, SourceCode, Scope } from "eslint";
 import { readFileSync } from 'fs';
 import { traceValue } from "../../src/trace-value/trace-value";
 
@@ -11,12 +11,30 @@ enum ETestFiles {
   FILE4 = 'file-4',
 }
 
+// Used to test a scope test file.
 const makeScopeManager = () => {
   const fileContents = readFileSync('tests/trace-value/target-files/scopetest.js', 'utf-8');
 
   const linter = new Linter();
   linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2018 }, env: { es6: true } });
   return linter.getSourceCode().scopeManager;
+}
+
+const checkNameInScope = (name: string, scope: Scope.Scope | null): ESTree.Node | null => {
+  if (!scope) return null;
+  if (scope.block.type !== "ArrowFunctionExpression") return null;
+  if (scope.block.body.type !== 'BlockStatement') return null;
+  const scopeBody = scope.block.body.body; // Array of nodes
+  const relevantNodes = scopeBody.filter(node => node.type === "VariableDeclaration" || node.type === "ExpressionStatement");
+  if (relevantNodes.length === 0) return checkNameInScope(name, scope.upper);
+
+  const declarations = relevantNodes.map(node => node.type === "VariableDeclaration"
+      ?
+      (node.declarations[0].id as ESTree.Identifier).name === name
+      :
+      (((node as ESTree.ExpressionStatement).expression as ESTree.AssignmentExpression).left as ESTree.Identifier).name === name);
+  console.log('assignments', declarations);
+  return null;
 }
 
 const createSourceCode = (file: ETestFiles): SourceCode => {
@@ -77,6 +95,7 @@ test('Verifying value of sim_007 - an identifier where the value is a reference 
 });
 
 test('Test scope management theory', () => {
-  const scopes = makeScopeManager();
-  console.log(scopes);
+  const scopes: Scope.ScopeManager = makeScopeManager();
+  checkNameInScope("a", scopes.scopes[2]);
+  // console.log('scopes', scopes.scopes[1]);
 });
