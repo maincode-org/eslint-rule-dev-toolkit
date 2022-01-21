@@ -77,7 +77,13 @@ export const analyzeIdentifierNode = (identifier: ESTree.Identifier): ESTree.Nod
     const scopeBodies = scopes.map(scope => ((scope.block as ESTree.ArrowFunctionExpression).body as ESTree.BlockStatement).body);
     // Find the scope in which there is a node with the same line number as the identifiers'.
     const identifierLineNumber = identifier.loc?.start.line;
-    const identifierScopeIndex = scopeBodies.map(body => body && body.findIndex(node => node.loc?.start.line === identifierLineNumber)).findIndex(x => x > 0);
+    let identifierScopeIndex = scopeBodies.map(body => body && body.findIndex(node => node.loc?.start.line === identifierLineNumber)).findIndex(x => x >= 0);
+    if (identifierScopeIndex === -1) { // No scopes found a.k.a. must be in global scope.
+        identifierScopeIndex = 0;
+    }
+
+    // TODO: LOOK HERE!
+    // IdentifierScopeIndex is 0 now - but global scope does not have block.body.body
 
     // Find nodes that manipulate the identifier - look first in the scope of which the identifier is being used.
     const a = findNodeWithNameInScope(identifier.name, scopes[identifierScopeIndex]);
