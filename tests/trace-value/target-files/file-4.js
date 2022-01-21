@@ -90,3 +90,17 @@ const obj_010 = { ...{ a: 'A safe string', b: 'A safe string' }, ...{ c: 'A safe
 // both simple and advanced, like maps of functions!
 
 // Different types of exports
+
+// Scopes
+// ------------ Case 1 ------------
+let sco_001 = 'safe';
+
+const outer = () => {
+    sco_001 = 'outer';
+
+    const inner = () => {
+        sco_001 = 'inner';
+        const sco_002 = sco_001;
+    }
+}
+// ---------------------------------
