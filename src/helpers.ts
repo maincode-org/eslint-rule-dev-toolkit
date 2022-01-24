@@ -4,7 +4,8 @@ import ESTree from "estree";
 import estraverse from "estraverse";
 import { ETestFiles } from "../tests/trace-value/simple-same-file.test";
 
-type NodeWithParent = ESTree.Node & { parent: ESTree.Node };
+type INodeWithParent = ESTree.Node & { parent: ESTree.Node };
+export type IValueNode = ESTree.Node & { value: string };
 
 export const createSourceCode = (file: ETestFiles): SourceCode => {
     const fileContents = readFileSync('tests/trace-value/target-files/' + file + '.js', 'utf-8');
@@ -44,7 +45,7 @@ const findNodeWithNameInScope = (name: string, scope: Scope.Scope | null): ESTre
     if (scope.type === "global") {
         const nameNode = scope.set.get(name);
         if (!nameNode) throw `Node with name ${name} could not be found in global scope`;
-        return ((nameNode.identifiers[0] as NodeWithParent).parent as NodeWithParent).parent as ESTree.VariableDeclaration;
+        return ((nameNode.identifiers[0] as INodeWithParent).parent as INodeWithParent).parent as ESTree.VariableDeclaration;
     } else { // Analyze the scope by looking at the nodes in the body of the scope code block.
         if (scope.block.type !== "ArrowFunctionExpression") return null;
         if (scope.block.body.type !== 'BlockStatement') return null;

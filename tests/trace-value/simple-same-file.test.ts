@@ -2,7 +2,7 @@ import ESTree from 'estree';
 import { Linter } from "eslint";
 import { readFileSync } from 'fs';
 import { traceValue } from "../../src/trace-value/trace-value";
-import { createSourceCode, getVarDeclarationByName } from "../../src/helpers";
+import { createSourceCode, getVarDeclarationByName, IValueNode } from "../../src/helpers";
 
 export enum ETestFiles {
   FILE1 = 'file-1',
@@ -26,12 +26,24 @@ test('Verifying value of sim_001 - the trivial case of a Literal value', () => {
   const sourceCode = createSourceCode(ETestFiles.FILE4);
 
   const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+  expect(varDeclaration).toBeDefined();
+  if (!varDeclaration) return;
 
-  const traceValueResult = varDeclaration && varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+  const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+  expect(traceValueResult).toBeDefined();
+  if (!traceValueResult) return;
 
-  expect(traceValueResult?.result.isVerified).toBe(true);
-  expect((traceValueResult?.result.determiningNode as ESTree.SimpleLiteral).type).toBe("Literal");
-  expect((traceValueResult?.result.determiningNode as ESTree.SimpleLiteral).value).toBe("A safe value");
+  const { result, nodeComponentTrace } = traceValueResult;
+
+  // Analyze result
+  expect(result.isVerified).toBe(true);
+  expect(result.determiningNode.type).toBe("Literal");
+  expect((result.determiningNode as IValueNode).value).toBe("A safe value");
+
+  // Analyze trace
+  expect(nodeComponentTrace.length).toBe(1);
+  expect(nodeComponentTrace[0].type).toBe("Literal");
+  expect((nodeComponentTrace[0] as IValueNode).value).toBe("A safe value");
 });
 
 test('Verifying value of sim_011 - an identifier where the value is a reference to sim_001', () => {
@@ -40,11 +52,24 @@ test('Verifying value of sim_011 - an identifier where the value is a reference 
   const sourceCode = createSourceCode(ETestFiles.FILE4);
 
   const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+  expect(varDeclaration).toBeDefined();
+  if (!varDeclaration) return;
 
-  const traceValueResult = varDeclaration && varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
-  expect(traceValueResult?.result.isVerified).toBe(true);
-  expect((traceValueResult?.result.determiningNode as ESTree.SimpleLiteral).type).toBe("Literal");
-  expect((traceValueResult?.result.determiningNode as ESTree.SimpleLiteral).value).toBe("A safe value");
+  const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+  expect(traceValueResult).toBeDefined();
+  if (!traceValueResult) return;
+
+  const { result, nodeComponentTrace } = traceValueResult;
+
+  // Analyze result
+  expect(result.isVerified).toBe(true);
+  expect(result.determiningNode.type).toBe("Literal");
+  expect((result.determiningNode as IValueNode).value).toBe("A safe value");
+
+  // Analyze trace
+  expect(nodeComponentTrace.length).toBe(2);
+  expect(nodeComponentTrace[0].type).toBe("Identifier");
+  expect(nodeComponentTrace[1].type).toBe("Literal");
 });
 
 test('Verifying value of sco_002', () => {
@@ -53,9 +78,74 @@ test('Verifying value of sco_002', () => {
   const sourceCode = createSourceCode(ETestFiles.FILE4);
 
   const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+  expect(varDeclaration).toBeDefined();
+  if (!varDeclaration) return;
 
-  const traceValueResult = varDeclaration && varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
-  expect(traceValueResult?.result.isVerified).toBe(true);
-  expect((traceValueResult?.result.determiningNode as ESTree.SimpleLiteral).type).toBe("Literal");
-  expect((traceValueResult?.result.determiningNode as ESTree.SimpleLiteral).value).toBe("inner");
+  const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+  expect(traceValueResult).toBeDefined();
+  if (!traceValueResult) return;
+
+  const { result, nodeComponentTrace } = traceValueResult;
+
+  // Analyze result
+  expect(result.isVerified).toBe(true);
+  expect(result.determiningNode.type).toBe("Literal");
+  expect((result.determiningNode as IValueNode).value).toBe("inner");
+
+  // Analyze trace
+  expect(nodeComponentTrace.length).toBe(2);
+  expect(nodeComponentTrace[0].type).toBe("Identifier");
+  expect(nodeComponentTrace[1].type).toBe("Literal");
+});
+
+test('Verifying value of sco_004', () => {
+  const variableName = 'sco_004';
+
+  const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+  const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+  expect(varDeclaration).toBeDefined();
+  if (!varDeclaration) return;
+
+  const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+  expect(traceValueResult).toBeDefined();
+  if (!traceValueResult) return;
+
+  const { result, nodeComponentTrace } = traceValueResult;
+
+  // Analyze result
+  expect(result.isVerified).toBe(true);
+  expect(result.determiningNode.type).toBe("Literal");
+  expect((result.determiningNode as IValueNode).value).toBe("outer");
+
+  // Analyze trace
+  expect(nodeComponentTrace.length).toBe(2);
+  expect(nodeComponentTrace[0].type).toBe("Identifier");
+  expect(nodeComponentTrace[1].type).toBe("Literal");
+});
+
+test('Verifying value of sco_006', () => {
+  const variableName = 'sco_006';
+
+  const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+  const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+  expect(varDeclaration).toBeDefined();
+  if (!varDeclaration) return;
+
+  const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+  expect(traceValueResult).toBeDefined();
+  if (!traceValueResult) return;
+
+  const { result, nodeComponentTrace } = traceValueResult;
+
+  // Analyze result
+  expect(result.isVerified).toBe(true);
+  expect(result.determiningNode.type).toBe("Literal");
+  expect((result.determiningNode as IValueNode).value).toBe("safe");
+
+  // Analyze trace
+  expect(nodeComponentTrace.length).toBe(2);
+  expect(nodeComponentTrace[0].type).toBe("Identifier");
+  expect(nodeComponentTrace[1].type).toBe("Literal");
 });

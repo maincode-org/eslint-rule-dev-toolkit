@@ -12,7 +12,7 @@ export type ITraceValueReturn = {
 
 // TODO: Change type of context to RuleContext
 export const traceValue = (node: ESTree.Node, context: SourceCode, verify: (node: ESTree.Node) => boolean, nodeTrace: ESTree.Node[] = []): ITraceValueReturn => {
-    if (node.type === 'Literal') return { result: { isVerified: verify(node), determiningNode: node }, nodeComponentTrace: nodeTrace};
+    if (node.type === 'Literal') return { result: { isVerified: verify(node), determiningNode: node }, nodeComponentTrace: [...nodeTrace, node]};
     if (node.type === 'Identifier'){
         const identifierValue = analyzeIdentifierNode(node);
         return traceValue(identifierValue, context, verify, [...nodeTrace, node]);
