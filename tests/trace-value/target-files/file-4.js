@@ -1,13 +1,13 @@
 /**
  * This file contains values at test-depth "4".
  * This is the bottom level, and the values here may not reference other project files.
- * We define "unsafe" as a_001 value which does not in its entirety come from within the program itself, or its direct environment.
+ * We define "unsafe" as a_001 value which does not in its entirety come from within the program itself, or its direct environment. ???
  */
 
 // Const, let, var and re-assignment cases
 // sim = simple
 const sim_001 = 'A safe value';                                 // safe
-// sim_001 = 'lolol'; Global scope test...
+
 const sim_002 = fetch('https://evilcorp.com/hackyhacky'); // unsafe
 
 let sim_003 = 'A safe value';                                  // declared with safe

@@ -9,6 +9,68 @@ export enum ETestFiles {
   FILE4 = 'file-4',
 }
 
+describe('Verifier function tests', function () {
+  test('Verify whether the value node is of type Literal on node sim_001', () => {
+    const variableName = 'sim_001';
+
+    const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+  });
+
+  test('Verify whether the value node is of type Literal, and the literal includes the word strawberry, on node sim_001', () => {
+    const variableName = 'sim_001';
+
+    const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const verifier = (node: ESTree.Node) => node.type === "Literal" && (node as IValueNode).value.includes("strawberry");
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifier);
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(false);
+  });
+
+  test('Verify whether the value node is of type Literal on node sim_002', () => {
+    const variableName = 'sim_002';
+
+    const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(false);
+    expect(result.determiningNode.type).toBe("CallExpression");
+  });
+});
+
 // Code starts at file-4 line 7.
 describe('Simple tests', () => {
   test('Verifying value of sim_001 - the trivial case of a Literal value', () => {
