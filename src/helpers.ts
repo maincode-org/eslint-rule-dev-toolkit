@@ -4,6 +4,8 @@ import ESTree from "estree";
 import estraverse from "estraverse";
 import { ETestFiles } from "../tests/trace-value/simple-same-file.test";
 
+type NodeWithParent = ESTree.Node & { parent: ESTree.Node };
+
 export const createSourceCode = (file: ETestFiles): SourceCode => {
     const fileContents = readFileSync('tests/trace-value/target-files/' + file + '.js', 'utf-8');
 
@@ -35,13 +37,20 @@ export const getVarDeclarationByName = (ast: ESTree.Program, variableName: strin
  */
 const findNodeWithNameInScope = (name: string, scope: Scope.Scope | null): ESTree.ExpressionStatement | ESTree.VariableDeclaration | null => {
     if (!scope) return null;
-    if (scope.block.type !== "ArrowFunctionExpression") return null;
-    if (scope.block.body.type !== 'BlockStatement') return null;
 
-    // Analyze the scope by looking at the nodes in the body of the scope code block.
-    const codeBlockBody = scope.block.body.body; // Array of nodes
-
-    const relevantNodes = codeBlockBody.filter(node => node.type === "VariableDeclaration" || node.type === "ExpressionStatement");
+    // The type of relevantNodes is actually (ESTree.VariableDeclaration | ESTree.ExpressionStatement)[]
+    let relevantNodes: ESTree.Statement[] = [];
+    // Analyze the global scope by looking at the set of variables in the scope.
+    if (scope.type === "global") {
+        const nameNode = scope.set.get(name);
+        if (!nameNode) throw `Node with name ${name} could not be found in global scope`;
+        return ((nameNode.identifiers[0] as NodeWithParent).parent as NodeWithParent).parent as ESTree.VariableDeclaration;
+    } else { // Analyze the scope by looking at the nodes in the body of the scope code block.
+        if (scope.block.type !== "ArrowFunctionExpression") return null;
+        if (scope.block.body.type !== 'BlockStatement') return null;
+        const codeBlockBody = scope.block.body.body; // Array of code block nodes.
+        relevantNodes = codeBlockBody.filter(node => node.type === "VariableDeclaration" || node.type === "ExpressionStatement");
+    }
 
     // If there are no relevant nodes to look at, call recursively with the parent scope.
     if (relevantNodes.length === 0) return findNodeWithNameInScope(name, scope.upper);
@@ -82,13 +91,10 @@ export const analyzeIdentifierNode = (identifier: ESTree.Identifier): ESTree.Nod
         identifierScopeIndex = 0;
     }
 
-    // TODO: LOOK HERE!
-    // IdentifierScopeIndex is 0 now - but global scope does not have block.body.body
-
     // Find nodes that manipulate the identifier - look first in the scope of which the identifier is being used.
     const a = findNodeWithNameInScope(identifier.name, scopes[identifierScopeIndex]);
     if (!a) throw `Could not find any relevant nodes for identifier ${identifier.name}`;
-    // The return here is either an ExpressionStatement or a VariableDeclaration or null
+    // The return here is either an ExpressionStatement or a VariableDeclaration or null.
     // Find value of a
     if (a.type === "ExpressionStatement") {
         if (a.expression.type !== "AssignmentExpression") throw "The expression of the ExpressionStatement is not an assignment";

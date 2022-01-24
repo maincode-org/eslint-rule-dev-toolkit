@@ -23,15 +23,12 @@ const makeScopeManager = () => {
 test('Verifying value of sim_001 - the trivial case of a Literal value', () => {
   const variableName = 'sim_001';
 
-  // ESLint SourceCode object
   const sourceCode = createSourceCode(ETestFiles.FILE4);
 
   const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
-  // console.log('var decl node', varDeclaration);
 
   const traceValueResult = varDeclaration && varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
 
-  // const expectedResult: ITraceValueReturn = { result: { isVerified: true, determiningNode: { type: "Literal", value: "A safe value" } }, nodeComponentTrace: []};
   expect(traceValueResult?.result.isVerified).toBe(true);
   expect((traceValueResult?.result.determiningNode as ESTree.SimpleLiteral).type).toBe("Literal");
   expect((traceValueResult?.result.determiningNode as ESTree.SimpleLiteral).value).toBe("A safe value");
@@ -40,24 +37,22 @@ test('Verifying value of sim_001 - the trivial case of a Literal value', () => {
 test('Verifying value of sim_011 - an identifier where the value is a reference to sim_001', () => {
   const variableName = 'sim_011';
 
-  // ESLint SourceCode object
   const sourceCode = createSourceCode(ETestFiles.FILE4);
 
   const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
-  // console.log('var decl node', varDeclaration);
 
   const traceValueResult = varDeclaration && varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
-  expect(traceValueResult?.result.isVerified).toBe(false);
+  expect(traceValueResult?.result.isVerified).toBe(true);
+  expect((traceValueResult?.result.determiningNode as ESTree.SimpleLiteral).type).toBe("Literal");
+  expect((traceValueResult?.result.determiningNode as ESTree.SimpleLiteral).value).toBe("A safe value");
 });
 
 test('Verifying value of sco_002', () => {
   const variableName = 'sco_002';
 
-  // ESLint SourceCode object
   const sourceCode = createSourceCode(ETestFiles.FILE4);
 
   const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
-  // console.log('var decl node', varDeclaration);
 
   const traceValueResult = varDeclaration && varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
   expect(traceValueResult?.result.isVerified).toBe(true);
