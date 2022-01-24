@@ -127,3 +127,13 @@ const outer2 = () => {
     }
 }
 // ---------------------------------
+
+// ------------ Case 4 ------------
+const outer3 = () => {
+    const inner = () => {
+        let sco_007 = 'declaration';
+        sco_007 = 'reassignment';
+        const sco_008 = sco_007;
+    }
+}
+// ---------------------------------

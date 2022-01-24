@@ -6,6 +6,8 @@ import { ETestFiles } from "../tests/trace-value/simple-same-file.test";
 
 type INodeWithParent = ESTree.Node & { parent: ESTree.Node };
 export type IValueNode = ESTree.Node & { value: string };
+// My god the typing
+type ILocation = ESTree.SourceLocation | null | undefined;
 
 export const createSourceCode = (file: ETestFiles): SourceCode => {
     const fileContents = readFileSync('tests/trace-value/target-files/' + file + '.js', 'utf-8');
@@ -31,16 +33,17 @@ export const getVarDeclarationByName = (ast: ESTree.Program, variableName: strin
 };
 
 /**
- * Takes a name and a scope, where the name a name of an identifier.
- * Returns the first ExpressionStatement or VariableDeclaration node where the left side's name is equal to 'name'.
+ * Takes a name and a scope, where the name is the name of an identifier.
+ * Returns the closest ExpressionStatement or VariableDeclaration node where the left side's name is equal to 'name'.
  * Searches recursively through layers of scopes until finally reaching global scope.
- * TODO: Handle cases where multiple nodes have left sides that matches 'name'.
  */
-const findNodeWithNameInScope = (name: string, scope: Scope.Scope | null): ESTree.ExpressionStatement | ESTree.VariableDeclaration | null => {
-    if (!scope) return null;
+const findNodeWithNameInScope = (name: string, location: ILocation, scope: Scope.Scope | null): ESTree.ExpressionStatement | ESTree.VariableDeclaration | null => {
+    if (!scope) throw "Scope is undefined";
+    if (!location) throw "Location is undefined";
 
     // The type of relevantNodes is actually (ESTree.VariableDeclaration | ESTree.ExpressionStatement)[]
     let relevantNodes: ESTree.Statement[] = [];
+
     // Analyze the global scope by looking at the set of variables in the scope.
     if (scope.type === "global") {
         const nameNode = scope.set.get(name);
@@ -54,25 +57,28 @@ const findNodeWithNameInScope = (name: string, scope: Scope.Scope | null): ESTre
     }
 
     // If there are no relevant nodes to look at, call recursively with the parent scope.
-    if (relevantNodes.length === 0) return findNodeWithNameInScope(name, scope.upper);
+    if (relevantNodes.length === 0) return findNodeWithNameInScope(name, location, scope.upper);
 
+    /* For each node return whether the name matches the node and if it does return its line number */
     const analyzedNodes = relevantNodes.map(node => node.type === "VariableDeclaration"
         ?
-        (node.declarations[0].id as ESTree.Identifier).name === name
+        (node.declarations[0].id as ESTree.Identifier).name === name ? (node.loc ? node.loc.start.line : Infinity) : Infinity
         :
-        (((node as ESTree.ExpressionStatement).expression as ESTree.AssignmentExpression).left as ESTree.Identifier).name === name);
-
-    // console.log('analyzed nodes', analyzedNodes);
+        (((node as ESTree.ExpressionStatement).expression as ESTree.AssignmentExpression).left as ESTree.Identifier).name === name ? (node.loc ? node.loc.start.line : Infinity) : Infinity
+    );
 
     /**
-     * If analyzedNodes does not include true, the 'name' does not occur. Call recursively with parent scope.
-     * If analyzedNodes includes true either a relevant declaration or reassignment has happened in this scope.
-     * TODO: Add case for if analyzedNodes includes more than one true
+     * If analyzedNodes does not include a number between 0 and infinity, locations could not be found for relevant nodes.
+     * Else return the node closest but less than location.
      */
-    if (analyzedNodes.includes(true)) {
+    if (!analyzedNodes.find(e => e>0 && e<Infinity)) return findNodeWithNameInScope(name, location, scope.upper);
+    else {
+        // Return the node closest to and less than the location.
+        const goal = location.start.line;
+        const closest = analyzedNodes.reduce((prev, curr) => (Math.abs(curr - goal) < Math.abs(prev - goal) && curr <= goal ? curr : prev));
         // @ts-ignore
-        return relevantNodes[analyzedNodes.findIndex(() => true)];
-    } else return findNodeWithNameInScope(name, scope.upper);
+        return relevantNodes[analyzedNodes.findIndex((e) => e === closest)];
+    }
 }
 
 /**
@@ -93,7 +99,7 @@ export const analyzeIdentifierNode = (identifier: ESTree.Identifier): ESTree.Nod
     }
 
     // Find nodes that manipulate the identifier - look first in the scope of which the identifier is being used.
-    const a = findNodeWithNameInScope(identifier.name, scopes[identifierScopeIndex]);
+    const a = findNodeWithNameInScope(identifier.name, identifier.loc, scopes[identifierScopeIndex]);
     if (!a) throw `Could not find any relevant nodes for identifier ${identifier.name}`;
     // The return here is either an ExpressionStatement or a VariableDeclaration or null.
     // Find value of a
