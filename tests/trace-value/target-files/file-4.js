@@ -36,10 +36,11 @@ let sim_010 = fetch('https://evilcorp.com/hackyhacky'); // declared as unsafe
 sim_010 = sim_002;                                           // re-assigned to unsafe variable
 
 const sim_011 = sim_001;                                     // declared with safe identifier
+const sim_012 = sim_011;                                     // declared with identifier referencing an identifier
 
 // Object cases
 // obj = object
-const obj_001 = { a: 'A safe string', b: 'A safe string' };                                                                                      // all properties safe
+const obj_001 = { a: 'A safe string', b: 'A safe string2' };                                                                                     // all properties safe
 
 const obj_002 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' };                                                       // unsafe property
 

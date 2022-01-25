@@ -71,7 +71,7 @@ describe('Verifier function tests', function () {
   });
 });
 
-// Code starts at file-4 line 7.
+// Code starts in file-4 at line 7.
 describe('Simple tests', () => {
   test('Verifying value of sim_001 - the trivial case of a Literal value', () => {
     const variableName = 'sim_001';
@@ -124,9 +124,85 @@ describe('Simple tests', () => {
     expect(nodeComponentTrace[0].type).toBe("Identifier");
     expect(nodeComponentTrace[1].type).toBe("Literal");
   });
+
+  test('Verifying value of sim_012 - an identifier referencing another identifier', () => {
+    const variableName = 'sim_012';
+
+    const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+    expect((result.determiningNode as IValueNode).value).toBe("A safe value");
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(3);
+    expect(nodeComponentTrace[0].type).toBe("Identifier");
+    expect(nodeComponentTrace[1].type).toBe("Identifier");
+    expect(nodeComponentTrace[2].type).toBe("Literal");
+  });
 });
 
-// Code starts at file-4 line 95.
+// Code starts in file-4 at line 42.
+describe('Object tests', () => {
+  test('Verifying value of obj_001', () => {
+    const variableName = 'obj_001';
+
+    const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe('Literal');
+    expect((result.determiningNode as IValueNode).value).toBe('A safe string2');
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(3);
+  });
+
+  test('Verifying value of obj_002', () => {
+    const variableName = 'obj_002';
+
+    const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(false);
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(2);
+  });
+});
+
+// Code starts in file-4 at line 95.
 describe('Scope tests', () => {
   test('Verifying value of sco_002', () => {
     const variableName = 'sco_002';

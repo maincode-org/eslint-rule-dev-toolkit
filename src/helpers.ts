@@ -3,6 +3,7 @@ import { readFileSync } from "fs";
 import ESTree from "estree";
 import estraverse from "estraverse";
 import { ETestFiles } from "../tests/trace-value/simple-same-file.test";
+import { ITraceValueReturn } from "./trace-value/trace-value";
 
 type INodeWithParent = ESTree.Node & { parent: ESTree.Node };
 export type IValueNode = ESTree.Node & { value: string };
@@ -111,4 +112,15 @@ export const analyzeIdentifierNode = (identifier: ESTree.Identifier): ESTree.Nod
         if (!valueOfIdentifier) throw "Declaration value is null or undefined";
         return valueOfIdentifier;
     }
+}
+
+/**
+ * Takes a ITraceValueReturn[].
+ * Returns a collective nodeComponentTrace of all the recursive paths.
+ */
+export const makeNodeComponentTrace = (traceValueResult: ITraceValueReturn[]) => {
+    return traceValueResult.map(result => result.nodeComponentTrace).reduce((acc, cur) => {
+        const [, ...tail] = cur;
+        return [...acc, ...tail];
+    });
 }
