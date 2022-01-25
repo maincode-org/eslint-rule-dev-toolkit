@@ -286,7 +286,31 @@ describe('Object tests', () => {
     expect(nodeComponentTrace[2].type).toBe("CallExpression");
   });
 
-  // obj_006 test is missing - object accessing not implemented.
+  test('Verifying value of obj_006', () => {
+    const variableName = 'obj_006';
+
+    const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(false);
+    expect(result.determiningNode.type).toBe("CallExpression");
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(3);
+    expect(nodeComponentTrace[0].type).toBe("ObjectExpression");
+    expect(nodeComponentTrace[1].type).toBe("MemberExpression");
+    expect(nodeComponentTrace[2].type).toBe("CallExpression");
+  });
 
   test('Verifying value of obj_007', () => {
     const variableName = 'obj_007';

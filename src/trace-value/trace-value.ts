@@ -49,5 +49,23 @@ export const traceValue = (node: ESTree.Node, context: SourceCode, verify: (node
         }
     }
 
+    // For now only member accessing on objects.
+    else if (node.type === 'MemberExpression') {
+        if (node.object.type !== 'Identifier') throw "Node type of object is not an Identifier";
+
+        // Find the object being referenced in the MemberExpression.
+        const obj = analyzeIdentifierNode(node.object) as ESTree.ObjectExpression;
+
+        // Access the specific member being accessed.
+        const member = obj.properties.find(property => {
+            if (property.type === "SpreadElement") return;
+            return (property.key as ESTree.Identifier).name === (node.property as ESTree.Identifier).name
+        });
+
+        if (!member || member.type === "SpreadElement") throw "The accessed member does not exist on object";
+
+        return traceValue(member.value, context, verify, [...nodeTrace, node]);
+    }
+
     else return getErrorObj(node, nodeTrace);
 }
