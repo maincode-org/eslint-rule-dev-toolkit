@@ -41,37 +41,62 @@ const sim_012 = sim_011;                                     // declared with id
 // Object cases
 // obj = object
 const obj_001 = { a: 'A safe string', b: 'A safe string2' };                                                                                     // all properties safe
-
 const obj_002 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' };                                                       // unsafe property
-
 const obj_003 = { a: 'A safe string', b: 'A safe string', c: 'A safe string', d: fetch('https://evilcorp.com/hackyhacky') };               // unsafe property
-
 const obj_004 = { c: sim_001, d: 'A safe string3' };                                                                                             // all properties safe
-
 const obj_005 = { a: sim_002, b: 'A safe string' };                                                                                              // unsafe property from variable
-
 const obj_006 = { a: obj_002.a, b: obj_001.b };                                                                                                  // unsafe property
-
 const obj_007 = { ...obj_001, ...obj_002 };                                                                                                      // unsafe property in obj_002
-
 const obj_008 = { ...obj_002, ...obj_001 };                                                                                                      // safe property in obj_002
-
 const obj_009 = { ...{ a: 'A safe string', b: 'A safe string1' }, ...{ c: 'A safe string2', d: 'A safe string3' } };                             // all properties are safe
-
 const obj_010 = { ...{ a: 'A safe string', b: 'A safe string' }, ...{ c: 'A safe string', d: fetch('https://evilcorp.com/hackyhacky') } }; // unsafe property from spread object
 
-// TODO Use some examples with 4 spreads
+// TODO: TEST THIS!
+let obj_011 = { a: 'A safe string', b: 'A safe string2' };                                                                                       // all properties safe
+obj_011 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' };                                                             // reassigned to unsafe
+const obj_012 = obj_011;                                                                                                                         // references unsafe
 
 // String manipulation, template strings, concatenations
-//.. with object properties inside, var references inside, direct values inside good + bad.
+// man = manipulation
+const man_001 = "A safe value" + "1";                                             // safe
+const man_002 = "A safe value" + fetch('https://evilcorp.com/hackyhacky');  // unsafe
+const man_003 = "A safe value" + obj_001.a;                                       // safe
+const man_004 = "A safe value" + obj_002.a;                                       // unsafe
+const man_005 = "A safe value" + sim_001;                                         // safe
+const man_006 = "A safe value" + sim_002;                                         // unsafe
+const man_007 = `A safe value ${1}`;                                              // safe
+const man_008 = `A safe value ${fetch('https://evilcorp.com/hackyhacky')}`; // unsafe
+const man_009 = `A safe value ${sim_001}`;                                        // safe
+const man_010 = `A safe value ${sim_002}`;                                        // unsafe
+const man_011 = `A safe value ${obj_001.a}`;                                      // safe
+const man_012 = `A safe value ${obj_002.a}`;                                      // unsafe
 
 // Array cases
+// arr = array
 // TODO Show that arrays can contain unsafe or only safe values Ex and Ax cases
 // TODO Show that single array item access cannot be deemed safe if array contains some unsafe element (we can't know the order at STA time)
 // TODO test with push(?)
 // TODO test with spread operator
 // TODO test with array concat
 // TODO test with re-assignment
+const arr_001 = ['A safe string', 'A safe string1'];                                // safe
+const arr_002 = [1,2,3];                                                            // safe
+const arr_003 = ['A safe string', fetch('https://evilcorp.com/hackyhacky')];  // unsafe
+const arr_004 = [fetch('https://evilcorp.com/hackyhacky'), 'A safe string'];  // unsafe
+const arr_005 = [...arr_001, 'safe string2'];                                       // safe
+const arr_006 = ['A safe string2', ...arr_001];                                     // safe
+const arr_007 = ['A safe string', ...arr_003];                                      // unsafe
+const arr_008 = arr_003[0];                                                         // unsafe
+const arr_009 = arr_003[1];                                                         // unsafe
+const arr_010 = arr_001[0];                                                         // safe
+const arr_011 = ['A safe value', obj_001.a];                                        // safe
+const arr_012 = ['A safe value', obj_002.a];                                        // unsafe
+const arr_013 = ['A safe value', sim_001];                                          // safe
+const arr_014 = ['A safe value', sim_002];                                          // unsafe
+
+let arr_015 = ['A safe value', 'A safe value1'];                                   // safe
+arr_015 = ['A safe string', fetch('https://evilcorp.com/hackyhacky')];       // reassignment to unsafe
+const arr_016 = arr_015;                                                           // references unsafe
 
 // Mathematics cases
 

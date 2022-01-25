@@ -56,7 +56,11 @@ export const traceValue = (node: ESTree.Node, context: SourceCode, verify: (node
         // Find the object being referenced in the MemberExpression.
         const obj = analyzeIdentifierNode(node.object) as ESTree.ObjectExpression;
 
-        // Access the specific member being accessed.
+        /**
+         * Access the specific member being accessed.
+         * It is important to access the specific value here, as calling the recursive case,
+         * would result in an analysis of all objects properties (when being caught by the ObjectExpression case)
+         */
         const member = obj.properties.find(property => {
             if (property.type === "SpreadElement") return;
             return (property.key as ESTree.Identifier).name === (node.property as ESTree.Identifier).name
