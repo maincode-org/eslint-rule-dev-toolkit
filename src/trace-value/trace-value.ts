@@ -29,15 +29,21 @@ export const traceValue = (node: ESTree.Node, context: SourceCode, verify: (node
 
         // Call recursively with each value of each property
         const results = objectProperties.map(p => {
-            if (p.type === "SpreadElement") return getErrorObj(node, nodeTrace);
-            else return traceValue(p.value, context, verify, [...nodeTrace, node]);
+            return traceValue(
+                p.type === "SpreadElement" ? p.argument : p.value,
+                context,
+                verify,
+                [...nodeTrace, node]
+            );
         });
 
-        // One of the results are not verified.
+        /**
+         * In the case of an unverified node the trace is only the unverified node's trace.
+         * Whereas when all paths are verified, the trace includes all paths.
+         */
         const unverifiedNode = results.find(result => !result.result.isVerified);
         if (unverifiedNode) {
             return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: unverifiedNode.nodeComponentTrace};
-        // All results are verified
         } else {
             return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: makeNodeComponentTrace(results)};
         }

@@ -117,6 +117,7 @@ export const analyzeIdentifierNode = (identifier: ESTree.Identifier): ESTree.Nod
 /**
  * Takes a ITraceValueReturn[].
  * Returns a collective nodeComponentTrace of all the recursive paths.
+ * Note: Head is removed as it will always be the ObjectExpression itself in all paths.
  */
 export const makeNodeComponentTrace = (traceValueResult: ITraceValueReturn[]) => {
     return traceValueResult.map(result => result.nodeComponentTrace).reduce((acc, cur) => {

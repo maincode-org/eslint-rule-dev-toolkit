@@ -46,7 +46,7 @@ const obj_002 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string
 
 const obj_003 = { a: 'A safe string', b: 'A safe string', c: 'A safe string', d: fetch('https://evilcorp.com/hackyhacky') };               // unsafe property
 
-const obj_004 = { a: sim_001, b: 'A safe string' };                                                                                              // all properties safe
+const obj_004 = { c: sim_001, d: 'A safe string3' };                                                                                             // all properties safe
 
 const obj_005 = { a: sim_002, b: 'A safe string' };                                                                                              // unsafe property from variable
 
@@ -56,7 +56,7 @@ const obj_007 = { ...obj_001, ...obj_002 };                                     
 
 const obj_008 = { ...obj_002, ...obj_001 };                                                                                                      // safe property in obj_002
 
-const obj_009 = { ...{ a: 'A safe string', b: 'A safe string' }, ...{ c: 'A safe string', d: 'A safe string' } };                                // all properties are safe
+const obj_009 = { ...{ a: 'A safe string', b: 'A safe string1' }, ...{ c: 'A safe string2', d: 'A safe string3' } };                             // all properties are safe
 
 const obj_010 = { ...{ a: 'A safe string', b: 'A safe string' }, ...{ c: 'A safe string', d: fetch('https://evilcorp.com/hackyhacky') } }; // unsafe property from spread object
 
