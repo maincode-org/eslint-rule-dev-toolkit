@@ -24,6 +24,22 @@ export const traceValue = (node: ESTree.Node, context: SourceCode, verify: (node
         return traceValue(identifierValue, context, verify, [...nodeTrace, node]);
     }
 
+    else if (node.type === 'TemplateLiteral') {
+        const expressions = node.expressions;
+        const results = expressions.map(e => traceValue(e, context, verify, [...nodeTrace, node]));
+
+        /**
+         * In the case of an unverified node the trace is only the unverified node's trace.
+         * Whereas when all paths are verified, the trace includes all paths.
+         */
+        const unverifiedNode = results.find(result => !result.result.isVerified);
+        if (unverifiedNode) {
+            return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: unverifiedNode.nodeComponentTrace};
+        } else {
+            return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: makeNodeComponentTrace(results)};
+        }
+    }
+
     else if (node.type === 'ObjectExpression') {
         const objectProperties = node.properties;
 
@@ -86,6 +102,23 @@ export const traceValue = (node: ESTree.Node, context: SourceCode, verify: (node
             else if (arrValue.type === "SpreadElement") return traceValue(arrValue.argument, context, verify, [...nodeTrace, node]);
             else return traceValue(arrValue, context, verify, [...nodeTrace, node]);
         });
+
+        /**
+         * In the case of an unverified node the trace is only the unverified node's trace.
+         * Whereas when all paths are verified, the trace includes all paths.
+         */
+        const unverifiedNode = results.find(result => !result.result.isVerified);
+        if (unverifiedNode) {
+            return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: unverifiedNode.nodeComponentTrace};
+        } else {
+            return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: makeNodeComponentTrace(results)};
+        }
+    }
+
+    else if (node.type === "BinaryExpression") {
+        const leftResult = traceValue(node.left, context, verify, [...nodeTrace, node]);
+        const rightResult = traceValue(node.right, context, verify, [...nodeTrace, node]);
+        const results = [leftResult, rightResult];
 
         /**
          * In the case of an unverified node the trace is only the unverified node's trace.
