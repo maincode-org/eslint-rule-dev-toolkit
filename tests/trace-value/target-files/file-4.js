@@ -50,26 +50,27 @@ const obj_007 = { ...obj_001, ...obj_002 };                                     
 const obj_008 = { ...obj_002, ...obj_001 };                                                                                                      // safe property in obj_002
 const obj_009 = { ...{ a: 'A safe string', b: 'A safe string1' }, ...{ c: 'A safe string2', d: 'A safe string3' } };                             // all properties are safe
 const obj_010 = { ...{ a: 'A safe string', b: 'A safe string' }, ...{ c: 'A safe string', d: fetch('https://evilcorp.com/hackyhacky') } }; // unsafe property from spread object
+const obj_011 = { a: 'A safe string', b: null };                                                                                                 // all properties are safe
 
-// TODO: TEST THIS!
-let obj_011 = { a: 'A safe string', b: 'A safe string2' };                                                                                       // all properties safe
-obj_011 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' };                                                             // reassigned to unsafe
-const obj_012 = obj_011;                                                                                                                         // references unsafe
+// We can't handle reassignments in global scope
+let obj_013 = { a: 'A safe string', b: 'A safe string2' };                                                                                       // all properties safe
+obj_013 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' };                                                             // reassigned to unsafe
+const obj_012 = obj_013;                                                                                                                         // references unsafe
 
 // String manipulation, template strings, concatenations
-// man = manipulation
-const man_001 = "A safe value" + "1";                                             // safe
-const man_002 = "A safe value" + fetch('https://evilcorp.com/hackyhacky');  // unsafe
-const man_003 = "A safe value" + obj_001.a;                                       // safe
-const man_004 = "A safe value" + obj_002.a;                                       // unsafe
-const man_005 = "A safe value" + sim_001;                                         // safe
-const man_006 = "A safe value" + sim_002;                                         // unsafe
-const man_007 = `A safe value ${1}`;                                              // safe
-const man_008 = `A safe value ${fetch('https://evilcorp.com/hackyhacky')}`; // unsafe
-const man_009 = `A safe value ${sim_001}`;                                        // safe
-const man_010 = `A safe value ${sim_002}`;                                        // unsafe
-const man_011 = `A safe value ${obj_001.a}`;                                      // safe
-const man_012 = `A safe value ${obj_002.a}`;                                      // unsafe
+// str = string
+const str_001 = "A safe value" + "1";                                             // safe
+const str_002 = "A safe value" + fetch('https://evilcorp.com/hackyhacky');  // unsafe
+const str_003 = "A safe value" + obj_001.a;                                       // safe
+const str_004 = "A safe value" + obj_002.a;                                       // unsafe
+const str_005 = "A safe value" + sim_001;                                         // safe
+const str_006 = "A safe value" + sim_002;                                         // unsafe
+const str_007 = `A safe value ${1}`;                                              // safe
+const str_008 = `A safe value ${fetch('https://evilcorp.com/hackyhacky')}`; // unsafe
+const str_009 = `A safe value ${sim_001}`;                                        // safe
+const str_010 = `A safe value ${sim_002}`;                                        // unsafe
+const str_011 = `A safe value ${obj_001.a}`;                                      // safe
+const str_012 = `A safe value ${obj_002.a}`;                                      // unsafe
 
 // Array cases
 // arr = array
@@ -83,7 +84,7 @@ const arr_001 = ['A safe string', 'A safe string1'];                            
 const arr_002 = [1,2,3];                                                            // safe
 const arr_003 = ['A safe string', fetch('https://evilcorp.com/hackyhacky')];  // unsafe
 const arr_004 = [fetch('https://evilcorp.com/hackyhacky'), 'A safe string'];  // unsafe
-const arr_005 = [...arr_001, 'safe string2'];                                       // safe
+const arr_005 = [...arr_001, 'A safe string2'];                                       // safe
 const arr_006 = ['A safe string2', ...arr_001];                                     // safe
 const arr_007 = ['A safe string', ...arr_003];                                      // unsafe
 const arr_008 = arr_003[0];                                                         // unsafe
@@ -93,10 +94,13 @@ const arr_011 = ['A safe value', obj_001.a];                                    
 const arr_012 = ['A safe value', obj_002.a];                                        // unsafe
 const arr_013 = ['A safe value', sim_001];                                          // safe
 const arr_014 = ['A safe value', sim_002];                                          // unsafe
+const arr_015 = ['A safe value', null];                                             // safe
+const arr_016 = [fetch('https://evilcorp.com/hackyhacky'), null];             // unsafe
 
-let arr_015 = ['A safe value', 'A safe value1'];                                   // safe
-arr_015 = ['A safe string', fetch('https://evilcorp.com/hackyhacky')];       // reassignment to unsafe
-const arr_016 = arr_015;                                                           // references unsafe
+// We can't handle reassignments in global scope
+let arr_018 = ['A safe value', 'A safe value1'];                                   // safe
+arr_018 = ['A safe string', fetch('https://evilcorp.com/hackyhacky')];       // reassignment to unsafe
+const arr_017 = arr_018;                                                           // references unsafe
 
 // Mathematics cases
 
