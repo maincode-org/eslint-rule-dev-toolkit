@@ -108,7 +108,17 @@ let arr_020 = ['A safe value', 'A safe value1'];                                
 arr_020 = ['A safe string', fetch('https://evilcorp.com/hackyhacky')];       // reassignment to unsafe
 const arr_019 = arr_020;                                                           // references unsafe
 
-// Mathematics cases
+// Mathematical expression cases
+const mat_001 = 1 + 2;
+const mat_002 = 1 + fetch('https://evilcorp.com/hackyhacky');
+const mat_003 = 1 - 2;
+const mat_004 = 1 - fetch('https://evilcorp.com/hackyhacky');
+const mat_005 = 2 * 2;
+const mat_006 = 1 * fetch('https://evilcorp.com/hackyhacky');
+const mat_007 = 2 / 2;
+const mat_008 = 1 / fetch('https://evilcorp.com/hackyhacky');
+const mat_009 = 1 + 2 + 3;
+const mat_010 = 1 + 2 + fetch('https://evilcorp.com/hackyhacky');
 
 // Logic expression cases
 
