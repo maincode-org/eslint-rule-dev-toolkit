@@ -108,6 +108,19 @@ let arr_020 = ['A safe value', 'A safe value1'];                                
 arr_020 = ['A safe string', fetch('https://evilcorp.com/hackyhacky')];       // reassignment to unsafe
 const arr_019 = arr_020;                                                           // references unsafe
 
+// Maps cases
+// both simple and advanced, like maps of functions!
+const map_001 = new Map([["a", 1]]);
+const map_002 = new Map([["a", fetch('https://evilcorp.com/hackyhacky')]]);
+const map_003 = new Map([["a", 1], ["b", 2]]);
+const map_004 = new Map([["a", 1], ["b", fetch('https://evilcorp.com/hackyhacky')]]);
+const map_005 = new Map([["a", obj_001.a]]);
+const map_006 = new Map([["a", obj_002.a]]);
+const map_007 = new Map([["a", arr_001[0]]]);
+const map_008 = new Map([["a", arr_002[0]]]);
+const map_009 = new Map([["a", str_001]]);
+const map_010 = new Map([["a", str_010]]);
+
 // Mathematical expression cases
 const mat_001 = 1 + 2;
 const mat_002 = 1 + fetch('https://evilcorp.com/hackyhacky');
@@ -132,9 +145,6 @@ const mat_010 = 1 + 2 + fetch('https://evilcorp.com/hackyhacky');
 // TODO concatenation / aggregation
 // TODO function calls
 // TODO api calls
-
-// Maps cases
-// both simple and advanced, like maps of functions!
 
 // Different types of exports
 
