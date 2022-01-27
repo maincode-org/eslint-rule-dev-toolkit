@@ -141,9 +141,11 @@ const log_001 = num > 4 ? 'A safe string' : 'A safe string1';
 const log_002 = num > 4 ? 'A safe string' : fetch('https://evilcorp.com/hackyhacky');
 const log_003 = num < 4 ? 'A safe string' : fetch('https://evilcorp.com/hackyhacky');
 const log_004 = num > 4 ? sim_001 : sim_004;
-const log_004 = num > 4 ? sim_001 : sim_002;
-const log_005 = num > 4 ? obj_001 : obj_002;
-const log_006 = num > 4 ? arr_001 : arr_002;
+const log_005 = num > 4 ? sim_001 : sim_002;
+const log_006 = num > 4 ? obj_001 : obj_002;
+const log_007 = num > 4 ? arr_001 : arr_002;
+const log_008 = num > 4 ? arr_001 : arr_003;
+
 
 // Conditional branching - code path analysis
 
