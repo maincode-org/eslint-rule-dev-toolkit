@@ -161,5 +161,22 @@ export const traceValue = (node: ESTree.Node, context: SourceCode, verify: (node
         }
     }
 
+    else if (node.type === "ConditionalExpression") {
+        const leftResult = traceValue(node.consequent, context, verify, [...nodeTrace, node]);
+        const rightResult = traceValue(node.alternate, context, verify, [...nodeTrace, node]);
+        const results = [leftResult, rightResult];
+
+        /**
+         * In the case of an unverified node the trace is only the unverified node's trace.
+         * Whereas when all paths are verified, the trace includes all paths.
+         */
+        const unverifiedNode = results.find(result => !result.result.isVerified);
+        if (unverifiedNode) {
+            return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: unverifiedNode.nodeComponentTrace};
+        } else {
+            return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: makeNodeComponentTrace(results)};
+        }
+    }
+
     else return getErrorObj(node, nodeTrace);
 }

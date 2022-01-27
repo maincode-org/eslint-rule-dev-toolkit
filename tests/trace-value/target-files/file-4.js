@@ -134,7 +134,16 @@ const mat_008 = 1 / fetch('https://evilcorp.com/hackyhacky');
 const mat_009 = 1 + 2 + 3;
 const mat_010 = 1 + 2 + fetch('https://evilcorp.com/hackyhacky');
 
-// Logic expression cases
+// Logical expression cases
+// log = logical expressions
+const num = 5;
+const log_001 = num > 4 ? 'A safe string' : 'A safe string1';
+const log_002 = num > 4 ? 'A safe string' : fetch('https://evilcorp.com/hackyhacky');
+const log_003 = num < 4 ? 'A safe string' : fetch('https://evilcorp.com/hackyhacky');
+const log_004 = num > 4 ? sim_001 : sim_004;
+const log_004 = num > 4 ? sim_001 : sim_002;
+const log_005 = num > 4 ? obj_001 : obj_002;
+const log_006 = num > 4 ? arr_001 : arr_002;
 
 // Conditional branching - code path analysis
 

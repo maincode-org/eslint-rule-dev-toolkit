@@ -2030,3 +2030,112 @@ describe('Maps tests', () => {
     expect(nodeComponentTrace[1].type).toBe("Literal");
   });
 });
+
+// Code starts in file-4 at line 137.
+describe('Logical expressions tests', () => {
+  test('Verifying value of log_001', () => {
+    const variableName = 'log_001';
+
+    const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+    expect((result.determiningNode as IValueNode).value).toBe('A safe string1');
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(3);
+    expect(nodeComponentTrace[0].type).toBe("ConditionalExpression");
+    expect(nodeComponentTrace[1].type).toBe("Literal");
+    expect(nodeComponentTrace[2].type).toBe("Literal");
+  });
+
+  test('Verifying value of log_002', () => {
+    const variableName = 'log_002';
+
+    const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(false);
+    expect(result.determiningNode.type).toBe("CallExpression");
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(2);
+    expect(nodeComponentTrace[0].type).toBe("ConditionalExpression");
+    expect(nodeComponentTrace[1].type).toBe("CallExpression");
+  });
+
+  test('Verifying value of log_003', () => {
+    const variableName = 'log_003';
+
+    const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(false);
+    expect(result.determiningNode.type).toBe("CallExpression");
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(2);
+    expect(nodeComponentTrace[0].type).toBe("ConditionalExpression");
+    expect(nodeComponentTrace[1].type).toBe("CallExpression");
+  });
+
+  test('Verifying value of log_004', () => {
+    const variableName = 'log_004';
+
+    const sourceCode = createSourceCode(ETestFiles.FILE4);
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+    expect((result.determiningNode as IValueNode).value).toBe('A safe value');
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(5);
+    expect(nodeComponentTrace[0].type).toBe("ConditionalExpression");
+    expect(nodeComponentTrace[1].type).toBe("Identifier");
+    expect(nodeComponentTrace[1].type).toBe("Literal");
+    expect(nodeComponentTrace[1].type).toBe("Identifier");
+    expect(nodeComponentTrace[1].type).toBe("Literal");
+  });
+});
