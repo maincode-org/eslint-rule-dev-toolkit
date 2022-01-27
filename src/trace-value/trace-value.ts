@@ -178,5 +178,7 @@ export const traceValue = (node: ESTree.Node, context: SourceCode, verify: (node
         }
     }
 
+    else if (node.type === "ArrowFunctionExpression") return traceValue(node.body, context, verify, [...nodeTrace, node]);
+
     else return getErrorObj(node, nodeTrace);
 }

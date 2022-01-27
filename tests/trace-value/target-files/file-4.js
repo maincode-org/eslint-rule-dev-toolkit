@@ -146,10 +146,17 @@ const log_006 = num > 4 ? obj_001 : obj_002;
 const log_007 = num > 4 ? arr_001 : arr_002;
 const log_008 = num > 4 ? arr_001 : arr_003;
 
-
 // Conditional branching - code path analysis
 
 // Function cases - calls
+const fun_001 = () => 2 + 2;
+const fun_002 = () => fetch('https://evilcorp.com/hackyhacky');
+const fun_003 = () => sim_001;
+const fun_004 = () => sim_002;
+const fun_005 = () => obj_001;
+const fun_006 = () => obj_002;
+const fun_007 = () => arr_001;
+const fun_008 = () => arr_003;
 
 // Function cases - code path analysis
 
@@ -161,6 +168,7 @@ const log_008 = num > 4 ? arr_001 : arr_003;
 // Different types of exports
 
 // Scopes
+// sco = scope
 // ------------ Case 1 ------------
 let sco_001 = 'safe';
 
