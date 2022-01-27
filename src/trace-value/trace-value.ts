@@ -10,6 +10,8 @@ export type ITraceValueReturn = {
     nodeComponentTrace: ESTree.Node[]
 }
 
+type IMapItem = [ESTree.Literal, ESTree.Node];
+
 // Create 'something went wrong' return object.
 const getErrorObj = (node: ESTree.Node, nodeTrace: ESTree.Node[]) => {
     return { result: { isVerified: false, determiningNode: node }, nodeComponentTrace: [...nodeTrace, node]};
@@ -119,6 +121,33 @@ export const traceValue = (node: ESTree.Node, context: SourceCode, verify: (node
         const leftResult = traceValue(node.left, context, verify, [...nodeTrace, node]);
         const rightResult = traceValue(node.right, context, verify, [...nodeTrace, node]);
         const results = [leftResult, rightResult];
+
+        /**
+         * In the case of an unverified node the trace is only the unverified node's trace.
+         * Whereas when all paths are verified, the trace includes all paths.
+         */
+        const unverifiedNode = results.find(result => !result.result.isVerified);
+        if (unverifiedNode) {
+            return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: unverifiedNode.nodeComponentTrace};
+        } else {
+            return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: makeNodeComponentTrace(results)};
+        }
+    }
+
+    // Maps
+    else if (node.type === "NewExpression") {
+        if (node.callee.type !== "Identifier" && (node.callee as unknown as ESTree.Identifier).name !== "Map") throw "New Expression is not a Map";
+
+        // My favorite line of code - so beautiful -.-
+        const initializationElements = (node.arguments[0] as unknown as ESTree.ArrayExpression).elements as unknown as ESTree.ArrayExpression[];
+        // Access the value of every key value pair.
+        const initializationValues = initializationElements.map((mapItem) => mapItem.elements[1]);
+
+        const results = initializationValues.map(value => {
+            if (!value) return { result: { isVerified: true, determiningNode: node }, nodeComponentTrace: [...nodeTrace, node]};
+            else if (value.type === "SpreadElement") return traceValue(value.argument, context, verify, [...nodeTrace, node]);
+            else return traceValue(value, context, verify, [...nodeTrace, node]);
+        });
 
         /**
          * In the case of an unverified node the trace is only the unverified node's trace.

