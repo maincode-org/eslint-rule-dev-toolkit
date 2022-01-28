@@ -133,6 +133,8 @@ const mat_007 = 2 / 2;
 const mat_008 = 1 / fetch('https://evilcorp.com/hackyhacky');
 const mat_009 = 1 + 2 + 3;
 const mat_010 = 1 + 2 + fetch('https://evilcorp.com/hackyhacky');
+const mat_011 = 2 > 3;
+const mat_012 = 2 <= fetch('https://evilcorp.com/hackyhacky');
 
 // Logical expression cases
 // log = logical expressions
@@ -146,6 +148,9 @@ const log_006 = num > 4 ? obj_001 : obj_002;
 const log_007 = num > 4 ? arr_001 : arr_002;
 const log_008 = num > 4 ? arr_001 : arr_003;
 
+const log_009 = num > 4 ?? 'A safe string';
+const log_010 = num > 4 ?? fetch('https://evilcorp.com/hackyhacky');
+
 // Conditional branching - code path analysis
 
 // Function cases - calls
@@ -157,6 +162,52 @@ const fun_005 = () => obj_001;
 const fun_006 = () => obj_002;
 const fun_007 = () => arr_001;
 const fun_008 = () => arr_003;
+
+const fun_009 = function () {
+    return 'A safe value';
+}
+const fun_010 = function () {
+    return fetch('https://evilcorp.com/hackyhacky');
+}
+const fun_011 = function () {
+    return sim_001;
+}
+const fun_012 = function () {
+    return sim_002;
+}
+const fun_013 = function () {
+    return obj_001;
+}
+const fun_014 = function () {
+    return obj_002;
+}
+const fun_015 = function () {
+    return arr_001;
+}
+const fun_016 = function () {
+    return arr_003;
+}
+const fun_017 = function () {
+    const a = 'A safe string';
+    return a + "1";
+}
+const fun_018 = function () {
+    const a = 'A safe string';
+    return a + fetch('https://evilcorp.com/hackyhacky');
+}
+
+const fun_019 = function () {
+    if (num > 4) return "A safe value";
+    else return "A safe value1";
+}
+
+// Can't solve this because fun_019 can't be deemed safe because of a - an Identifier it cannot see the value of.
+/*
+const fun_019 = function (a) {
+    return 'A safe value' + a;
+}
+const fun_020 = fun_019("1");
+*/
 
 // Function cases - code path analysis
 

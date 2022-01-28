@@ -15,7 +15,7 @@ export const createSourceCode = (file: ETestFiles): SourceCode => {
 
     // Creating AST
     const linter = new Linter();
-    linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2018 }, env: { es6: true } });
+    linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2020 }, env: { es6: true } });
     return linter.getSourceCode();
 }
 
@@ -51,8 +51,8 @@ const findNodeWithNameInScope = (name: string, location: ILocation, scope: Scope
         if (!nameNode) throw `Node with name ${name} could not be found in global scope`;
         return ((nameNode.identifiers[0] as INodeWithParent).parent as INodeWithParent).parent as ESTree.VariableDeclaration;
     } else { // Analyze the scope by looking at the nodes in the body of the scope code block.
-        if (scope.block.type !== "ArrowFunctionExpression") return null;
-        if (scope.block.body.type !== 'BlockStatement') return null;
+        if (scope.block.type !== 'FunctionExpression' && scope.block.type !== 'ArrowFunctionExpression') throw "Unable to analyze scope block type";
+        if (scope.block.body.type !== 'BlockStatement') throw "Unable to analyze scope block body type";
         const codeBlockBody = scope.block.body.body; // Array of code block nodes.
         relevantNodes = codeBlockBody.filter(node => node.type === "VariableDeclaration" || node.type === "ExpressionStatement");
     }
@@ -88,7 +88,7 @@ const findNodeWithNameInScope = (name: string, location: ILocation, scope: Scope
  * until reaching global scope in which the identifier has to be declared (or imported).
  */
 export const analyzeIdentifierNode = (identifier: ESTree.Identifier): ESTree.Node => {
-    // Find the scope of the provided identifier node
+    // Find the scope of the provided identifier node.
     const scopes = createSourceCode(ETestFiles.FILE4).scopeManager.scopes;
 
     const scopeBodies = scopes.map(scope => ((scope.block as ESTree.ArrowFunctionExpression).body as ESTree.BlockStatement).body);
