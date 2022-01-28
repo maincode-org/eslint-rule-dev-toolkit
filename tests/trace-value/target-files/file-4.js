@@ -200,6 +200,7 @@ const fun_019 = function () {
     if (num > 4) return "A safe value";
     else return "A safe value1";
 }
+// TODO: ADD MORE CASES ALSO IF-ELSE CASES
 
 // Can't solve this because fun_019 can't be deemed safe because of a - an Identifier it cannot see the value of.
 /*
