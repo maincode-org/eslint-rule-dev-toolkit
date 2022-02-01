@@ -88,7 +88,7 @@ const arr_001 = ['A safe string', 'A safe string1'];                            
 const arr_002 = [1,2,3];                                                            // safe
 const arr_003 = ['A safe string', fetch('https://evilcorp.com/hackyhacky')];  // unsafe
 const arr_004 = [fetch('https://evilcorp.com/hackyhacky'), 'A safe string'];  // unsafe
-const arr_005 = [...arr_001, 'A safe string2'];                                       // safe
+const arr_005 = [...arr_001, 'A safe string2'];                                     // safe
 const arr_006 = ['A safe string2', ...arr_001];                                     // safe
 const arr_007 = ['A safe string', ...arr_003];                                      // unsafe
 const arr_008 = arr_003[0];                                                         // unsafe
@@ -121,6 +121,8 @@ const map_008 = new Map([["a", arr_004[0]]]);
 const map_009 = new Map([["a", sim_001]]);
 const map_010 = new Map([["a", sim_010]]);
 const map_011 = new Map([["a", null]]);
+
+// Accessing maps - map.get("a) - has not been implemented since CallExpressions are not implemented.
 
 // Mathematical expression cases
 const mat_001 = 1 + 2;
@@ -169,24 +171,12 @@ const fun_009 = function () {
 const fun_010 = function () {
     return fetch('https://evilcorp.com/hackyhacky');
 }
-const fun_011 = function () {
-    return sim_001;
-}
-const fun_012 = function () {
-    return sim_002;
-}
-const fun_013 = function () {
-    return obj_001;
-}
-const fun_014 = function () {
-    return obj_002;
-}
-const fun_015 = function () {
-    return arr_001;
-}
-const fun_016 = function () {
-    return arr_003;
-}
+const fun_011 = function () { return sim_001; }
+const fun_012 = function () { return sim_002; }
+const fun_013 = function () { return obj_001; }
+const fun_014 = function () { return obj_002; }
+const fun_015 = function () { return arr_001; }
+const fun_016 = function () { return arr_003; }
 const fun_017 = function () {
     const a = 'A safe string';
     return a + "1";
@@ -196,12 +186,41 @@ const fun_018 = function () {
     return a + fetch('https://evilcorp.com/hackyhacky');
 }
 
+// Functions with if-else cases
 const fun_019 = function () {
+    if (num > 4) return "A safe value";
+    return "A safe value1";
+}
+const fun_020 = function () {
     if (num > 4) return "A safe value";
     else return "A safe value1";
 }
-// TODO: ADD MORE CASES ALSO IF-ELSE CASES
-
+const fun_021 = function () {
+    if (num > 4) return "A safe value";
+    else return fetch('https://evilcorp.com/hackyhacky');
+}
+const fun_022 = function () {
+    if (num <= 4) return fetch('https://evilcorp.com/hackyhacky');
+    else return "A safe value";
+}
+const fun_023 = function () {
+    if (num <= 4) return obj_001;
+    else return obj_002;
+}
+const fun_024 = function () {
+    if (num <= 4) return arr_001;
+    else return arr_002;
+}
+const fun_025 = function () {
+    const a = obj_001.a;
+    if (a === "A safe value") return "Strawberry";
+    else return "Blueberry";
+}
+const fun_026 = function () {
+    const a = arr_002[1];
+    if (a <= 4) return "A safe value";
+    else return "A safe value1";
+}
 // Can't solve this because fun_019 can't be deemed safe because of a - an Identifier it cannot see the value of.
 /*
 const fun_019 = function (a) {

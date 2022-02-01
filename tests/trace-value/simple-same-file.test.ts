@@ -9,11 +9,12 @@ export enum ETestFiles {
   FILE4 = 'file-4',
 }
 
+// All tests in this file uses source code from test file 'file-4'.
+const sourceCode = createSourceCode(ETestFiles.FILE4);
+
 describe('Verifier function tests',() => {
   test('Verify whether the value node is of type Literal on node sim_001', () => {
     const variableName = 'sim_001';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -33,8 +34,6 @@ describe('Verifier function tests',() => {
   test('Verify whether the value node is of type Literal, and the literal includes the word strawberry, on node sim_001', () => {
     const variableName = 'sim_001';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -52,8 +51,6 @@ describe('Verifier function tests',() => {
 
   test('Verify whether the value node is of type Literal on node sim_002', () => {
     const variableName = 'sim_002';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -75,8 +72,6 @@ describe('Verifier function tests',() => {
 describe('Simple tests', () => {
   test('Verifying value of sim_001 - the trivial case of a Literal value', () => {
     const variableName = 'sim_001';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -102,8 +97,6 @@ describe('Simple tests', () => {
   test('Verifying value of sim_011 - an identifier where the value is a reference to sim_001', () => {
     const variableName = 'sim_011';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -127,8 +120,6 @@ describe('Simple tests', () => {
 
   test('Verifying value of sim_012 - an identifier referencing another identifier', () => {
     const variableName = 'sim_012';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -158,8 +149,6 @@ describe('Object tests', () => {
   test('Verifying value of obj_001', () => {
     const variableName = 'obj_001';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -184,8 +173,6 @@ describe('Object tests', () => {
   test('Verifying value of obj_002', () => {
     const variableName = 'obj_002';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -208,8 +195,6 @@ describe('Object tests', () => {
 
   test('Verifying value of obj_003', () => {
     const variableName = 'obj_003';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -236,8 +221,6 @@ describe('Object tests', () => {
   test('Verifying value of obj_004', () => {
     const variableName = 'obj_004';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -261,8 +244,6 @@ describe('Object tests', () => {
   test('Verifying value of obj_005', () => {
     const variableName = 'obj_005';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -285,8 +266,6 @@ describe('Object tests', () => {
 
   test('Verifying value of obj_006', () => {
     const variableName = 'obj_006';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -314,8 +293,6 @@ describe('Object tests', () => {
   test('Verifying value of obj_007', () => {
     const variableName = 'obj_007';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -340,8 +317,6 @@ describe('Object tests', () => {
   test('Verifying value of obj_008', () => {
     const variableName = 'obj_008';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -365,8 +340,6 @@ describe('Object tests', () => {
 
   test('Verifying value of obj_009', () => {
     const variableName = 'obj_009';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -393,8 +366,6 @@ describe('Object tests', () => {
   test('Verifying value of obj_010', () => {
     const variableName = 'obj_010';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -420,8 +391,6 @@ describe('Object tests', () => {
   test('Verifying value of obj_011', () => {
     const variableName = 'obj_011';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -444,8 +413,6 @@ describe('Object tests', () => {
 
   test('Verifying value of obj_012', () => {
     const variableName = 'obj_012';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -470,8 +437,6 @@ describe('Object tests', () => {
 
   test('Verifying value of obj_013', () => {
     const variableName = 'obj_013';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -498,8 +463,6 @@ describe('Object tests', () => {
   /* test('Verifying value of obj_012', () => {
     const variableName = 'obj_012';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -521,8 +484,6 @@ describe('Object tests', () => {
 describe('String manipulation tests', () => {
   test('Verifying value of str_001', () => {
     const variableName = 'str_001';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -549,8 +510,6 @@ describe('String manipulation tests', () => {
   test('Verifying value of str_002', () => {
     const variableName = 'str_002';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -572,8 +531,6 @@ describe('String manipulation tests', () => {
 
   test('Verifying value of str_003', () => {
     const variableName = 'str_003';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -598,8 +555,6 @@ describe('String manipulation tests', () => {
   test('Verifying value of str_004', () => {
     const variableName = 'str_004';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -622,8 +577,6 @@ describe('String manipulation tests', () => {
 
   test('Verifying value of str_005', () => {
     const variableName = 'str_005';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -651,8 +604,6 @@ describe('String manipulation tests', () => {
   test('Verifying value of str_006', () => {
     const variableName = 'str_006';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -676,8 +627,6 @@ describe('String manipulation tests', () => {
 
   test('Verifying value of str_007', () => {
     const variableName = 'str_007';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -705,8 +654,6 @@ describe('String manipulation tests', () => {
   test('Verifying value of str_008', () => {
     const variableName = 'str_008';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -730,8 +677,6 @@ describe('String manipulation tests', () => {
 
   test('Verifying value of str_009', () => {
     const variableName = 'str_009';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -757,8 +702,6 @@ describe('String manipulation tests', () => {
   test('Verifying value of str_010', () => {
     const variableName = 'str_010';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -781,8 +724,6 @@ describe('String manipulation tests', () => {
 
   test('Verifying value of str_011', () => {
     const variableName = 'str_011';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -809,8 +750,6 @@ describe('String manipulation tests', () => {
   test('Verifying value of str_012', () => {
     const variableName = 'str_012';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -834,8 +773,6 @@ describe('String manipulation tests', () => {
 
   test('Verifying value of str_013', () => {
     const variableName = 'str_013';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -861,8 +798,6 @@ describe('String manipulation tests', () => {
 
   test('Verifying value of str_014', () => {
     const variableName = 'str_014';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -891,8 +826,6 @@ describe('Array tests', () => {
   test('Verifying value of arr_001', () => {
     const variableName = 'arr_001';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -917,8 +850,6 @@ describe('Array tests', () => {
 
   test('Verifying value of arr_002', () => {
     const variableName = 'arr_002';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -946,8 +877,6 @@ describe('Array tests', () => {
   test('Verifying value of arr_003', () => {
     const variableName = 'arr_003';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -970,8 +899,6 @@ describe('Array tests', () => {
 
   test('Verifying value of arr_004', () => {
     const variableName = 'arr_004';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -996,8 +923,6 @@ describe('Array tests', () => {
   test('Verifying value of arr_005', () => {
     const variableName = 'arr_005';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1020,8 +945,6 @@ describe('Array tests', () => {
   test('Verifying value of arr_006', () => {
     const variableName = 'arr_006';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1043,8 +966,6 @@ describe('Array tests', () => {
 
   test('Verifying value of arr_007', () => {
     const variableName = 'arr_007';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1071,8 +992,6 @@ describe('Array tests', () => {
   test('Verifying value of arr_008', () => {
     const variableName = 'arr_008';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1097,8 +1016,6 @@ describe('Array tests', () => {
 
   test('Verifying value of arr_009', () => {
     const variableName = 'arr_009';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1125,8 +1042,6 @@ describe('Array tests', () => {
   test('Verifying value of arr_010', () => {
     const variableName = 'arr_010';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1148,8 +1063,6 @@ describe('Array tests', () => {
 
   test('Verifying value of arr_011', () => {
     const variableName = 'arr_011';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1177,8 +1090,6 @@ describe('Array tests', () => {
   test('Verifying value of arr_012', () => {
     const variableName = 'arr_012';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1202,8 +1113,6 @@ describe('Array tests', () => {
 
   test('Verifying value of arr_013', () => {
     const variableName = 'arr_013';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1231,8 +1140,6 @@ describe('Array tests', () => {
   test('Verifying value of arr_014', () => {
     const variableName = 'arr_014';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1256,8 +1163,6 @@ describe('Array tests', () => {
 
   test('Verifying value of arr_015', () => {
     const variableName = 'arr_015';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1284,8 +1189,6 @@ describe('Array tests', () => {
   test('Verifying value of arr_016', () => {
     const variableName = 'arr_016';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1308,8 +1211,6 @@ describe('Array tests', () => {
 
   test('Verifying value of arr_017', () => {
     const variableName = 'arr_017';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1335,8 +1236,6 @@ describe('Array tests', () => {
   test('Verifying value of arr_018', () => {
     const variableName = 'arr_018';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1360,8 +1259,6 @@ describe('Array tests', () => {
   /* test('Verifying value of arr_019', () => {
     const variableName = 'arr_019';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1383,8 +1280,6 @@ describe('Array tests', () => {
 describe('Scope tests', () => {
   test('Verifying value of sco_002', () => {
     const variableName = 'sco_002';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1410,8 +1305,6 @@ describe('Scope tests', () => {
   test('Verifying value of sco_004', () => {
     const variableName = 'sco_004';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1436,8 +1329,6 @@ describe('Scope tests', () => {
   test('Verifying value of sco_006', () => {
     const variableName = 'sco_006';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1461,8 +1352,6 @@ describe('Scope tests', () => {
 
   test('Verifying value of sco_008', () => {
     const variableName = 'sco_008';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1491,8 +1380,6 @@ describe('Mathematical expressions tests', () => {
   test('Verifying value of mat_001', () => {
     const variableName = 'mat_001';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1518,8 +1405,6 @@ describe('Mathematical expressions tests', () => {
   test('Verifying value of mat_002', () => {
     const variableName = 'mat_002';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1542,8 +1427,6 @@ describe('Mathematical expressions tests', () => {
 
   test('Verifying value of mat_003', () => {
     const variableName = 'mat_003';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1570,8 +1453,6 @@ describe('Mathematical expressions tests', () => {
   test('Verifying value of mat_004', () => {
     const variableName = 'mat_004';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1594,8 +1475,6 @@ describe('Mathematical expressions tests', () => {
 
   test('Verifying value of mat_005', () => {
     const variableName = 'mat_005';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1622,8 +1501,6 @@ describe('Mathematical expressions tests', () => {
   test('Verifying value of mat_006', () => {
     const variableName = 'mat_006';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1646,8 +1523,6 @@ describe('Mathematical expressions tests', () => {
 
   test('Verifying value of mat_007', () => {
     const variableName = 'mat_007';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1674,8 +1549,6 @@ describe('Mathematical expressions tests', () => {
   test('Verifying value of mat_008', () => {
     const variableName = 'mat_008';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1699,8 +1572,6 @@ describe('Mathematical expressions tests', () => {
   test('Verifying value of mat_009', () => {
     const variableName = 'mat_009';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1722,8 +1593,6 @@ describe('Mathematical expressions tests', () => {
 
   test('Verifying value of mat_010', () => {
     const variableName = 'mat_010';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1748,8 +1617,6 @@ describe('Mathematical expressions tests', () => {
   test('Verifying value of mat_011', () => {
     const variableName = 'mat_011';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1771,8 +1638,6 @@ describe('Mathematical expressions tests', () => {
 
   test('Verifying value of mat_012', () => {
     const variableName = 'mat_012';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1800,8 +1665,6 @@ describe('Maps tests', () => {
   test('Verifying value of map_001', () => {
     const variableName = 'map_001';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1826,8 +1689,6 @@ describe('Maps tests', () => {
   test('Verifying value of map_002', () => {
     const variableName = 'map_002';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1850,8 +1711,6 @@ describe('Maps tests', () => {
 
   test('Verifying value of map_003', () => {
     const variableName = 'map_003';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1878,8 +1737,6 @@ describe('Maps tests', () => {
   test('Verifying value of map_004', () => {
     const variableName = 'map_004';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1902,8 +1759,6 @@ describe('Maps tests', () => {
 
   test('Verifying value of map_005', () => {
     const variableName = 'map_005';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -1930,8 +1785,6 @@ describe('Maps tests', () => {
   test('Verifying value of map_006', () => {
     const variableName = 'map_006';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1956,8 +1809,6 @@ describe('Maps tests', () => {
   test('Verifying value of map_007', () => {
     const variableName = 'map_007';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -1980,8 +1831,6 @@ describe('Maps tests', () => {
   test('Verifying value of map_008', () => {
     const variableName = 'map_008';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2002,8 +1851,6 @@ describe('Maps tests', () => {
 
   test('Verifying value of map_009', () => {
     const variableName = 'map_009';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2030,8 +1877,6 @@ describe('Maps tests', () => {
   test('Verifying value of map_010', () => {
     const variableName = 'map_010';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2055,8 +1900,6 @@ describe('Maps tests', () => {
 
   test('Verifying value of map_011', () => {
     const variableName = 'map_011';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2085,8 +1928,6 @@ describe('Logical expressions tests', () => {
   test('Verifying value of log_001', () => {
     const variableName = 'log_001';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2112,8 +1953,6 @@ describe('Logical expressions tests', () => {
   test('Verifying value of log_002', () => {
     const variableName = 'log_002';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2137,8 +1976,6 @@ describe('Logical expressions tests', () => {
   test('Verifying value of log_003', () => {
     const variableName = 'log_003';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2161,8 +1998,6 @@ describe('Logical expressions tests', () => {
 
   test('Verifying value of log_004', () => {
     const variableName = 'log_004';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2191,8 +2026,6 @@ describe('Logical expressions tests', () => {
   test('Verifying value of log_005', () => {
     const variableName = 'log_005';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2216,8 +2049,6 @@ describe('Logical expressions tests', () => {
 
   test('Verifying value of log_006', () => {
     const variableName = 'log_006';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2244,8 +2075,6 @@ describe('Logical expressions tests', () => {
   test('Verifying value of log_007', () => {
     const variableName = 'log_007';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2267,8 +2096,6 @@ describe('Logical expressions tests', () => {
 
   test('Verifying value of log_008', () => {
     const variableName = 'log_008';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2295,8 +2122,6 @@ describe('Logical expressions tests', () => {
   test('Verifying value of log_009', () => {
     const variableName = 'log_009';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2318,8 +2143,6 @@ describe('Logical expressions tests', () => {
 
   test('Verifying value of log_010', () => {
     const variableName = 'log_010';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2346,8 +2169,6 @@ describe('Logical expressions tests', () => {
 describe('Arrow function expressions tests', () => {
   test('Verifying value of fun_001', () => {
     const variableName = 'fun_001';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2376,8 +2197,6 @@ describe('Arrow function expressions tests', () => {
   test('Verifying value of fun_002', () => {
     const variableName = 'fun_002';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2400,8 +2219,6 @@ describe('Arrow function expressions tests', () => {
 
   test('Verifying value of fun_003', () => {
     const variableName = 'fun_003';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2428,8 +2245,6 @@ describe('Arrow function expressions tests', () => {
   test('Verifying value of fun_004', () => {
     const variableName = 'fun_004';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2453,8 +2268,6 @@ describe('Arrow function expressions tests', () => {
 
   test('Verifying value of fun_005', () => {
     const variableName = 'fun_005';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2482,8 +2295,6 @@ describe('Arrow function expressions tests', () => {
   test('Verifying value of fun_006', () => {
     const variableName = 'fun_006';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2509,8 +2320,6 @@ describe('Arrow function expressions tests', () => {
   test('Verifying value of fun_007', () => {
     const variableName = 'fun_007';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2532,8 +2341,6 @@ describe('Arrow function expressions tests', () => {
 
   test('Verifying value of fun_008', () => {
     const variableName = 'fun_008';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2563,8 +2370,6 @@ describe('Function expressions tests', () => {
   test('Verifying value of fun_009', () => {
     const variableName = 'fun_009';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2590,8 +2395,6 @@ describe('Function expressions tests', () => {
   test('Verifying value of fun_010', () => {
     const variableName = 'fun_010';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2615,8 +2418,6 @@ describe('Function expressions tests', () => {
 
   test('Verifying value of fun_011', () => {
     const variableName = 'fun_011';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2644,8 +2445,6 @@ describe('Function expressions tests', () => {
   test('Verifying value of fun_012', () => {
     const variableName = 'fun_012';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2670,8 +2469,6 @@ describe('Function expressions tests', () => {
 
   test('Verifying value of fun_013', () => {
     const variableName = 'fun_013';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2700,8 +2497,6 @@ describe('Function expressions tests', () => {
   test('Verifying value of fun_014', () => {
     const variableName = 'fun_014';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2728,8 +2523,6 @@ describe('Function expressions tests', () => {
   test('Verifying value of fun_015', () => {
     const variableName = 'fun_015';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2751,8 +2544,6 @@ describe('Function expressions tests', () => {
 
   test('Verifying value of fun_016', () => {
     const variableName = 'fun_016';
-
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2780,8 +2571,6 @@ describe('Function expressions tests', () => {
   test('Verifying value of fun_017', () => {
     const variableName = 'fun_017';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2804,8 +2593,6 @@ describe('Function expressions tests', () => {
   test('Verifying value of fun_018', () => {
     const variableName = 'fun_018';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
-
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
@@ -2827,11 +2614,41 @@ describe('Function expressions tests', () => {
     expect(nodeComponentTrace[2].type).toBe("BinaryExpression");
     expect(nodeComponentTrace[3].type).toBe("CallExpression");
   });
+});
 
+// Code starts in file-4 at line 187.
+describe('Functions with if-else statements tests', () => {
   test('Verifying value of fun_019', () => {
     const variableName = 'fun_019';
 
-    const sourceCode = createSourceCode(ETestFiles.FILE4);
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+    expect((result.determiningNode as IValueNode).value).toBe("A safe value1");
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(7);
+    expect(nodeComponentTrace[0].type).toBe("FunctionExpression");
+    expect(nodeComponentTrace[1].type).toBe("IfStatement");
+    expect(nodeComponentTrace[2].type).toBe("IfStatement");
+    expect(nodeComponentTrace[3].type).toBe("ReturnStatement");
+    expect(nodeComponentTrace[4].type).toBe("Literal");
+    expect(nodeComponentTrace[5].type).toBe("ReturnStatement");
+    expect(nodeComponentTrace[6].type).toBe("Literal");
+  });
+
+  test('Verifying value of fun_020', () => {
+    const variableName = 'fun_020';
 
     const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
     expect(varDeclaration).toBeDefined();
@@ -2850,5 +2667,143 @@ describe('Function expressions tests', () => {
 
     // Analyze trace
     expect(nodeComponentTrace.length).toBe(9);
+    expect(nodeComponentTrace[0].type).toBe("FunctionExpression");
+    expect(nodeComponentTrace[1].type).toBe("IfStatement");
+    expect(nodeComponentTrace[2].type).toBe("IfStatement");
+    expect(nodeComponentTrace[3].type).toBe("ReturnStatement");
+    expect(nodeComponentTrace[4].type).toBe("Literal");
+    expect(nodeComponentTrace[5].type).toBe("IfStatement");
+    expect(nodeComponentTrace[6].type).toBe("IfStatement");
+    expect(nodeComponentTrace[7].type).toBe("ReturnStatement");
+    expect(nodeComponentTrace[8].type).toBe("Literal");
+  });
+
+  test('Verifying value of fun_021', () => {
+    const variableName = 'fun_021';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(false);
+    expect(result.determiningNode.type).toBe("CallExpression");
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(5);
+  });
+
+  test('Verifying value of fun_022', () => {
+    const variableName = 'fun_022';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(false);
+    expect(result.determiningNode.type).toBe("CallExpression");
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(5);
+  });
+
+  test('Verifying value of fun_023', () => {
+    const variableName = 'fun_023';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(false);
+    expect(result.determiningNode.type).toBe("CallExpression");
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(7);
+  });
+
+  test('Verifying value of fun_024', () => {
+    const variableName = 'fun_024';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+    expect((result.determiningNode as IValueNode).value).toBe(3);
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(31);
+  });
+
+  test('Verifying value of fun_025', () => {
+    const variableName = 'fun_025';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+    expect((result.determiningNode as IValueNode).value).toBe("Blueberry");
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(12);
+  });
+
+  test('Verifying value of fun_026', () => {
+    const variableName = 'fun_026';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+    expect((result.determiningNode as IValueNode).value).toBe("A safe value1");
+
+    // Analyze trace
+    expect(nodeComponentTrace.length).toBe(24);
   });
 });
