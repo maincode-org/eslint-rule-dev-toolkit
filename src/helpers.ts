@@ -2,7 +2,7 @@ import { Linter, Scope, SourceCode } from "eslint";
 import { readFileSync } from "fs";
 import ESTree from "estree";
 import estraverse from "estraverse";
-import { ETestFiles } from "../tests/trace-value/simple-same-file.test";
+import { ETestFiles } from "../tests/utils/testing";
 import { ITraceValueReturn } from "./trace-value/trace-value";
 
 type INodeWithParent = ESTree.Node & { parent: ESTree.Node };

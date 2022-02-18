@@ -201,8 +201,6 @@ export const traceValue = (node: ESTree.Node, context: SourceCode, verify: (node
 
         const results = [...consequentResults, ...alternateResults];
 
-        console.log(results[0].result.determiningNode);
-
         /**
          * In the case of an unverified node the trace is only the unverified node's trace.
          * Whereas when all paths are verified, the trace includes all paths.
