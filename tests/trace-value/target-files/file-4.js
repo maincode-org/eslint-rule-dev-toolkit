@@ -221,7 +221,7 @@ const fun_026 = function () {
     if (a <= 4) return "A safe value";
     else return "A safe value1";
 }
-// Can't solve this because fun_019 can't be deemed safe because of a - an Identifier it cannot see the value of.
+// Can't solve this because fun_019 can't be deemed safe because of 'a' - an Identifier it cannot see the value of.
 /*
 const fun_019 = function (a) {
     return 'A safe value' + a;
