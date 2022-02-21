@@ -1,5 +1,5 @@
 import {createSourceCode, getVarDeclarationByName, IValueNode} from "../../src/helpers";
-import {traceValue} from "../../src/trace-value/trace-value";
+import {traceValue} from "../../src";
 import ESTree from "estree";
 import {ETestFiles} from "../utils/testing";
 
@@ -448,7 +448,7 @@ describe('Array tests', () => {
       expect(varDeclaration).toBeDefined();
       if (!varDeclaration) return;
 
-      const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+      const traceValueResult = varDeclaration.init && index(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
       expect(traceValueResult).toBeDefined();
       if (!traceValueResult) return;
 

@@ -117,11 +117,20 @@ export const analyzeIdentifierNode = (identifier: ESTree.Identifier): ESTree.Nod
 /**
  * Takes a ITraceValueReturn[].
  * Returns a collective nodeComponentTrace of all the recursive paths.
- * Note: Head is removed as it will always be the ObjectExpression itself in all paths.
+ * Note: Head is removed as it will always be the parent node itself in all its child paths.
  */
-export const makeNodeComponentTrace = (traceValueResult: ITraceValueReturn[]) => {
+export const mergeRecursiveTraces = (traceValueResult: ITraceValueReturn[]) => {
     return traceValueResult.map(result => result.nodeComponentTrace).reduce((acc, cur) => {
         const [, ...tail] = cur;
         return [...acc, ...tail];
     });
+}
+
+export const makeComponentTrace = (results: ITraceValueReturn[]) => {
+    const unverifiedNode = results.find(result => !result.result.isVerified);
+    if (unverifiedNode) {
+        return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: unverifiedNode.nodeComponentTrace};
+    } else {
+        return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: mergeRecursiveTraces(results)};
+    }
 }
