@@ -5,9 +5,10 @@ A toolkit of awesome helpers for developing advanced ESLint rules with ease!
 - [X] Refactor to enums and Map (index)
 - [X] Refactor nodeTrace out to its own helper
 - [ ] Check traceFunctionExpression - seems wrong...
-- [ ] Dependency Injection of index import
+- [X] Dependency Injection of index import
 - [ ] Documentation upgrade
 - [ ] Multi-file tests
+- [ ] Improve nodeComponentTrace algorithm (returns the parent multiple times)
 - [ ] Handle CallExpressions (Function calls)
 
 ## The index algorithm

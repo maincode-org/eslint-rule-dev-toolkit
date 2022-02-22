@@ -126,6 +126,10 @@ export const mergeRecursiveTraces = (traceValueResult: ITraceValueReturn[]) => {
     });
 }
 
+/**
+ * Takes a ITraceValueReturn[].
+ * Returns a nodeComponentTrace in accordance to the approach describes in the README.
+ */
 export const makeComponentTrace = (results: ITraceValueReturn[]) => {
     const unverifiedNode = results.find(result => !result.result.isVerified);
     if (unverifiedNode) {

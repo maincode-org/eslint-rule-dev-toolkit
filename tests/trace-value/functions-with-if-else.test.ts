@@ -1,7 +1,7 @@
-import {createSourceCode, getVarDeclarationByName, IValueNode} from "../../src/helpers";
-import {traceValue} from "../../src";
 import ESTree from "estree";
-import {ETestFiles} from "../utils/testing";
+import { ETestFiles } from "../utils/testing";
+import { createSourceCode, getVarDeclarationByName, IValueNode } from "../../src/helpers";
+import { traceValue } from "../../src";
 
 // All tests in this file uses source code from file 'file-4'.
 const sourceCode = createSourceCode(ETestFiles.FILE4);
@@ -27,14 +27,14 @@ describe('Functions with if-else statements tests', () => {
         expect((result.determiningNode as IValueNode).value).toBe("A safe value1");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(7);
+        expect(nodeComponentTrace.length).toBe(6);
+
         expect(nodeComponentTrace[0].type).toBe("FunctionExpression");
         expect(nodeComponentTrace[1].type).toBe("IfStatement");
-        expect(nodeComponentTrace[2].type).toBe("IfStatement");
-        expect(nodeComponentTrace[3].type).toBe("ReturnStatement");
-        expect(nodeComponentTrace[4].type).toBe("Literal");
-        expect(nodeComponentTrace[5].type).toBe("ReturnStatement");
-        expect(nodeComponentTrace[6].type).toBe("Literal");
+        expect(nodeComponentTrace[2].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace[3].type).toBe("Literal");
+        expect(nodeComponentTrace[4].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace[5].type).toBe("Literal");
     });
 
     test('Verifying value of fun_020', () => {
@@ -56,16 +56,14 @@ describe('Functions with if-else statements tests', () => {
         expect((result.determiningNode as IValueNode).value).toBe("A safe value1");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(9);
+        expect(nodeComponentTrace.length).toBe(7);
         expect(nodeComponentTrace[0].type).toBe("FunctionExpression");
         expect(nodeComponentTrace[1].type).toBe("IfStatement");
-        expect(nodeComponentTrace[2].type).toBe("IfStatement");
-        expect(nodeComponentTrace[3].type).toBe("ReturnStatement");
-        expect(nodeComponentTrace[4].type).toBe("Literal");
-        expect(nodeComponentTrace[5].type).toBe("IfStatement");
-        expect(nodeComponentTrace[6].type).toBe("IfStatement");
-        expect(nodeComponentTrace[7].type).toBe("ReturnStatement");
-        expect(nodeComponentTrace[8].type).toBe("Literal");
+        expect(nodeComponentTrace[2].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace[3].type).toBe("Literal");
+        expect(nodeComponentTrace[4].type).toBe("IfStatement");
+        expect(nodeComponentTrace[5].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace[6].type).toBe("Literal");
     });
 
     test('Verifying value of fun_021', () => {
@@ -86,7 +84,7 @@ describe('Functions with if-else statements tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace.length).toBe(4);
     });
 
     test('Verifying value of fun_022', () => {
@@ -107,7 +105,7 @@ describe('Functions with if-else statements tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace.length).toBe(4);
     });
 
     test('Verifying value of fun_023', () => {
@@ -128,7 +126,7 @@ describe('Functions with if-else statements tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(7);
+        expect(nodeComponentTrace.length).toBe(6);
     });
 
     test('Verifying value of fun_024', () => {
@@ -150,7 +148,7 @@ describe('Functions with if-else statements tests', () => {
         expect((result.determiningNode as IValueNode).value).toBe(3);
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(31);
+        expect(nodeComponentTrace.length).toBe(26);
     });
 
     test('Verifying value of fun_025', () => {
@@ -172,7 +170,7 @@ describe('Functions with if-else statements tests', () => {
         expect((result.determiningNode as IValueNode).value).toBe("Blueberry");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(12);
+        expect(nodeComponentTrace.length).toBe(10);
     });
 
     test('Verifying value of fun_026', () => {
@@ -194,6 +192,6 @@ describe('Functions with if-else statements tests', () => {
         expect((result.determiningNode as IValueNode).value).toBe("A safe value1");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(24);
+        expect(nodeComponentTrace.length).toBe(22);
     });
 });

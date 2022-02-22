@@ -15,6 +15,7 @@ import traceNewExpression from "./trace-functions/new-expression";
 import traceObjectExpression from "./trace-functions/object-expression";
 import traceReturnStatement from "./trace-functions/return-statement";
 import traceTemplateLiteral from "./trace-functions/template-literal";
+import traceVariableDeclaration from "./trace-functions/variable-declaration";
 
 export type ITraceValueReturn = {
     result: {
@@ -61,6 +62,7 @@ const traceFunctionMap = new Map<ENodeTypes, ITraceFunction>([
     [ENodeTypes.OBJECT_EXPRESSION, traceObjectExpression],
     [ENodeTypes.RETURN_STATEMENT, traceReturnStatement],
     [ENodeTypes.TEMPLATE_LITERAL, traceTemplateLiteral],
+    [ENodeTypes.VARIABLE_DECLARATION, traceVariableDeclaration]
 ]);
 
 // Create 'something went wrong' return object.
