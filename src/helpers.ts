@@ -1,14 +1,19 @@
-import { Linter, Scope, SourceCode } from "eslint";
-import { readFileSync } from "fs";
 import ESTree from "estree";
 import estraverse from "estraverse";
-import { ETestFiles } from "../tests/utils/testing";
-import { ITraceValueReturn } from "./trace-value/trace-value";
+import { Linter, Scope, SourceCode } from "eslint";
+import { readFileSync } from "fs";
+import { ENodeTypes, ITraceValueReturn } from "./trace-value/trace-value";
 
 type INodeWithParent = ESTree.Node & { parent: ESTree.Node };
 export type IValueNode = ESTree.Node & { value: string };
-// My god the typing
 type ILocation = ESTree.SourceLocation | null | undefined;
+
+export enum ETestFiles {
+    FILE1 = 'file-1',
+    FILE2 = 'file-2',
+    FILE3 = 'file-3',
+    FILE4 = 'file-4',
+}
 
 export const createSourceCode = (file: ETestFiles): SourceCode => {
     const fileContents = readFileSync('tests/trace-value/target-files/' + file + '.js', 'utf-8');
@@ -19,12 +24,19 @@ export const createSourceCode = (file: ETestFiles): SourceCode => {
     return linter.getSourceCode();
 }
 
+export const targetFileAST = new Map<ETestFiles, SourceCode>([
+    [ETestFiles.FILE1, createSourceCode(ETestFiles.FILE1)],
+    [ETestFiles.FILE2, createSourceCode(ETestFiles.FILE2)],
+    [ETestFiles.FILE3, createSourceCode(ETestFiles.FILE3)],
+    [ETestFiles.FILE4, createSourceCode(ETestFiles.FILE4)],
+]);
+
 export const getVarDeclarationByName = (ast: ESTree.Program, variableName: string): ESTree.VariableDeclarator | null => {
     let declarator = null;
 
     estraverse.traverse(ast, {
         enter: function (node: ESTree.Node) {
-            if (node.type === 'VariableDeclaration' && (node.declarations[0].id as ESTree.Identifier).name === variableName) {
+            if (node.type === ENodeTypes.VARIABLE_DECLARATION && (node.declarations[0].id as ESTree.Identifier).name === variableName) {
                 declarator = node.declarations[0];
             }
         }

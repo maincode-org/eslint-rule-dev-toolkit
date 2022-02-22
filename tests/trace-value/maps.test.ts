@@ -1,10 +1,10 @@
-import {createSourceCode, getVarDeclarationByName, IValueNode} from "../../src/helpers";
-import {traceValue} from "../../src";
 import ESTree from "estree";
-import {ETestFiles} from "../utils/testing";
+import { ETestFiles, getVarDeclarationByName, IValueNode, targetFileAST } from "../../src/helpers";
+import { traceValue } from "../../src";
 
 // All tests in this file uses source code from file 'file-4'.
-const sourceCode = createSourceCode(ETestFiles.FILE4);
+const sourceCode = targetFileAST.get(ETestFiles.FILE4);
+if (!sourceCode) throw "Unable to find AST for target file.";
 
 // Code starts in file-4 at line 111.
 describe('Maps tests', () => {

@@ -1,10 +1,10 @@
 import ESTree from "estree";
-import { ETestFiles } from "../utils/testing";
-import { createSourceCode, getVarDeclarationByName, IValueNode } from "../../src/helpers";
+import { getVarDeclarationByName, IValueNode, targetFileAST, ETestFiles } from "../../src/helpers";
 import { traceValue } from "../../src";
 
 // All tests in this file uses source code from file 'file-4'.
-const sourceCode = createSourceCode(ETestFiles.FILE4);
+const sourceCode = targetFileAST.get(ETestFiles.FILE4);
+if (!sourceCode) throw "Unable to find AST for target file.";
 
 // Code starts in file-4 at line 187.
 describe('Functions with if-else statements tests', () => {
@@ -28,7 +28,6 @@ describe('Functions with if-else statements tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(6);
-
         expect(nodeComponentTrace[0].type).toBe("FunctionExpression");
         expect(nodeComponentTrace[1].type).toBe("IfStatement");
         expect(nodeComponentTrace[2].type).toBe("ReturnStatement");
