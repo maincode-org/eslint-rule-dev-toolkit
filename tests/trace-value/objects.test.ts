@@ -322,22 +322,22 @@ describe('Object tests', () => {
         expect(nodeComponentTrace[2].type).toBe('Literal');
     });
 
-    /* test('Verifying value of obj_012', () => {
-      const variableName = 'obj_012';
+    test('LIMITATION: Verifying value of obj_014', () => {
+      const variableName = 'obj_014';
 
       const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
       expect(varDeclaration).toBeDefined();
       if (!varDeclaration) return;
 
-      const traceValueResult = varDeclaration.init && index(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+      const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
       expect(traceValueResult).toBeDefined();
       if (!traceValueResult) return;
 
       const { result, nodeComponentTrace } = traceValueResult;
 
       // Analyze result
-      expect(result.isVerified).toBe(false);
-      expect(result.determiningNode.type).toBe("CallExpression");
+      expect(result.isVerified).toBe(true);
+      expect(result.determiningNode.type).toBe("Literal");
+        expect((result.determiningNode as IValueNode).value).toBe("A safe string2");
     });
-     */
 });

@@ -54,7 +54,7 @@ const obj_011 = { ...{ a: 'A safe string', b: 'A safe string1' }, ...{ c: 'A saf
 const obj_012 = { ...{ a: 'A safe string', b: 'A safe string' }, ...{ c: 'A safe string', d: fetch('https://evilcorp.com/hackyhacky') } }; // unsafe property from spread object
 const obj_013 = { a: 'A safe string', b: null };                                                                                                 // all properties are safe
 
-// We can't handle reassignments in global scope
+// Reassignment in global scope.
 let obj_015 = { a: 'A safe string', b: 'A safe string2' };                                                                                       // all properties safe
 obj_015 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' };                                                             // reassigned to unsafe
 const obj_014 = obj_015;                                                                                                                         // references unsafe
@@ -103,7 +103,7 @@ const arr_016 = [fetch('https://evilcorp.com/hackyhacky'), null];             //
 const arr_017 = ['A safe string'];                                                  // safe
 const arr_018 = [fetch('https://evilcorp.com/hackyhacky')];                   // unsafe
 
-// We can't handle reassignments in global scope
+// Reassignment in global scope.
 let arr_020 = ['A safe value', 'A safe value1'];                                   // safe
 arr_020 = ['A safe string', fetch('https://evilcorp.com/hackyhacky')];       // reassignment to unsafe
 const arr_019 = arr_020;                                                           // references unsafe

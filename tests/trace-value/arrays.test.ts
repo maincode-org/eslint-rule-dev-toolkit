@@ -441,22 +441,22 @@ describe('Array tests', () => {
         expect(nodeComponentTrace[1].type).toBe("CallExpression");
     });
 
-    /* test('Verifying value of arr_019', () => {
+    test('LIMITATION: Verifying value of arr_019', () => {
       const variableName = 'arr_019';
 
       const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
       expect(varDeclaration).toBeDefined();
       if (!varDeclaration) return;
 
-      const traceValueResult = varDeclaration.init && index(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+      const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
       expect(traceValueResult).toBeDefined();
       if (!traceValueResult) return;
 
       const { result, nodeComponentTrace } = traceValueResult;
 
       // Analyze result
-      expect(result.isVerified).toBe(false);
-      expect(result.determiningNode.type).toBe('CallExpression');
+      expect(result.isVerified).toBe(true);
+      expect(result.determiningNode.type).toBe('Literal');
+        expect((result.determiningNode as IValueNode).value).toBe('A safe value1');
     });
-     */
 });
