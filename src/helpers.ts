@@ -4,7 +4,7 @@ import { Linter, Scope, SourceCode } from "eslint";
 import { readFileSync } from "fs";
 import { ENodeTypes, ITraceValueReturn } from "./trace-value/trace-value";
 
-type INodeWithParent = ESTree.Node & { parent: ESTree.Node };
+export type INodeWithParent = ESTree.Node & { parent: ESTree.Node };
 export type IValueNode = ESTree.Node & { value: string };
 type ILocation = ESTree.SourceLocation | null | undefined;
 
@@ -20,7 +20,7 @@ export const createSourceCode = (file: ETestFiles): SourceCode => {
 
     // Creating AST
     const linter = new Linter();
-    linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2020 }, env: { es6: true } });
+    linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2021 }, env: { es6: true } });
     return linter.getSourceCode();
 }
 
@@ -99,9 +99,9 @@ const findNodeWithNameInScope = (name: string, location: ILocation, scope: Scope
  * starting from the scope of which the identifier is being used, going one scope up,
  * until reaching global scope in which the identifier has to be declared (or imported).
  */
-export const analyzeIdentifierNode = (identifier: ESTree.Identifier): ESTree.Node => {
+export const analyzeIdentifierNode = (identifier: ESTree.Identifier, context: SourceCode): ESTree.Node => {
     // Find the scope of the provided identifier node.
-    const scopes = createSourceCode(ETestFiles.FILE4).scopeManager.scopes;
+    const scopes = context.scopeManager.scopes;
 
     const scopeBodies = scopes.map(scope => ((scope.block as ESTree.ArrowFunctionExpression).body as ESTree.BlockStatement).body);
     // Find the scope in which there is a node with the same line number as the identifiers'.

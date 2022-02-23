@@ -15,7 +15,7 @@ const traceMemberExpression = (node: ESTree.Node, context: SourceCode, verify: (
         if (node.object.type !== ENodeTypes.IDENTIFIER) throw "Node type of object is not an Identifier";
 
         // Find the object being referenced in the MemberExpression.
-        const obj = analyzeIdentifierNode(node.object) as ESTree.ObjectExpression;
+        const obj = analyzeIdentifierNode(node.object, context) as ESTree.ObjectExpression;
 
         /**
          * Access the specific member being accessed.

@@ -4,9 +4,9 @@ import { traceValue } from "../../src";
 
 // All tests in this file uses source code from file 'file-4'.
 const sourceCode = targetFileAST.get(ETestFiles.FILE4);
-if (!sourceCode) throw "Unable to find AST for target file."
+if (!sourceCode) throw "Unable to find AST for target file.";
 
-// Code starts in file-4 at line 74.
+// Code starts in file-4 at line 79.
 describe('Array tests', () => {
     test('Verifying value of arr_001', () => {
         const variableName = 'arr_001';

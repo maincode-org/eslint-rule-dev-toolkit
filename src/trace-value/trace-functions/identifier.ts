@@ -11,6 +11,6 @@ const traceIdentifier = (
     nodeTrace: ESTree.Node[] = []
 ): ITraceValueReturn => {
     if (node.type !== ENodeTypes.IDENTIFIER) throw `Node type mismatch: Cannot traceIdentifier on node of type ${node.type}`;
-    return traceValue(analyzeIdentifierNode(node), context, verify, [...nodeTrace, node]);
+    return traceValue(analyzeIdentifierNode(node, context), context, verify, [...nodeTrace, node]);
 }
 export default traceIdentifier;

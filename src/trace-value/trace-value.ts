@@ -16,6 +16,8 @@ import traceObjectExpression from "./trace-functions/object-expression";
 import traceReturnStatement from "./trace-functions/return-statement";
 import traceTemplateLiteral from "./trace-functions/template-literal";
 import traceVariableDeclaration from "./trace-functions/variable-declaration";
+import traceImportDeclaration from "./trace-functions/import-declaration";
+import traceCallExpression from "./trace-functions/call-expression";
 
 export type ITraceValueReturn = {
     result: {
@@ -44,6 +46,10 @@ export enum ENodeTypes {
     FUNCTION_EXPRESSION = 'FunctionExpression',
     LOGICAL_EXPRESSION = 'LogicalExpression',
     CALL_EXPRESSION = 'CallExpression',
+    IMPORT_DECLARATION = 'ImportDeclaration',
+    EXPRESSION_STATEMENT = 'ExpressionStatement',
+    ASSIGNMENT_EXPRESSION = 'AssignmentExpression',
+    EXPORT_NAMED_DECLARATION = 'ExportNamedDeclaration',
 }
 
 type ITraceFunction = (node: ESTree.Node, context: SourceCode, verify: (node: ESTree.Node) => boolean, nodeTrace?: ESTree.Node[]) => ITraceValueReturn;
@@ -62,7 +68,9 @@ const traceFunctionMap = new Map<ENodeTypes, ITraceFunction>([
     [ENodeTypes.OBJECT_EXPRESSION, traceObjectExpression],
     [ENodeTypes.RETURN_STATEMENT, traceReturnStatement],
     [ENodeTypes.TEMPLATE_LITERAL, traceTemplateLiteral],
-    [ENodeTypes.VARIABLE_DECLARATION, traceVariableDeclaration]
+    [ENodeTypes.VARIABLE_DECLARATION, traceVariableDeclaration],
+    [ENodeTypes.IMPORT_DECLARATION, traceImportDeclaration],
+    [ENodeTypes.CALL_EXPRESSION, traceCallExpression],
 ]);
 
 // Create 'something went wrong' return object.
@@ -76,8 +84,6 @@ export const traceValue = (node: ESTree.Node, context: SourceCode, verify: (node
 
     const inEnum = (Object.values(ENodeTypes) as string[]).includes(node.type);
     if (!inEnum) throw `Node type of ${node.type} is not implemented yet.`;
-
-    if (node.type === ENodeTypes.CALL_EXPRESSION) return getErrorObj(node, nodeTrace);
 
     const traceFunction = traceFunctionMap.get(node.type as ENodeTypes);
     if (traceFunction) return traceFunction(node, context, verify, nodeTrace);
