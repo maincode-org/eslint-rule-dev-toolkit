@@ -5,6 +5,9 @@ import { ENodeTypes, getErrorObj, ITraceValueReturn, traceValue } from "../trace
 import estraverse from "estraverse";
 import { INodeWithParent } from "../../helpers";
 
+/**
+ * Can only analyze require calls atm.
+ */
 const traceCallExpression = (node: ESTree.Node, context: SourceCode, verify: (node: ESTree.Node) => boolean, nodeTrace: ESTree.Node[] = []): ITraceValueReturn => {
     if (node.type !== ENodeTypes.CALL_EXPRESSION) throw `Node type mismatch: Cannot traceCallExpression on node of type ${node.type}`;
 
@@ -20,7 +23,7 @@ const traceCallExpression = (node: ESTree.Node, context: SourceCode, verify: (no
 
     // Creating AST
     const linter = new Linter();
-    linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2020 }, env: { es6: true } });
+    linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2021 }, env: { es6: true } });
     const requireFileAST = linter.getSourceCode().ast;
 
     const requireIdentifier: ESTree.Identifier = (((node as INodeWithParent).parent as ESTree.VariableDeclarator).id as ESTree.Identifier);
@@ -33,7 +36,7 @@ const traceCallExpression = (node: ESTree.Node, context: SourceCode, verify: (no
             if (
                 node.type === ENodeTypes.EXPRESSION_STATEMENT &&
                 isExpressionExportStatement(node) &&
-                exportObjectIncludesIdentifier(((node.expression as ESTree.AssignmentExpression).right as ESTree.ObjectExpression), requireIdentifier)
+                exportValueIsObjectAndIncludesIdentifier(node, requireIdentifier)
             ) {
                 exportObject = ((node.expression as ESTree.AssignmentExpression).right as ESTree.ObjectExpression);
             }
@@ -52,8 +55,9 @@ const isExpressionExportStatement = (node: ESTree.ExpressionStatement) => {
     if ((node.expression.left as ESTree.Identifier).name === "exports") return true;
 }
 
-const exportObjectIncludesIdentifier = (object: ESTree.ObjectExpression, identifier: ESTree.Identifier): boolean => {
-    return !!object.properties.find(p => {
+const exportValueIsObjectAndIncludesIdentifier = (exportNode: ESTree.ExpressionStatement, identifier: ESTree.Identifier): boolean => {
+    if ((exportNode.expression as ESTree.AssignmentExpression).right.type !== ENodeTypes.OBJECT_EXPRESSION) throw "Export value is not of type object."
+    return !!((exportNode.expression as ESTree.AssignmentExpression).right as ESTree.ObjectExpression).properties.find(p => {
         if (p.type === ENodeTypes.SPREAD_ELEMENT) throw "Export object includes spread element";
         return (p.key as ESTree.Identifier).name === identifier.name;
     });

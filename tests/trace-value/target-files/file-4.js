@@ -45,6 +45,7 @@ exports = { obj_001 };
 const obj_002 = { a: fetch('https://evilcorp.com/hackyhacky') }                                                                            // unsafe property
 const obj_003 = { a: 'A safe string', b: 'A safe string2' };                                                                                     // all properties safe
 const obj_004 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' };                                                       // unsafe property
+exports = { obj_004 };
 const obj_005 = { a: 'A safe string', b: 'A safe string', c: 'A safe string', d: fetch('https://evilcorp.com/hackyhacky') };               // unsafe property
 const obj_006 = { c: sim_001, d: 'A safe string3' };                                                                                             // all properties safe
 const obj_007 = { a: sim_002, b: 'A safe string' };                                                                                              // unsafe property from variable

@@ -15,14 +15,18 @@ const traceMemberExpression = (node: ESTree.Node, context: SourceCode, verify: (
         if (node.object.type !== ENodeTypes.IDENTIFIER) throw "Node type of object is not an Identifier";
 
         // Find the object being referenced in the MemberExpression.
-        const obj = analyzeIdentifierNode(node.object, context) as ESTree.ObjectExpression;
+        const identifierValue = analyzeIdentifierNode(node.object, context);
+
+        // Check if the identifier being accessed is from a require/import.
+        if (identifierValue.type === "CallExpression") return traceValue(identifierValue, context, verify, [...nodeTrace, node]);
 
         /**
+         * At this point the identifierValue is an object.
          * Access the specific member being accessed.
          * It is important to access the specific value here, as calling the recursive case,
          * would result in an analysis of all objects properties (when being caught by the ObjectExpression case)
          */
-        const member = obj.properties.find(property => {
+        const member = (identifierValue as ESTree.ObjectExpression).properties.find(property => {
             if (property.type === ENodeTypes.SPREAD_ELEMENT) return;
             return (property.key as ESTree.Identifier).name === (node.property as ESTree.Identifier).name;
         });

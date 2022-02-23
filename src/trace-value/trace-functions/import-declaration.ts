@@ -1,14 +1,13 @@
 import ESTree from "estree";
 import { Linter, SourceCode } from "eslint";
-import {ENodeTypes, getErrorObj, ITraceValueReturn, traceValue} from "../trace-value";
+import { ENodeTypes, getErrorObj, ITraceValueReturn, traceValue } from "../trace-value";
 import { readFileSync } from "fs";
 import estraverse from "estraverse";
 
 /**
- * Development of dynamically setting different parserOptions,
+ * Development of dynamically setting parserOptions,
  * and having the traceFunctions adapt needs to be done in order for this handler to work.
  */
-
 const traceImportDeclaration = (node: ESTree.Node, context: SourceCode, verify: (node: ESTree.Node) => boolean, nodeTrace: ESTree.Node[] = []): ITraceValueReturn => {
     if (node.type !== ENodeTypes.IMPORT_DECLARATION) throw `Node type mismatch: Cannot traceImportDeclaration on node of type ${node.type}`;
 
