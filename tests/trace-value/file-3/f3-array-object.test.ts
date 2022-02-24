@@ -48,7 +48,7 @@ describe('Array with object values tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(7);
+        expect(nodeComponentTrace.length).toBe(6);
     });
 
     test('LIMITATION: Verifying value of arr_obj_003', () => {
@@ -72,8 +72,29 @@ describe('Array with object values tests', () => {
         expect(nodeComponentTrace.length).toBe(7);
     });
 
-    test('Verifying value of arr_obj_004', () => {
+    test('LIMITATION: Verifying value of arr_obj_004', () => {
         const variableName = 'arr_obj_004';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(false);
+        expect(result.determiningNode.type).toBe('CallExpression');
+
+        // Analyze trace
+        expect(nodeComponentTrace.length).toBe(6);
+    });
+
+    test('Verifying value of arr_obj_005', () => {
+        const variableName = 'arr_obj_005';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();

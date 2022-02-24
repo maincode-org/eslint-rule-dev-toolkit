@@ -7,9 +7,12 @@
 // Const, let, var and re-assignment cases
 // sim = simple
 const sim_001 = 'A safe value';                                 // safe
-
 const sim_002 = fetch('https://evilcorp.com/hackyhacky'); // unsafe
+const sim_003 = 'A safe value1';                                // safe
+const sim_004 = 'A safe value2';                               // safe
+const sim_010 = sim_002;
 
+/* Reassignment in global scope examples.
 let sim_003 = 'A safe value';                                  // declared with safe
 sim_003 = 'Still a safe value';                                // re-assigned to safe
 
@@ -37,8 +40,11 @@ sim_010 = sim_002;                                           // re-assigned to u
 
 const sim_011 = sim_001;                                     // declared with safe identifier
 const sim_012 = sim_011;                                     // declared with identifier referencing an identifier
-
+*/
 exports = sim_001;
+exports = sim_002;
+exports = sim_003;
+exports = sim_004;
 
 // Object cases
 // obj = object
@@ -62,7 +68,8 @@ obj_015 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' };  
 const obj_014 = obj_015;                                                                                                                         // references unsafe
 
 exports = { obj_001 };
-exports = { obj_004 };
+exports = obj_002;
+exports = obj_004;
 exports = { obj_003, obj_005 };
 exports = obj_011;
 
@@ -126,7 +133,7 @@ const map_006 = new Map([["a", obj_002.a]]);
 const map_007 = new Map([["a", arr_001[0]]]);
 const map_008 = new Map([["a", arr_004[0]]]);
 const map_009 = new Map([["a", sim_001]]);
-const map_010 = new Map([["a", sim_010]]);
+const map_010 = new Map([["a", sim_002]]);
 const map_011 = new Map([["a", null]]);
 
 // Accessing maps - map.get("a) - has not been implemented since CallExpressions are not implemented.

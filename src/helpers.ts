@@ -50,7 +50,7 @@ export const getVarDeclarationByName = (ast: ESTree.Program, variableName: strin
  * Returns the closest ExpressionStatement or VariableDeclaration node where the left side's name is equal to 'name'.
  * Searches recursively through layers of scopes until finally reaching global scope.
  */
-const findNodeWithNameInScope = (name: string, location: ILocation, scope: Scope.Scope | null): ESTree.ExpressionStatement | ESTree.VariableDeclaration | null => {
+const findNodeWithNameInScope = (name: string, location: ILocation, scope: Scope.Scope | null): ESTree.ExpressionStatement | ESTree.VariableDeclaration | ESTree.ObjectPattern | null => {
     if (!scope) throw "Scope is undefined";
     if (!location) throw "Location is undefined";
 
@@ -61,19 +61,25 @@ const findNodeWithNameInScope = (name: string, location: ILocation, scope: Scope
     if (scope.type === "global") {
         const nameNode = scope.set.get(name);
         if (!nameNode) throw `Node with name ${name} could not be found in global scope`;
-        return ((nameNode.identifiers[0] as INodeWithParent).parent as INodeWithParent).parent as ESTree.VariableDeclaration;
+
+        // Check if nameNode is a part of a deconstruction
+        if ((nameNode.identifiers[0] as INodeWithParent).parent.type === "Property") {
+            return ((nameNode.identifiers[0] as INodeWithParent).parent as INodeWithParent).parent as ESTree.ObjectPattern;
+        } else {
+            return ((nameNode.identifiers[0] as INodeWithParent).parent as INodeWithParent).parent as ESTree.VariableDeclaration;
+        }
     } else { // Analyze the scope by looking at the nodes in the body of the scope code block.
-        if (scope.block.type !== 'FunctionExpression' && scope.block.type !== 'ArrowFunctionExpression') throw "Unable to analyze scope block type";
-        if (scope.block.body.type !== 'BlockStatement') throw "Unable to analyze scope block body type";
+        if (scope.block.type !== ENodeTypes.FUNCTION_EXPRESSION && scope.block.type !== ENodeTypes.ARROW_FUNCTION_EXPRESSION) throw "Unable to analyze scope block type";
+        if (scope.block.body.type !== ENodeTypes.BLOCK_STATEMENT) throw "Unable to analyze scope block body type";
         const codeBlockBody = scope.block.body.body; // Array of code block nodes.
-        relevantNodes = codeBlockBody.filter(node => node.type === "VariableDeclaration" || node.type === "ExpressionStatement");
+        relevantNodes = codeBlockBody.filter(node => node.type === ENodeTypes.VARIABLE_DECLARATION || node.type === ENodeTypes.EXPRESSION_STATEMENT);
     }
 
     // If there are no relevant nodes to look at, call recursively with the parent scope.
     if (relevantNodes.length === 0) return findNodeWithNameInScope(name, location, scope.upper);
 
     /* For each node return whether the name matches the node and if it does return its line number */
-    const analyzedNodes = relevantNodes.map(node => node.type === "VariableDeclaration"
+    const analyzedNodes = relevantNodes.map(node => node.type === ENodeTypes.VARIABLE_DECLARATION
         ?
         (node.declarations[0].id as ESTree.Identifier).name === name ? (node.loc ? node.loc.start.line : Infinity) : Infinity
         :
@@ -84,7 +90,7 @@ const findNodeWithNameInScope = (name: string, location: ILocation, scope: Scope
      * If analyzedNodes does not include a number between 0 and infinity, locations could not be found for relevant nodes.
      * Else return the node closest but less than location.
      */
-    if (!analyzedNodes.find(e => e>0 && e<Infinity)) return findNodeWithNameInScope(name, location, scope.upper);
+    if (!analyzedNodes.find(e => e > 0 && e < Infinity)) return findNodeWithNameInScope(name, location, scope.upper);
     else {
         // Return the node closest to and less than the location.
         const goal = location.start.line;
@@ -116,9 +122,13 @@ export const analyzeIdentifierNode = (identifier: ESTree.Identifier, context: So
     if (!a) throw `Could not find any relevant nodes for identifier ${identifier.name}`;
     // The return here is either an ExpressionStatement or a VariableDeclaration or null.
     // Find value of a
-    if (a.type === "ExpressionStatement") {
-        if (a.expression.type !== "AssignmentExpression") throw "The expression of the ExpressionStatement is not an assignment";
+    if (a.type === ENodeTypes.EXPRESSION_STATEMENT) {
+        if (a.expression.type !== ENodeTypes.ASSIGNMENT_EXPRESSION) throw "The expression of the ExpressionStatement is not an assignment";
         return a.expression.right;
+    } else if (a.type === ENodeTypes.OBJECT_PATTERN) {
+        const valueOfIdentifier = ((a as INodeWithParent).parent as ESTree.VariableDeclarator).init;
+        if (!valueOfIdentifier) throw "Declaration value is null or undefined";
+        return valueOfIdentifier;
     } else { // VariableDeclaration
         const valueOfIdentifier = a.declarations[0].init;
         if (!valueOfIdentifier) throw "Declaration value is null or undefined";

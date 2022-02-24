@@ -1,9 +1,9 @@
 import ESTree from "estree";
-import { SourceCode, Linter } from "eslint";
+import { SourceCode, Linter, AST } from "eslint";
 import { readFileSync } from "fs";
-import { ENodeTypes, getErrorObj, ITraceValueReturn, traceValue } from "../trace-value";
 import estraverse from "estraverse";
-import { INodeWithParent } from "../../helpers";
+import { ENodeTypes, getErrorObj, ITraceValueReturn, traceValue } from "../trace-value";
+import { INodeWithParent, makeComponentTrace } from "../../helpers";
 
 /**
  * Can only analyze require calls atm.
@@ -17,7 +17,6 @@ const traceCallExpression = (node: ESTree.Node, context: SourceCode, verify: (no
     if (node.arguments.find(arg => arg.type !== "Literal")) throw "Require argument is not of type Literal";
 
     const sourceFile = ((node.arguments[0] as ESTree.Literal).value as string).replace('.', '').replace('/','');
-
     const fileContents = readFileSync('tests/trace-value/target-files/' + sourceFile + '.js', 'utf-8');
 
     // Creating AST
@@ -25,33 +24,51 @@ const traceCallExpression = (node: ESTree.Node, context: SourceCode, verify: (no
     linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2021 }, env: { es6: true } });
     const requireFileAST = linter.getSourceCode().ast;
 
-    const requireIdentifier: ESTree.Identifier = (((node as INodeWithParent).parent as ESTree.VariableDeclarator).id as ESTree.Identifier);
+    // Is of type Identifier or ObjectPattern (deconstruction).
+    const requireIdentifier = ((node as INodeWithParent).parent as ESTree.VariableDeclarator).id;
 
-    // Traverse the new AST and find the export statement matching the requireIdentifier.
-    let exportObject = null;
+    // Traverse the new AST and find the export value(s) matching the requireIdentifier.
+    let exportValues: (ESTree.Expression | null)[];
 
-    estraverse.traverse(requireFileAST, {
+    if (requireIdentifier.type === ENodeTypes.OBJECT_PATTERN) {
+        exportValues = requireIdentifier.properties.map(p => {
+            if (p.type === ENodeTypes.REST_ELEMENT) throw "Deconstruction of require includes RestElement."
+            if (p.key.type !== ENodeTypes.IDENTIFIER) throw "Deconstruction value's key is not of type Identifier";
+            else return findExportValueForIdentifier(requireFileAST, p.key);
+        });
+    } else exportValues = [findExportValueForIdentifier(requireFileAST, requireIdentifier as ESTree.Identifier)];
+
+    // Call the recursive case, for each export value found, on the new AST.
+    if (exportValues.includes(null)) throw `Unable to find export statement exporting identifier(s)`;
+
+    const results = exportValues.map(i => i && traceValue(i, linter.getSourceCode(), verify, [...nodeTrace, node]))
+        .filter(r => !!r) as ITraceValueReturn[];
+
+    return makeComponentTrace(results);
+}
+export default traceCallExpression;
+
+const findExportValueForIdentifier = (AST: AST.Program, identifier: ESTree.Identifier): ESTree.Expression | null => {
+    let exportValue = null;
+
+    estraverse.traverse(AST, {
         enter: function (node: ESTree.Node) {
             if (
                 node.type === ENodeTypes.EXPRESSION_STATEMENT &&
                 isExpressionExportStatement(node) &&
-                exportIncludesIdentifier(node, requireIdentifier)
+                exportIncludesIdentifier(node, identifier)
             ) {
-                exportObject = (node.expression as ESTree.AssignmentExpression).right;
+                exportValue = (node.expression as ESTree.AssignmentExpression).right;
             }
         }
     });
 
-    if (!exportObject) throw `Unable to find export exporting identifier with value ${requireIdentifier.name}`;
-
-    // Call the recursive case with the export object on the new AST.
-    return traceValue(exportObject, linter.getSourceCode(), verify, [...nodeTrace, node]);
+    return exportValue;
 }
-export default traceCallExpression;
 
-const isExpressionExportStatement = (node: ESTree.ExpressionStatement) => {
+const isExpressionExportStatement = (node: ESTree.ExpressionStatement): boolean => {
     if (node.expression.type !== ENodeTypes.ASSIGNMENT_EXPRESSION) return false;
-    if ((node.expression.left as ESTree.Identifier).name === "exports") return true;
+    return (node.expression.left as ESTree.Identifier).name === "exports";
 }
 
 const exportIncludesIdentifier = (exportValueNode: ESTree.ExpressionStatement, identifier: ESTree.Identifier): boolean => {

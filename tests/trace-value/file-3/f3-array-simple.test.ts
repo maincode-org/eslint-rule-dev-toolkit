@@ -28,4 +28,47 @@ describe('Array with simple values tests', () => {
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(5);
     });
+
+    test('Verifying value of arr_sim_002', () => {
+        const variableName = 'arr_sim_002';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(false);
+        expect(result.determiningNode.type).toBe('CallExpression');
+
+        // Analyze trace
+        expect(nodeComponentTrace.length).toBe(5);
+    });
+
+    test('LIMITATION: Verifying value of arr_sim_003', () => {
+        const variableName = 'arr_sim_003';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(true);
+        expect(result.determiningNode.type).toBe('Literal');
+        expect((result.determiningNode as IValueNode).value).toBe('A safe value2');
+
+        // Analyze trace
+        expect(nodeComponentTrace.length).toBe(17);
+    });
 });

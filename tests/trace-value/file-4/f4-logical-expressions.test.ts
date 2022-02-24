@@ -95,7 +95,7 @@ describe('Logical expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe('A safe value');
+        expect((result.determiningNode as IValueNode).value).toBe('A safe value2');
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(5);

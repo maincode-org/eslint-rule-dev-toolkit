@@ -9,8 +9,8 @@ A toolkit of awesome helpers for developing advanced ESLint rules with ease!
 - [X] Documentation upgrade
 - [ ] Multi-file tests
 - [ ] Improve nodeComponentTrace algorithm (returns the parent multiple times)
-- [ ] Handle CallExpressions (Function calls)
-- [ ] Implement include argument to traceValue
+- [ ] Handle function calls (CallExpressions)
+- [ ] Implement `includes` parameter to traceValue
 
 ## The traceValue algorithm
 ### Function parameters

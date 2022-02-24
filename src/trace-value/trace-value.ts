@@ -30,6 +30,7 @@ export type ITraceValueReturn = {
 export enum ENodeTypes {
     LITERAL = 'Literal',
     VARIABLE_DECLARATION = 'VariableDeclaration',
+    VARIABLE_DECLARATOR = 'VariableDeclarator',
     IDENTIFIER = 'Identifier',
     TEMPLATE_LITERAL = 'TemplateLiteral',
     OBJECT_EXPRESSION = 'ObjectExpression',
@@ -50,6 +51,8 @@ export enum ENodeTypes {
     EXPRESSION_STATEMENT = 'ExpressionStatement',
     ASSIGNMENT_EXPRESSION = 'AssignmentExpression',
     EXPORT_NAMED_DECLARATION = 'ExportNamedDeclaration',
+    OBJECT_PATTERN = 'ObjectPattern',
+    REST_ELEMENT = 'RestElement',
 }
 
 type ITraceFunction = (node: ESTree.Node, context: SourceCode, verify: (node: ESTree.Node) => boolean, nodeTrace?: ESTree.Node[]) => ITraceValueReturn;
