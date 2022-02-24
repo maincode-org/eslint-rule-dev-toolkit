@@ -1,15 +1,15 @@
 import ESTree from "estree";
-import { getVarDeclarationByName, IValueNode, targetFileAST, ETestFiles } from "../../src/helpers";
-import { traceValue } from "../../src";
+import { ETestFiles, getVarDeclarationByName, IValueNode, targetFileAST } from "../../../src/helpers";
+import { traceValue } from "../../../src";
 
 // All tests in this file uses source code from file 'file-4'.
 const sourceCode = targetFileAST.get(ETestFiles.FILE4);
 if (!sourceCode) throw "Unable to find AST for target file.";
 
-// Code starts in file-4 at line 124.
-describe('Mathematical expressions tests', () => {
-    test('Verifying value of mat_001', () => {
-        const variableName = 'mat_001';
+// Code starts in file-4 at line 42.
+describe('Object tests', () => {
+    test('Verifying value of obj_001', () => {
+        const variableName = 'obj_001';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -23,18 +23,65 @@ describe('Mathematical expressions tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(true);
-        expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe(2);
+        expect(result.determiningNode.type).toBe('Literal');
+        expect((result.determiningNode as IValueNode).value).toBe('A safe string');
+
+        // Analyze trace
+        expect(nodeComponentTrace.length).toBe(2);
+        expect(nodeComponentTrace[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace[1].type).toBe("Literal");
+    });
+
+    test('Verifying value of obj_002', () => {
+        const variableName = 'obj_002';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(false);
+        expect(result.determiningNode.type).toBe("CallExpression");
+
+        // Analyze trace
+        expect(nodeComponentTrace.length).toBe(2);
+        expect(nodeComponentTrace[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace[1].type).toBe("CallExpression");
+    });
+
+    test('Verifying value of obj_003', () => {
+        const variableName = 'obj_003';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(true);
+        expect(result.determiningNode.type).toBe('Literal');
+        expect((result.determiningNode as IValueNode).value).toBe('A safe string2');
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(3);
-        expect(nodeComponentTrace[0].type).toBe("BinaryExpression");
+        expect(nodeComponentTrace[0].type).toBe("ObjectExpression");
         expect(nodeComponentTrace[1].type).toBe("Literal");
         expect(nodeComponentTrace[2].type).toBe("Literal");
     });
 
-    test('Verifying value of mat_002', () => {
-        const variableName = 'mat_002';
+    test('Verifying value of obj_004', () => {
+        const variableName = 'obj_004';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -52,12 +99,35 @@ describe('Mathematical expressions tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("BinaryExpression");
+        expect(nodeComponentTrace[0].type).toBe("ObjectExpression");
         expect(nodeComponentTrace[1].type).toBe("CallExpression");
     });
 
-    test('Verifying value of mat_003', () => {
-        const variableName = 'mat_003';
+    test('Verifying value of obj_005', () => {
+        const variableName = 'obj_005';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(false);
+        expect(result.determiningNode.type).toBe("CallExpression");
+
+        // Analyze trace
+        expect(nodeComponentTrace.length).toBe(2);
+        expect(nodeComponentTrace[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace[1].type).toBe("CallExpression");
+    });
+
+    test('Verifying value of obj_006', () => {
+        const variableName = 'obj_006';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -72,17 +142,18 @@ describe('Mathematical expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe(2);
+        expect((result.determiningNode as IValueNode).value).toBe('A safe string3');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(3);
-        expect(nodeComponentTrace[0].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[1].type).toBe("Literal");
+        expect(nodeComponentTrace.length).toBe(4);
+        expect(nodeComponentTrace[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace[1].type).toBe("Identifier");
         expect(nodeComponentTrace[2].type).toBe("Literal");
+        expect(nodeComponentTrace[3].type).toBe("Literal");
     });
 
-    test('Verifying value of mat_004', () => {
-        const variableName = 'mat_004';
+    test('Verifying value of obj_007', () => {
+        const variableName = 'obj_007';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -97,40 +168,16 @@ describe('Mathematical expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(false);
         expect(result.determiningNode.type).toBe("CallExpression");
-
-        // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[1].type).toBe("CallExpression");
-    });
-
-    test('Verifying value of mat_005', () => {
-        const variableName = 'mat_005';
-
-        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
-        expect(varDeclaration).toBeDefined();
-        if (!varDeclaration) return;
-
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
-        expect(traceValueResult).toBeDefined();
-        if (!traceValueResult) return;
-
-        const { result, nodeComponentTrace } = traceValueResult;
-
-        // Analyze result
-        expect(result.isVerified).toBe(true);
-        expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe(2);
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(3);
-        expect(nodeComponentTrace[0].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[1].type).toBe("Literal");
-        expect(nodeComponentTrace[2].type).toBe("Literal");
+        expect(nodeComponentTrace[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace[1].type).toBe("Identifier");
+        expect(nodeComponentTrace[2].type).toBe("CallExpression");
     });
 
-    test('Verifying value of mat_006', () => {
-        const variableName = 'mat_006';
+    test('Verifying value of obj_008', () => {
+        const variableName = 'obj_008';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -145,40 +192,16 @@ describe('Mathematical expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(false);
         expect(result.determiningNode.type).toBe("CallExpression");
-
-        // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[1].type).toBe("CallExpression");
-    });
-
-    test('Verifying value of mat_007', () => {
-        const variableName = 'mat_007';
-
-        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
-        expect(varDeclaration).toBeDefined();
-        if (!varDeclaration) return;
-
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
-        expect(traceValueResult).toBeDefined();
-        if (!traceValueResult) return;
-
-        const { result, nodeComponentTrace } = traceValueResult;
-
-        // Analyze result
-        expect(result.isVerified).toBe(true);
-        expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe(2);
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(3);
-        expect(nodeComponentTrace[0].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[1].type).toBe("Literal");
-        expect(nodeComponentTrace[2].type).toBe("Literal");
+        expect(nodeComponentTrace[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace[1].type).toBe("MemberExpression");
+        expect(nodeComponentTrace[2].type).toBe("CallExpression");
     });
 
-    test('Verifying value of mat_008', () => {
-        const variableName = 'mat_008';
+    test('Verifying value of obj_009', () => {
+        const variableName = 'obj_009';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -195,35 +218,15 @@ describe('Mathematical expressions tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[1].type).toBe("CallExpression");
+        expect(nodeComponentTrace.length).toBe(4);
+        expect(nodeComponentTrace[0].type).toBe('ObjectExpression');
+        expect(nodeComponentTrace[1].type).toBe('Identifier');
+        expect(nodeComponentTrace[2].type).toBe('ObjectExpression');
+        expect(nodeComponentTrace[3].type).toBe('CallExpression');
     });
 
-    test('Verifying value of mat_009', () => {
-        const variableName = 'mat_009';
-
-        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
-        expect(varDeclaration).toBeDefined();
-        if (!varDeclaration) return;
-
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
-        expect(traceValueResult).toBeDefined();
-        if (!traceValueResult) return;
-
-        const { result, nodeComponentTrace } = traceValueResult;
-
-        // Analyze result
-        expect(result.isVerified).toBe(true);
-        expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe(3);
-
-        // Analyze trace
-        expect(nodeComponentTrace.length).toBe(6);
-    });
-
-    test('Verifying value of mat_010', () => {
-        const variableName = 'mat_010';
+    test('Verifying value of obj_010', () => {
+        const variableName = 'obj_010';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -240,13 +243,15 @@ describe('Mathematical expressions tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[1].type).toBe("CallExpression");
+        expect(nodeComponentTrace.length).toBe(4);
+        expect(nodeComponentTrace[0].type).toBe('ObjectExpression');
+        expect(nodeComponentTrace[1].type).toBe('Identifier');
+        expect(nodeComponentTrace[2].type).toBe('ObjectExpression');
+        expect(nodeComponentTrace[3].type).toBe('CallExpression');
     });
 
-    test('Verifying value of mat_011', () => {
-        const variableName = 'mat_011';
+    test('Verifying value of obj_011', () => {
+        const variableName = 'obj_011';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -261,14 +266,39 @@ describe('Mathematical expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe(3);
+        expect((result.determiningNode as IValueNode).value).toBe("A safe string3");
+
+        // Analyze trace
+        // Do we want this to be 9?
+        expect(nodeComponentTrace.length).toBe(9);
+    });
+
+    test('Verifying value of obj_012', () => {
+        const variableName = 'obj_012';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(false);
+        expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(3);
+        expect(nodeComponentTrace[0].type).toBe('ObjectExpression');
+        expect(nodeComponentTrace[1].type).toBe('ObjectExpression');
+        expect(nodeComponentTrace[2].type).toBe('CallExpression');
     });
 
-    test('Verifying value of mat_012', () => {
-        const variableName = 'mat_012';
+    test('Verifying value of obj_013', () => {
+        const variableName = 'obj_013';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -281,12 +311,33 @@ describe('Mathematical expressions tests', () => {
         const { result, nodeComponentTrace } = traceValueResult;
 
         // Analyze result
-        expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.isVerified).toBe(true);
+        expect(result.determiningNode.type).toBe("Literal");
+        expect((result.determiningNode as IValueNode).value).toBe(null);
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[1].type).toBe("CallExpression");
+        expect(nodeComponentTrace.length).toBe(3);
+        expect(nodeComponentTrace[0].type).toBe('ObjectExpression');
+        expect(nodeComponentTrace[1].type).toBe('Literal');
+        expect(nodeComponentTrace[2].type).toBe('Literal');
+    });
+
+    test('LIMITATION: Verifying value of obj_014', () => {
+      const variableName = 'obj_014';
+
+      const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+      expect(varDeclaration).toBeDefined();
+      if (!varDeclaration) return;
+
+      const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+      expect(traceValueResult).toBeDefined();
+      if (!traceValueResult) return;
+
+      const { result, nodeComponentTrace } = traceValueResult;
+
+      // Analyze result
+      expect(result.isVerified).toBe(true);
+      expect(result.determiningNode.type).toBe("Literal");
+        expect((result.determiningNode as IValueNode).value).toBe("A safe string2");
     });
 });
