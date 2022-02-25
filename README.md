@@ -7,6 +7,7 @@ A toolkit of awesome helpers for developing advanced ESLint rules with ease!
 - [X] Check traceFunctionExpression - seems wrong...
 - [X] Dependency Injection of traceValue import
 - [X] Documentation upgrade
+- [ ] Add function call tests that fails for .concat, .push .map etc.
 - [ ] Multi-file tests
 - [ ] Improve nodeComponentTrace algorithm (returns the parent multiple times)
 - [ ] Handle function calls (CallExpressions)

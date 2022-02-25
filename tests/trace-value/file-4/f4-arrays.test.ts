@@ -262,14 +262,13 @@ describe('Array tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe('Literal');
-        expect((result.determiningNode as IValueNode).value).toBe('A safe string');
+        expect((result.determiningNode as IValueNode).value).toBe(null);
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(4);
+        expect(nodeComponentTrace.length).toBe(3);
         expect(nodeComponentTrace[0].type).toBe("ArrayExpression");
         expect(nodeComponentTrace[1].type).toBe("Literal");
-        expect(nodeComponentTrace[2].type).toBe("MemberExpression");
-        expect(nodeComponentTrace[3].type).toBe("Literal");
+        expect(nodeComponentTrace[1].type).toBe("Literal");
     });
 
     test('Verifying value of arr_012', () => {
@@ -290,112 +289,13 @@ describe('Array tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(3);
-        expect(nodeComponentTrace[0].type).toBe("ArrayExpression");
-        expect(nodeComponentTrace[1].type).toBe("MemberExpression");
-        expect(nodeComponentTrace[2].type).toBe("CallExpression");
-    });
-
-    test('Verifying value of arr_013', () => {
-        const variableName = 'arr_013';
-
-        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
-        expect(varDeclaration).toBeDefined();
-        if (!varDeclaration) return;
-
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
-        expect(traceValueResult).toBeDefined();
-        if (!traceValueResult) return;
-
-        const { result, nodeComponentTrace } = traceValueResult;
-
-        // Analyze result
-        expect(result.isVerified).toBe(true);
-        expect(result.determiningNode.type).toBe('Literal');
-        expect((result.determiningNode as IValueNode).value).toBe('A safe value');
-
-        // Analyze trace
-        expect(nodeComponentTrace.length).toBe(4);
-        expect(nodeComponentTrace[0].type).toBe("ArrayExpression");
-        expect(nodeComponentTrace[1].type).toBe("Literal");
-        expect(nodeComponentTrace[2].type).toBe("Identifier");
-        expect(nodeComponentTrace[3].type).toBe("Literal");
-    });
-
-    test('Verifying value of arr_014', () => {
-        const variableName = 'arr_014';
-
-        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
-        expect(varDeclaration).toBeDefined();
-        if (!varDeclaration) return;
-
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
-        expect(traceValueResult).toBeDefined();
-        if (!traceValueResult) return;
-
-        const { result, nodeComponentTrace } = traceValueResult;
-
-        // Analyze result
-        expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
-
-        // Analyze trace
-        expect(nodeComponentTrace.length).toBe(3);
-        expect(nodeComponentTrace[0].type).toBe("ArrayExpression");
-        expect(nodeComponentTrace[1].type).toBe("Identifier");
-        expect(nodeComponentTrace[2].type).toBe("CallExpression");
-    });
-
-    test('Verifying value of arr_015', () => {
-        const variableName = 'arr_015';
-
-        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
-        expect(varDeclaration).toBeDefined();
-        if (!varDeclaration) return;
-
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
-        expect(traceValueResult).toBeDefined();
-        if (!traceValueResult) return;
-
-        const { result, nodeComponentTrace } = traceValueResult;
-
-        // Analyze result
-        expect(result.isVerified).toBe(true);
-        expect(result.determiningNode.type).toBe('Literal');
-        expect((result.determiningNode as IValueNode).value).toBe(null);
-
-        // Analyze trace
-        expect(nodeComponentTrace.length).toBe(3);
-        expect(nodeComponentTrace[0].type).toBe("ArrayExpression");
-        expect(nodeComponentTrace[1].type).toBe("Literal");
-        expect(nodeComponentTrace[1].type).toBe("Literal");
-    });
-
-    test('Verifying value of arr_016', () => {
-        const variableName = 'arr_016';
-
-        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
-        expect(varDeclaration).toBeDefined();
-        if (!varDeclaration) return;
-
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
-        expect(traceValueResult).toBeDefined();
-        if (!traceValueResult) return;
-
-        const { result, nodeComponentTrace } = traceValueResult;
-
-        // Analyze result
-        expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
-
-        // Analyze trace
         expect(nodeComponentTrace.length).toBe(2);
         expect(nodeComponentTrace[0].type).toBe("ArrayExpression");
         expect(nodeComponentTrace[1].type).toBe("CallExpression");
     });
 
-    test('Verifying value of arr_017', () => {
-        const variableName = 'arr_017';
+    test('Verifying value of arr_013', () => {
+        const variableName = 'arr_013';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -418,8 +318,8 @@ describe('Array tests', () => {
         expect(nodeComponentTrace[1].type).toBe("Literal");
     });
 
-    test('Verifying value of arr_018', () => {
-        const variableName = 'arr_018';
+    test('Verifying value of arr_014', () => {
+        const variableName = 'arr_014';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -441,8 +341,8 @@ describe('Array tests', () => {
         expect(nodeComponentTrace[1].type).toBe("CallExpression");
     });
 
-    test('LIMITATION: Verifying value of arr_019', () => {
-      const variableName = 'arr_019';
+    test('LIMITATION: Verifying value of arr_015', () => {
+      const variableName = 'arr_015';
 
       const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
       expect(varDeclaration).toBeDefined();
