@@ -10,7 +10,7 @@ const sim_001 = 'A safe value';                                 // safe
 const sim_002 = fetch('https://evilcorp.com/hackyhacky'); // unsafe
 const sim_003 = 'A safe value1';                                // safe
 const sim_004 = 'A safe value2';                               // safe
-const sim_010 = sim_002;
+const sim_005 = sim_002;                                       // unsafe
 
 /* Reassignment in global scope examples.
 let sim_003 = 'A safe value';                                  // declared with safe
@@ -41,6 +41,7 @@ sim_010 = sim_002;                                           // re-assigned to u
 const sim_011 = sim_001;                                     // declared with safe identifier
 const sim_012 = sim_011;                                     // declared with identifier referencing an identifier
 */
+
 exports = sim_001;
 exports = sim_002;
 exports = sim_003;
@@ -82,12 +83,6 @@ const str_006 = `A safe value ${fetch('https://evilcorp.com/hackyhacky')}`;     
 
 // Array cases
 // arr = array
-// TODO Show that arrays can contain unsafe or only safe values Ex and Ax cases
-// TODO Show that single array item access cannot be deemed safe if array contains some unsafe element (we can't know the order at STA time)
-// TODO test with push(?)
-// TODO test with spread operator
-// TODO test with array concat
-// TODO test with re-assignment
 const arr_001 = ['A safe string', 'A safe string1'];                                // safe
 const arr_002 = [1,2,3];                                                            // safe
 const arr_003 = ['A safe string', fetch('https://evilcorp.com/hackyhacky')];  // unsafe
@@ -95,9 +90,9 @@ const arr_004 = [fetch('https://evilcorp.com/hackyhacky'), 'A safe string'];  //
 const arr_005 = [...arr_001, 'A safe string2'];                                     // safe
 const arr_006 = ['A safe string2', ...arr_001];                                     // safe
 const arr_007 = ['A safe string', ...arr_003];                                      // unsafe
-const arr_008 = arr_003[0];                                                         // unsafe
-const arr_009 = arr_003[1];                                                         // unsafe
-const arr_010 = arr_001[0];                                                         // safe
+const arr_008 = [arr_003[0]];                                                       // unsafe
+const arr_009 = [arr_003[1]];                                                       // unsafe
+const arr_010 = [arr_001[0]];                                                       // safe
 const arr_011 = ['A safe value', null];                                             // safe
 const arr_012 = [fetch('https://evilcorp.com/hackyhacky'), null];             // unsafe
 const arr_013 = ['A safe string'];                                                  // safe
@@ -113,11 +108,10 @@ exports = arr_002;
 exports = arr_003;
 
 // Maps cases
-// Both simple and advanced, like maps of functions!
 const map_001 = new Map([["a", 1]]);
 const map_002 = new Map([["a", fetch('https://evilcorp.com/hackyhacky')]]);
 const map_003 = new Map([["a", 1], ["b", 2]]);
-const map_004 = new Map([["a", 1], ["b", fetch('https://evilcorp.com/hackyhacky')]]);
+const map_004 = new Map([["a", "A safe string"], ["b", fetch('https://evilcorp.com/hackyhacky')]]);
 const map_005 = new Map([["a", null]]);
 
 // Accessing maps - map.get("a) - has not been implemented since function calls are not implemented.

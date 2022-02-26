@@ -192,11 +192,12 @@ describe('Array tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(4);
-        expect(nodeComponentTrace[0].type).toBe("MemberExpression");
-        expect(nodeComponentTrace[1].type).toBe("Identifier");
-        expect(nodeComponentTrace[2].type).toBe("ArrayExpression");
-        expect(nodeComponentTrace[3].type).toBe("CallExpression");
+        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace[0].type).toBe("ArrayExpression");
+        expect(nodeComponentTrace[1].type).toBe("MemberExpression");
+        expect(nodeComponentTrace[2].type).toBe("Identifier");
+        expect(nodeComponentTrace[3].type).toBe("ArrayExpression");
+        expect(nodeComponentTrace[4].type).toBe("CallExpression");
     });
 
     test('Verifying value of arr_009', () => {
@@ -217,11 +218,12 @@ describe('Array tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(4);
-        expect(nodeComponentTrace[0].type).toBe("MemberExpression");
-        expect(nodeComponentTrace[1].type).toBe("Identifier");
-        expect(nodeComponentTrace[2].type).toBe("ArrayExpression");
-        expect(nodeComponentTrace[3].type).toBe("CallExpression");
+        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace[0].type).toBe("ArrayExpression");
+        expect(nodeComponentTrace[1].type).toBe("MemberExpression");
+        expect(nodeComponentTrace[2].type).toBe("Identifier");
+        expect(nodeComponentTrace[3].type).toBe("ArrayExpression");
+        expect(nodeComponentTrace[4].type).toBe("CallExpression");
     });
 
     test('Verifying value of arr_010', () => {
@@ -243,7 +245,7 @@ describe('Array tests', () => {
         expect((result.determiningNode as IValueNode).value).toBe('A safe string1');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(7);
+        expect(nodeComponentTrace.length).toBe(9);
     });
 
     test('Verifying value of arr_011', () => {
