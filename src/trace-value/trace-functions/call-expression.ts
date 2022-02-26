@@ -82,3 +82,31 @@ const exportIncludesIdentifier = (exportValueNode: ESTree.ExpressionStatement, i
         });
     }
 }
+
+// ------------------------- WIP -------------------------
+/**
+ * A CallExpression is safe if the callee node is safe, and the arguments are safe.
+ * This is not quite ready yet.
+ */
+/*
+else if (node.type === "CallExpression") {
+    const calleeResult = index(node.callee, context, verify, [...nodeTrace, node]);
+    const argumentsResults = node.arguments.map(arg => index(arg, context, verify, [...nodeTrace, node]));
+    const results = [calleeResult, ...argumentsResults];
+ */
+
+/*
+const unverifiedNode = results.find(result => !result.result.isVerified);
+if (unverifiedNode) {
+    return {
+        result: {isVerified: false, determiningNode: unverifiedNode.result.determiningNode},
+        nodeComponentTrace: unverifiedNode.nodeComponentTrace
+    };
+} else {
+    return {
+        result: {isVerified: true, determiningNode: results[results.length - 1].result.determiningNode},
+        nodeComponentTrace: makeNodeComponentTrace(results)
+    };
+}
+}
+*/
