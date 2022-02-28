@@ -11,7 +11,7 @@ const traceArrayExpression = (node: ESTree.Node, context: SourceCode, verify: (n
     // Call recursively with each array value.
     const results = arrElements.map(arrValue => {
         if (!arrValue) return { result: { isVerified: true, determiningNode: node }, nodeComponentTrace: [...nodeTrace, node]};
-        else if (arrValue.type === "SpreadElement") return traceValue(arrValue.argument, context, verify, [...nodeTrace, node]);
+        else if (arrValue.type === ENodeTypes.SPREAD_ELEMENT) return traceValue(arrValue.argument, context, verify, [...nodeTrace, node]);
         else return traceValue(arrValue, context, verify, [...nodeTrace, node]);
     });
 
