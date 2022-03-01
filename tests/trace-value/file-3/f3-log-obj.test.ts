@@ -1,10 +1,12 @@
-import ESTree from "estree";
-import { getVarDeclarationByName, IValueNode, ETestFiles, targetFileAST } from "../../../src/helpers";
+import { TSESTree } from "@typescript-eslint/utils";
+import { getVarDeclarationByName, ETestFiles, targetFileAST } from "../../../src/helpers";
 import { traceValue } from "../../../src";
 
 // All tests in this file uses source code from file 'file-3'.
 const sourceCode = targetFileAST.get(ETestFiles.FILE3);
 if (!sourceCode) throw "Unable to find AST for target file.";
+
+const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
 // Code starts in file-3 at line ?.
 describe('Logical expression with simple values tests', () => {
@@ -15,7 +17,7 @@ describe('Logical expression with simple values tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 

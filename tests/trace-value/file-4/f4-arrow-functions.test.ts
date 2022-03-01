@@ -1,10 +1,12 @@
-import ESTree from "estree";
+import { TSESTree } from "@typescript-eslint/utils";
 import { traceValue } from "../../../src";
-import { getVarDeclarationByName, IValueNode, targetFileAST, ETestFiles } from "../../../src/helpers";
+import { getVarDeclarationByName, targetFileAST, ETestFiles } from "../../../src/helpers";
 
 // All tests in this file uses source code from file 'file-4'.
 const sourceCode = targetFileAST.get(ETestFiles.FILE4);
 if (!sourceCode) throw "Unable to find AST for target file.";
+
+const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
 // Code starts in file-4 at line 151.
 describe('Arrow function expressions tests', () => {
@@ -15,7 +17,7 @@ describe('Arrow function expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -24,7 +26,7 @@ describe('Arrow function expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe(2);
+        expect((result.determiningNode as TSESTree.Literal).value).toBe(2);
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(5);
@@ -42,7 +44,7 @@ describe('Arrow function expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 

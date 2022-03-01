@@ -1,10 +1,12 @@
-import ESTree from "estree";
-import { getVarDeclarationByName, IValueNode, targetFileAST, ETestFiles } from "../../../src/helpers";
+import { TSESTree } from "@typescript-eslint/utils";
+import { getVarDeclarationByName, targetFileAST, ETestFiles } from "../../../src/helpers";
 import { traceValue } from "../../../src";
 
 // All tests in this file uses source code from file 'file-4'.
 const sourceCode = targetFileAST.get(ETestFiles.FILE4);
 if (!sourceCode) throw "Unable to find AST for target file.";
+
+const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
 // Code starts in file-4 at line 170.
 describe('Functions with if-else statements tests', () => {
@@ -15,7 +17,7 @@ describe('Functions with if-else statements tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -24,7 +26,7 @@ describe('Functions with if-else statements tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe("A safe value1");
+        expect((result.determiningNode as TSESTree.Literal).value).toBe("A safe value1");
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(6);
@@ -43,7 +45,7 @@ describe('Functions with if-else statements tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -52,7 +54,7 @@ describe('Functions with if-else statements tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe("A safe value1");
+        expect((result.determiningNode as TSESTree.Literal).value).toBe("A safe value1");
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(7);
@@ -72,7 +74,7 @@ describe('Functions with if-else statements tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -93,7 +95,7 @@ describe('Functions with if-else statements tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 

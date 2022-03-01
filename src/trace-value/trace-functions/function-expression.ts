@@ -1,11 +1,11 @@
-import ESTree from "estree";
+import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
 import { SourceCode } from "eslint";
 import { traceValue } from "../../index";
-import { ENodeTypes, ITraceValueReturn } from "../trace-value";
+import { ITraceValueReturn } from "../trace-value";
 import { makeComponentTrace } from "../../helpers";
 
-const traceFunctionExpression = (node: ESTree.Node, context: SourceCode, verify: (node: ESTree.Node) => boolean, nodeTrace: ESTree.Node[] = []): ITraceValueReturn => {
-    if (node.type !== ENodeTypes.FUNCTION_EXPRESSION) throw `Node type mismatch: Cannot traceFunctionExpression on node of type ${node.type}`;
+const traceFunctionExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: TSESTree.Node[] = []): ITraceValueReturn => {
+    if (node.type !== AST_NODE_TYPES.FunctionExpression) throw `Node type mismatch: Cannot traceFunctionExpression on node of type ${node.type}`;
 
     // Call the recursion for all nodes in the function body.
     const results = node.body.body.map(innerNode => traceValue(innerNode, context, verify, [...nodeTrace, node]));

@@ -1,17 +1,15 @@
-import ESTree from "estree";
-import { Linter, SourceCode } from "eslint";
-import { ENodeTypes, getErrorObj, ITraceValueReturn, traceValue } from "../trace-value";
-import { readFileSync } from "fs";
-import estraverse from "estraverse";
+import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
+import { SourceCode } from "eslint";
+import { getErrorObj, ITraceValueReturn } from "../trace-value";
 
 /**
  * Development of dynamically setting parserOptions,
  * and having the traceFunctions adapt needs to be done in order for this handler to work.
  */
-const traceImportDeclaration = (node: ESTree.Node, context: SourceCode, verify: (node: ESTree.Node) => boolean, nodeTrace: ESTree.Node[] = []): ITraceValueReturn => {
-    if (node.type !== ENodeTypes.IMPORT_DECLARATION) throw `Node type mismatch: Cannot traceImportDeclaration on node of type ${node.type}`;
+const traceImportDeclaration = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: TSESTree.Node[] = []): ITraceValueReturn => {
+    if (node.type !== AST_NODE_TYPES.ImportDeclaration) throw `Node type mismatch: Cannot traceImportDeclaration on node of type ${node.type}`;
 
-    const sourceFile = (node.source.value as string).replace('.', '').replace('/','');
+    const sourceFile = node.source.value.replace('.', '').replace('/','');
     console.log('sourceFile', sourceFile);
 
     return getErrorObj(node, nodeTrace);

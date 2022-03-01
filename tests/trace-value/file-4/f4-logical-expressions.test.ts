@@ -1,10 +1,12 @@
-import ESTree from "estree";
-import { ETestFiles, getVarDeclarationByName, IValueNode, targetFileAST } from "../../../src/helpers";
+import { TSESTree } from "@typescript-eslint/utils";
+import { ETestFiles, getVarDeclarationByName, targetFileAST } from "../../../src/helpers";
 import { traceValue } from "../../../src";
 
 // All tests in this file uses source code from file 'file-4'.
 const sourceCode = targetFileAST.get(ETestFiles.FILE4);
 if (!sourceCode) throw "Unable to find AST for target file.";
+
+const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
 // Code starts in file-4 at line 137.
 describe('Logical expressions tests', () => {
@@ -15,7 +17,7 @@ describe('Logical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -24,7 +26,7 @@ describe('Logical expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe('A safe string1');
+        expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe string1');
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(3);
@@ -40,7 +42,7 @@ describe('Logical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -63,7 +65,7 @@ describe('Logical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -86,7 +88,7 @@ describe('Logical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -95,7 +97,7 @@ describe('Logical expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe('A safe string');
+        expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe string');
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(7);
@@ -108,7 +110,7 @@ describe('Logical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 

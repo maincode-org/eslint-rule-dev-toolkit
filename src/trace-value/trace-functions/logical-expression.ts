@@ -1,11 +1,11 @@
-import ESTree from "estree";
+import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
 import { SourceCode } from "eslint";
 import { traceValue } from "../../index";
-import { ENodeTypes, ITraceValueReturn } from "../trace-value";
+import { ITraceValueReturn } from "../trace-value";
 import { makeComponentTrace } from "../../helpers";
 
-const traceLogicalExpression = (node: ESTree.Node, context: SourceCode, verify: (node: ESTree.Node) => boolean, nodeTrace: ESTree.Node[] = []): ITraceValueReturn => {
-    if (node.type !== ENodeTypes.LOGICAL_EXPRESSION) throw `Node type mismatch: Cannot traceLogicalExpression on node of type ${node.type}`;
+const traceLogicalExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: TSESTree.Node[] = []): ITraceValueReturn => {
+    if (node.type !== AST_NODE_TYPES.LogicalExpression) throw `Node type mismatch: Cannot traceLogicalExpression on node of type ${node.type}`;
 
     const leftResult = traceValue(node.left, context, verify, [...nodeTrace, node]);
     const rightResult = traceValue(node.right, context, verify, [...nodeTrace, node]);

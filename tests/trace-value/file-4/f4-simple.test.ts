@@ -1,10 +1,12 @@
-import ESTree from "estree";
-import { ETestFiles, getVarDeclarationByName, IValueNode, targetFileAST } from "../../../src/helpers";
+import { TSESTree } from "@typescript-eslint/utils";
+import { ETestFiles, getVarDeclarationByName, targetFileAST } from "../../../src/helpers";
 import { traceValue } from "../../../src";
 
 // All tests in this file uses source code from file 'file-4'.
 const sourceCode = targetFileAST.get(ETestFiles.FILE4);
 if (!sourceCode) throw "Unable to find AST for target file.";
+
+const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
 // Code starts in file-4 at line 7.
 describe('Simple tests', () => {
@@ -15,7 +17,7 @@ describe('Simple tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -24,12 +26,12 @@ describe('Simple tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe("A safe value");
+        expect((result.determiningNode as TSESTree.Literal).value).toBe("A safe value");
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(1);
         expect(nodeComponentTrace[0].type).toBe("Literal");
-        expect((nodeComponentTrace[0] as IValueNode).value).toBe("A safe value");
+        expect((nodeComponentTrace[0] as TSESTree.Literal).value).toBe("A safe value");
     });
 
     test('Verifying value of sim_002', () => {
@@ -39,7 +41,7 @@ describe('Simple tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -61,7 +63,7 @@ describe('Simple tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -70,7 +72,7 @@ describe('Simple tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe("A safe value1");
+        expect((result.determiningNode as TSESTree.Literal).value).toBe("A safe value1");
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(1);
@@ -84,7 +86,7 @@ describe('Simple tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -93,7 +95,7 @@ describe('Simple tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe("A safe value2");
+        expect((result.determiningNode as TSESTree.Literal).value).toBe("A safe value2");
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(1);
@@ -107,7 +109,7 @@ describe('Simple tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 

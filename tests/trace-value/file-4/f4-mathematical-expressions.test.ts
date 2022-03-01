@@ -1,10 +1,12 @@
-import ESTree from "estree";
-import { getVarDeclarationByName, IValueNode, targetFileAST, ETestFiles } from "../../../src/helpers";
+import {TSESTree} from "@typescript-eslint/utils";
+import { getVarDeclarationByName, targetFileAST, ETestFiles } from "../../../src/helpers";
 import { traceValue } from "../../../src";
 
 // All tests in this file uses source code from file 'file-4'.
 const sourceCode = targetFileAST.get(ETestFiles.FILE4);
 if (!sourceCode) throw "Unable to find AST for target file.";
+
+const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
 // Code starts in file-4 at line 124.
 describe('Mathematical expressions tests', () => {
@@ -15,7 +17,7 @@ describe('Mathematical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -24,7 +26,7 @@ describe('Mathematical expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe(2);
+        expect((result.determiningNode as TSESTree.Literal).value).toBe(2);
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(3);
@@ -40,7 +42,7 @@ describe('Mathematical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -63,7 +65,7 @@ describe('Mathematical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -72,7 +74,7 @@ describe('Mathematical expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe(2);
+        expect((result.determiningNode as TSESTree.Literal).value).toBe(2);
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(3);
@@ -88,7 +90,7 @@ describe('Mathematical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -111,7 +113,7 @@ describe('Mathematical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -120,7 +122,7 @@ describe('Mathematical expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe(2);
+        expect((result.determiningNode as TSESTree.Literal).value).toBe(2);
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(3);
@@ -136,7 +138,7 @@ describe('Mathematical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -159,7 +161,7 @@ describe('Mathematical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -168,7 +170,7 @@ describe('Mathematical expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe(2);
+        expect((result.determiningNode as TSESTree.Literal).value).toBe(2);
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(3);
@@ -184,7 +186,7 @@ describe('Mathematical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -207,7 +209,7 @@ describe('Mathematical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -216,7 +218,7 @@ describe('Mathematical expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe(3);
+        expect((result.determiningNode as TSESTree.Literal).value).toBe(3);
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(6);
@@ -229,7 +231,7 @@ describe('Mathematical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -252,7 +254,7 @@ describe('Mathematical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -261,7 +263,7 @@ describe('Mathematical expressions tests', () => {
         // Analyze result
         expect(result.isVerified).toBe(true);
         expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as IValueNode).value).toBe(3);
+        expect((result.determiningNode as TSESTree.Literal).value).toBe(3);
 
         // Analyze trace
         expect(nodeComponentTrace.length).toBe(3);
@@ -274,7 +276,7 @@ describe('Mathematical expressions tests', () => {
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, (node: ESTree.Node) => node.type === "Literal");
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
