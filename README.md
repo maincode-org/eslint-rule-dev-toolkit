@@ -13,6 +13,26 @@ A toolkit of awesome helpers for developing advanced ESLint rules with ease!
 - [ ] Handle function calls (CallExpressions)
 - [ ] Implement `includes` parameter to traceValue
 
+### Order of execution
+Step 1
+- [ ] Improve nodeComponentTrace algorithm
+
+Step 2
+- [ ] Use traceValue in a rule implementation
+- [ ] Add more interesting test cases
+
+Step 3
+- [ ] Handle some simple function calls
+- [ ] Use the parser provided in the context
+- [ ] Add test cases to showcase different parsers
+
+Step 4:
+- [ ] Add more functionality (loops etc.)
+- [ ] Use traceValue in more rule implementations
+
+Step 5:
+- [ ] Add more utilities to the toolkit + tests
+
 ## The traceValue algorithm
 ### Function parameters
 The function takes three parameters; an AST node, a rule context, and optionally a verifier function.
