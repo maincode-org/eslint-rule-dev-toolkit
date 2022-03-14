@@ -19,19 +19,24 @@ import traceVariableDeclaration from "./trace-functions/variable-declaration";
 import traceImportDeclaration from "./trace-functions/import-declaration";
 import traceCallExpression from "./trace-functions/call-expression";
 
+export type ITraceNode = (TSESTree.Node & { file?: string, children?: ITraceNode[] });
+
 export type ITraceValueReturn = {
     result: {
         isVerified: boolean,
         determiningNode: TSESTree.Node,
     },
-    nodeComponentTrace: TSESTree.Node[]
+    nodeComponentTrace: ITraceNode,
 }
 
-type ITraceFunction = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace?: TSESTree.Node[]) => ITraceValueReturn;
+type ITraceFunction = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: ITraceNode) => ITraceValueReturn;
 
 const traceFunctionMap = new Map<AST_NODE_TYPES, ITraceFunction>([
     [AST_NODE_TYPES.ArrayExpression, traceArrayExpression],
-    [AST_NODE_TYPES.ArrowFunctionExpression, traceArrowFunctionExpression],
+]);
+
+/*
+[AST_NODE_TYPES.ArrowFunctionExpression, traceArrowFunctionExpression],
     [AST_NODE_TYPES.BinaryExpression, traceBinaryExpression],
     [AST_NODE_TYPES.ConditionalExpression, traceConditionalExpression],
     [AST_NODE_TYPES.FunctionExpression, traceFunctionExpression],
@@ -46,16 +51,15 @@ const traceFunctionMap = new Map<AST_NODE_TYPES, ITraceFunction>([
     [AST_NODE_TYPES.VariableDeclaration, traceVariableDeclaration],
     [AST_NODE_TYPES.ImportDeclaration, traceImportDeclaration],
     [AST_NODE_TYPES.CallExpression, traceCallExpression],
-]);
+ */
 
 // Create 'something went wrong' return object.
-export const getErrorObj = (node: TSESTree.Node, nodeTrace: TSESTree.Node[]) => {
-    return { result: { isVerified: false, determiningNode: node }, nodeComponentTrace: [...nodeTrace, node]};
+export const getErrorObj = (node: TSESTree.Node, nodeTrace: ITraceNode) => {
+    return { result: { isVerified: false, determiningNode: node }, nodeComponentTrace: nodeTrace };
 };
 
-// TODO: Change type of context to RuleContext
-export const traceValue = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: TSESTree.Node[] = []): ITraceValueReturn => {
-    if (node.type === AST_NODE_TYPES.Literal) return { result: { isVerified: verify(node), determiningNode: node }, nodeComponentTrace: [...nodeTrace, node]};
+export const innerTraceValue = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: ITraceNode) => {
+    if (node.type === AST_NODE_TYPES.Literal) return { result: { isVerified: verify(node), determiningNode: node }, nodeComponentTrace: node };
 
     const inEnum = (Object.values(AST_NODE_TYPES) as string[]).includes(node.type);
     if (!inEnum) throw `Node type of ${node.type} is not implemented yet.`;
@@ -64,3 +68,7 @@ export const traceValue = (node: TSESTree.Node, context: TSESLint.SourceCode, ve
     if (traceFunction) return traceFunction(node, context, verify, nodeTrace);
     else return getErrorObj(node, nodeTrace);
 }
+
+// TODO: Change type of context to RuleContext
+// TODO: Change file from 'file4' to Context.getFile()
+export const traceValue = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean): ITraceValueReturn => innerTraceValue(node, context, verify, { ...node, file: "file-4" });

@@ -1,2 +1,2 @@
-import { traceValue } from "./trace-value/trace-value";
-export { traceValue };
+import { innerTraceValue, traceValue } from "./trace-value/trace-value";
+export { innerTraceValue, traceValue };

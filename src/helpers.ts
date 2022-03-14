@@ -139,18 +139,6 @@ export const analyzeIdentifierNode = (identifier: TSESTree.Identifier, context: 
 
 /**
  * Takes a ITraceValueReturn[].
- * Returns a collective nodeComponentTrace of all the recursive paths.
- * Note: Head is removed as it will always be the parent node itself in all its child paths.
- */
-export const mergeRecursiveTraces = (traceValueResult: ITraceValueReturn[]) => {
-    return traceValueResult.map(result => result.nodeComponentTrace).reduce((acc, cur) => {
-        const [, ...tail] = cur;
-        return [...acc, ...tail];
-    });
-}
-
-/**
- * Takes a ITraceValueReturn[].
  * Returns a nodeComponentTrace in accordance to the approach describes in the README.
  */
 export const makeComponentTrace = (results: ITraceValueReturn[]) => {
@@ -158,6 +146,6 @@ export const makeComponentTrace = (results: ITraceValueReturn[]) => {
     if (unverifiedNode) {
         return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: unverifiedNode.nodeComponentTrace};
     } else {
-        return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: mergeRecursiveTraces(results)};
+        return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: { }};
     }
 }

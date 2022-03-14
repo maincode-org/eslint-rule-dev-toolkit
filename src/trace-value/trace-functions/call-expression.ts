@@ -1,14 +1,14 @@
 import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
 import { readFileSync } from "fs";
 import estraverse from "estraverse";
-import { getErrorObj, ITraceValueReturn, traceValue } from "../trace-value";
+import {getErrorObj, ITraceNode, ITraceValueReturn, traceValue} from "../trace-value";
 import { makeComponentTrace } from "../../helpers";
 import ESTree from "estree";
 
 /**
  * Can only analyze require calls atm.
  */
-const traceCallExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: TSESTree.Node[] = []): ITraceValueReturn => {
+const traceCallExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: ITraceNode): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.CallExpression) throw `Node type mismatch: Cannot traceCallExpression on node of type ${node.type}`;
 
     if (!(node.callee.type === AST_NODE_TYPES.Identifier && node.callee.name === "require")) return getErrorObj(node, nodeTrace);

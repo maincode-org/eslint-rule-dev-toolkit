@@ -1,10 +1,10 @@
 import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
 import { SourceCode } from "eslint";
 import { traceValue } from "../../index";
-import { ITraceValueReturn } from "../trace-value";
+import {ITraceNode, ITraceValueReturn} from "../trace-value";
 import { makeComponentTrace } from "../../helpers";
 
-const traceIfStatement = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: TSESTree.Node[] = []): ITraceValueReturn => {
+const traceIfStatement = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: ITraceNode): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.IfStatement) throw `Node type mismatch: Cannot traceIfStatement on node of type ${node.type}`;
 
     let consequentResults = [];

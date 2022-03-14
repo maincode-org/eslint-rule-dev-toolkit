@@ -1,10 +1,10 @@
 import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
 import { SourceCode } from "eslint";
 import { traceValue } from "../../index";
-import { ITraceValueReturn } from "../trace-value";
+import {ITraceNode, ITraceValueReturn} from "../trace-value";
 import { makeComponentTrace } from "../../helpers";
 
-const traceObjectExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: TSESTree.Node[] = []): ITraceValueReturn => {
+const traceObjectExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: ITraceNode): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.ObjectExpression) throw `Node type mismatch: Cannot traceObjectExpression on node of type ${node.type}`;
 
     // Call recursively with each value of each property

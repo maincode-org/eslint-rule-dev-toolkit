@@ -1,12 +1,12 @@
 import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
 import { SourceCode } from "eslint";
-import { getErrorObj, ITraceValueReturn } from "../trace-value";
+import {getErrorObj, ITraceNode, ITraceValueReturn} from "../trace-value";
 
 /**
  * Development of dynamically setting parserOptions,
  * and having the traceFunctions adapt needs to be done in order for this handler to work.
  */
-const traceImportDeclaration = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: TSESTree.Node[] = []): ITraceValueReturn => {
+const traceImportDeclaration = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: ITraceNode): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.ImportDeclaration) throw `Node type mismatch: Cannot traceImportDeclaration on node of type ${node.type}`;
 
     const sourceFile = node.source.value.replace('.', '').replace('/','');
