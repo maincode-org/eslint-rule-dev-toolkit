@@ -29,13 +29,10 @@ describe('Functions with if-else statements tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe("A safe value1");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(6);
-        expect(nodeComponentTrace[0].type).toBe("FunctionExpression");
-        expect(nodeComponentTrace[1].type).toBe("IfStatement");
-        expect(nodeComponentTrace[2].type).toBe("ReturnStatement");
-        expect(nodeComponentTrace[3].type).toBe("Literal");
-        expect(nodeComponentTrace[4].type).toBe("ReturnStatement");
-        expect(nodeComponentTrace[5].type).toBe("Literal");
+        expect(nodeComponentTrace.type).toBe("FunctionExpression");
+        expect(nodeComponentTrace.children?.length).toBe(2);
+        expect(nodeComponentTrace.children?.[0].type).toBe("IfStatement");
+        expect(nodeComponentTrace.children?.[1].type).toBe("ReturnStatement");
     });
 
     test('Verifying value of fun_020', () => {
@@ -57,14 +54,9 @@ describe('Functions with if-else statements tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe("A safe value1");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(7);
-        expect(nodeComponentTrace[0].type).toBe("FunctionExpression");
-        expect(nodeComponentTrace[1].type).toBe("IfStatement");
-        expect(nodeComponentTrace[2].type).toBe("ReturnStatement");
-        expect(nodeComponentTrace[3].type).toBe("Literal");
-        expect(nodeComponentTrace[4].type).toBe("IfStatement");
-        expect(nodeComponentTrace[5].type).toBe("ReturnStatement");
-        expect(nodeComponentTrace[6].type).toBe("Literal");
+        expect(nodeComponentTrace.type).toBe("FunctionExpression");
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("IfStatement");
     });
 
     test('Verifying value of fun_021', () => {
@@ -85,7 +77,9 @@ describe('Functions with if-else statements tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(4);
+        expect(nodeComponentTrace.type).toBe("FunctionExpression");
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("IfStatement");
     });
 
     test('Verifying value of fun_022', () => {
@@ -106,6 +100,8 @@ describe('Functions with if-else statements tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(4);
+        expect(nodeComponentTrace.type).toBe("FunctionExpression");
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("IfStatement");
     });
 });

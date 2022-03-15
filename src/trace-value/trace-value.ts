@@ -1,5 +1,5 @@
-import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
-import {SourceCode} from "eslint";
+import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
+import { SourceCode } from "eslint";
 
 // Import trace functions
 import traceArrowFunctionExpression from "./trace-functions/arrow-function-expression";
@@ -33,11 +33,9 @@ type ITraceFunction = (node: TSESTree.Node, context: TSESLint.SourceCode, verify
 
 const traceFunctionMap = new Map<AST_NODE_TYPES, ITraceFunction>([
     [AST_NODE_TYPES.ArrayExpression, traceArrayExpression],
-]);
-
-/*
-[AST_NODE_TYPES.ArrowFunctionExpression, traceArrowFunctionExpression],
+    [AST_NODE_TYPES.ArrowFunctionExpression, traceArrowFunctionExpression],
     [AST_NODE_TYPES.BinaryExpression, traceBinaryExpression],
+    [AST_NODE_TYPES.CallExpression, traceCallExpression],
     [AST_NODE_TYPES.ConditionalExpression, traceConditionalExpression],
     [AST_NODE_TYPES.FunctionExpression, traceFunctionExpression],
     [AST_NODE_TYPES.Identifier, traceIdentifier],
@@ -47,10 +45,13 @@ const traceFunctionMap = new Map<AST_NODE_TYPES, ITraceFunction>([
     [AST_NODE_TYPES.NewExpression, traceNewExpression],
     [AST_NODE_TYPES.ObjectExpression, traceObjectExpression],
     [AST_NODE_TYPES.ReturnStatement, traceReturnStatement],
-    [AST_NODE_TYPES.TemplateLiteral, traceTemplateLiteral],
     [AST_NODE_TYPES.VariableDeclaration, traceVariableDeclaration],
+]);
+
+/*
+    [AST_NODE_TYPES.TemplateLiteral, traceTemplateLiteral],
     [AST_NODE_TYPES.ImportDeclaration, traceImportDeclaration],
-    [AST_NODE_TYPES.CallExpression, traceCallExpression],
+
  */
 
 // Create 'something went wrong' return object.

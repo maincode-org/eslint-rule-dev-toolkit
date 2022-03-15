@@ -1,6 +1,5 @@
 import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
-import { SourceCode } from "eslint";
-import { traceValue } from "../../index";
+import { innerTraceValue } from "../../index";
 import {ITraceNode, ITraceValueReturn} from "../trace-value";
 import { makeComponentTrace } from "../../helpers";
 
@@ -9,14 +8,19 @@ const traceObjectExpression = (node: TSESTree.Node, context: TSESLint.SourceCode
 
     // Call recursively with each value of each property
     const results = node.properties.map(p => {
-        return traceValue(
-            p.type === AST_NODE_TYPES.SpreadElement ? p.argument : p.value,
-            context,
-            verify,
-            [...nodeTrace, node]
+        return innerTraceValue(
+          p.type === AST_NODE_TYPES.SpreadElement ? p.argument : p.value,
+          context,
+          verify,
+          nodeTrace
         );
     });
 
-    return makeComponentTrace(results);
+    const unverifiedNode = results.find(result => !result.result.isVerified);
+    if (unverifiedNode) {
+        return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: { ...node, children: [unverifiedNode.nodeComponentTrace] } };
+    } else {
+        return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: { ...node, children: results.map(v => v.nodeComponentTrace) } };
+    }
 }
 export default traceObjectExpression;

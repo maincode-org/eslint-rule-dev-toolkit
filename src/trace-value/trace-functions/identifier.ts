@@ -1,7 +1,6 @@
-import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
-import { SourceCode } from "eslint";
-import { traceValue } from "../../index";
-import {ITraceNode, ITraceValueReturn} from "../trace-value";
+import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
+import { innerTraceValue } from "../../index";
+import { ITraceNode, ITraceValueReturn } from "../trace-value";
 import { analyzeIdentifierNode } from "../../helpers";
 
 const traceIdentifier = (
@@ -11,6 +10,8 @@ const traceIdentifier = (
     nodeTrace: ITraceNode
 ): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.Identifier) throw `Node type mismatch: Cannot traceIdentifier on node of type ${node.type}`;
-    return traceValue(analyzeIdentifierNode(node, context), context, verify, [...nodeTrace, node]);
+
+    const result = innerTraceValue(analyzeIdentifierNode(node, context), context, verify, nodeTrace);
+    return { result: result.result, nodeComponentTrace: { ...node, children: [result.nodeComponentTrace] } };
 }
 export default traceIdentifier;

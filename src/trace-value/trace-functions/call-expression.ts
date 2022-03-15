@@ -1,7 +1,7 @@
 import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
 import { readFileSync } from "fs";
 import estraverse from "estraverse";
-import {getErrorObj, ITraceNode, ITraceValueReturn, traceValue} from "../trace-value";
+import { getErrorObj, ITraceNode, ITraceValueReturn, innerTraceValue } from "../trace-value";
 import { makeComponentTrace } from "../../helpers";
 import ESTree from "estree";
 
@@ -11,7 +11,7 @@ import ESTree from "estree";
 const traceCallExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: ITraceNode): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.CallExpression) throw `Node type mismatch: Cannot traceCallExpression on node of type ${node.type}`;
 
-    if (!(node.callee.type === AST_NODE_TYPES.Identifier && node.callee.name === "require")) return getErrorObj(node, nodeTrace);
+    if (!(node.callee.type === AST_NODE_TYPES.Identifier && node.callee.name === "require")) return getErrorObj(node, node);
 
     // Check if arguments provided to the require call are not literals.
     if (node.arguments.find(arg => arg.type !== "Literal")) throw "Require argument is not of type Literal";
@@ -43,10 +43,12 @@ const traceCallExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, 
     // Call the recursive case, for each export value found, on the new AST.
     if (exportValues.includes(null)) throw `Unable to find export statement exporting identifier(s)`;
 
-    const results = exportValues.map(i => i && traceValue(i, linter.getSourceCode(), verify, [...nodeTrace, node]))
+    const results = exportValues.map(i => i && innerTraceValue(i, linter.getSourceCode(), verify, node))
         .filter(r => !!r) as ITraceValueReturn[];
 
-    return makeComponentTrace(results);
+    const unverifiedNode = results.find(result => !result.result.isVerified);
+    if (unverifiedNode) return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: { ...node, children: [unverifiedNode.nodeComponentTrace] } };
+    else return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: { ...node, children: results.map(v => v.nodeComponentTrace) } };
 }
 export default traceCallExpression;
 

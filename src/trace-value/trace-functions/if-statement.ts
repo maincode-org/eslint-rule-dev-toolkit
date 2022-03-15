@@ -1,7 +1,6 @@
-import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
-import { SourceCode } from "eslint";
-import { traceValue } from "../../index";
-import {ITraceNode, ITraceValueReturn} from "../trace-value";
+import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
+import { innerTraceValue } from "../../index";
+import { ITraceNode, ITraceValueReturn } from "../trace-value";
 import { makeComponentTrace } from "../../helpers";
 
 const traceIfStatement = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: ITraceNode): ITraceValueReturn => {
@@ -9,22 +8,27 @@ const traceIfStatement = (node: TSESTree.Node, context: TSESLint.SourceCode, ver
 
     let consequentResults = [];
     if (node.consequent.type === AST_NODE_TYPES.BlockStatement) {
-        consequentResults = node.consequent.body.map(n => traceValue(n, context, verify, [...nodeTrace, node]));
+        consequentResults = node.consequent.body.map(n => innerTraceValue(n, context, verify, nodeTrace));
     } else {
-        consequentResults = [traceValue(node.consequent, context, verify, [...nodeTrace, node])];
+        consequentResults = [innerTraceValue(node.consequent, context, verify, nodeTrace)];
     }
 
     let alternateResults: ITraceValueReturn[] = [];
     if (node.alternate) {
         if (node.alternate.type === AST_NODE_TYPES.BlockStatement) {
-            alternateResults = node.alternate.body.map(n => traceValue(n, context, verify, [...nodeTrace, node]));
+            alternateResults = node.alternate.body.map(n => innerTraceValue(n, context, verify, nodeTrace));
         } else {
-            alternateResults = [traceValue(node.alternate, context, verify, [...nodeTrace, node])];
+            alternateResults = [innerTraceValue(node.alternate, context, verify, nodeTrace)];
         }
     }
 
     const results = [...consequentResults, ...alternateResults];
 
-    return makeComponentTrace(results);
+    const unverifiedNode = results.find(result => !result.result.isVerified);
+    if (unverifiedNode) {
+        return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: { ...node, children: [unverifiedNode.nodeComponentTrace] } };
+    } else {
+        return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: { ...node, children: results.map(v => v.nodeComponentTrace) } };
+    }
 }
 export default traceIfStatement;

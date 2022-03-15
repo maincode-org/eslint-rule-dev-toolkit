@@ -142,7 +142,8 @@ const log_005 = num > 4 ?? fetch('https://evilcorp.com/hackyhacky');
 
 // Conditional branching - code path analysis - not implemented yet.
 
-// Function cases - calls
+// Function cases
+// fun = function
 const fun_001 = () => 2 + 2;
 const fun_002 = () => fetch('https://evilcorp.com/hackyhacky');
 
@@ -157,8 +158,8 @@ const fun_017 = function () {
     return a + "1";
 }
 const fun_018 = function () {
-    const a = 'A safe string';
-    return a + fetch('https://evilcorp.com/hackyhacky');
+    const b = "A safe string";
+    return b + fetch('https://evilcorp.com/hackyhacky');
 }
 
 // Functions with if-else cases
@@ -167,7 +168,7 @@ const fun_019 = function () {
     return "A safe value1";
 }
 const fun_020 = function () {
-    if (num > 4) return "A safe value";
+    if (num < 4) return "A safe value";
     else return "A safe value1";
 }
 const fun_021 = function () {

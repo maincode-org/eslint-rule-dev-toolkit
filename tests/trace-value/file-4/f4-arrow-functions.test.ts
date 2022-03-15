@@ -29,12 +29,9 @@ describe('Arrow function expressions tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe(2);
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(5);
-        expect(nodeComponentTrace[0].type).toBe("ArrowFunctionExpression");
-        expect(nodeComponentTrace[1].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[2].type).toBe("Literal");
-        expect(nodeComponentTrace[3].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[4].type).toBe("Literal");
+        expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("BinaryExpression");
     });
 
     test('Verifying value of fun_002', () => {
@@ -55,8 +52,8 @@ describe('Arrow function expressions tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("ArrowFunctionExpression");
-        expect(nodeComponentTrace[1].type).toBe("CallExpression");
+        expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
     });
 });
