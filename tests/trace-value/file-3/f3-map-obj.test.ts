@@ -29,7 +29,13 @@ describe('Map with object values tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe string');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(7);
+        expect(nodeComponentTrace.type).toBe("NewExpression");
+        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of map_obj_002', () => {
@@ -50,10 +56,15 @@ describe('Map with object values tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(6);
+        expect(nodeComponentTrace.type).toBe("NewExpression");
+        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("CallExpression");
     });
 
-    test('Verifying value of map_obj_003', () => {
+    test('LIMITATION: Verifying value of map_obj_003', () => {
         const variableName = 'map_obj_003';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
@@ -71,6 +82,12 @@ describe('Map with object values tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(7);
+        expect(nodeComponentTrace.type).toBe("NewExpression");
+        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("CallExpression");
     });
 });

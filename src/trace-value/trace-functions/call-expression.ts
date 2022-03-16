@@ -2,8 +2,8 @@ import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
 import { readFileSync } from "fs";
 import estraverse from "estraverse";
 import { getErrorObj, ITraceNode, ITraceValueReturn, innerTraceValue } from "../trace-value";
-import { makeComponentTrace } from "../../helpers";
 import ESTree from "estree";
+import { makeComponentTrace } from '../../helpers';
 
 /**
  * Can only analyze require calls atm.
@@ -43,12 +43,10 @@ const traceCallExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, 
     // Call the recursive case, for each export value found, on the new AST.
     if (exportValues.includes(null)) throw `Unable to find export statement exporting identifier(s)`;
 
-    const results = exportValues.map(i => i && innerTraceValue(i, linter.getSourceCode(), verify, node))
+    const results = exportValues.map(i => i && innerTraceValue(i, linter.getSourceCode(), verify, nodeTrace))
         .filter(r => !!r) as ITraceValueReturn[];
 
-    const unverifiedNode = results.find(result => !result.result.isVerified);
-    if (unverifiedNode) return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: { ...node, children: [unverifiedNode.nodeComponentTrace] } };
-    else return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: { ...node, children: results.map(v => v.nodeComponentTrace) } };
+    return makeComponentTrace(node, results);
 }
 export default traceCallExpression;
 

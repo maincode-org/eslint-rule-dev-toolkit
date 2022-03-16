@@ -1,6 +1,7 @@
 import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
 import { innerTraceValue } from "../../index";
 import { ITraceNode, ITraceValueReturn } from "../trace-value";
+import { makeComponentTrace } from '../../helpers';
 
 type IExpression = TSESTree.Expression | { type: AST_NODE_TYPES.SpreadElement, argument: TSESTree.Identifier };
 
@@ -15,11 +16,6 @@ const traceArrayExpression = (node: TSESTree.Node, context: TSESLint.SourceCode,
         else return innerTraceValue(localArrValue, context, verify, nodeTrace);
     });
 
-    const unverifiedNode = results.find(result => !result.result.isVerified);
-    if (unverifiedNode) {
-        return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: { ...node, children: [unverifiedNode.nodeComponentTrace] } };
-    } else {
-        return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: { ...node, children: results.map(v => v.nodeComponentTrace) } };
-    }
+    return makeComponentTrace(node, results);
 }
 export default traceArrayExpression;

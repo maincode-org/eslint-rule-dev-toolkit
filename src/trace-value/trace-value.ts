@@ -40,19 +40,15 @@ const traceFunctionMap = new Map<AST_NODE_TYPES, ITraceFunction>([
     [AST_NODE_TYPES.FunctionExpression, traceFunctionExpression],
     [AST_NODE_TYPES.Identifier, traceIdentifier],
     [AST_NODE_TYPES.IfStatement, traceIfStatement],
+    [AST_NODE_TYPES.ImportDeclaration, traceImportDeclaration],
     [AST_NODE_TYPES.LogicalExpression, traceLogicalExpression],
     [AST_NODE_TYPES.MemberExpression, traceMemberExpression],
     [AST_NODE_TYPES.NewExpression, traceNewExpression],
     [AST_NODE_TYPES.ObjectExpression, traceObjectExpression],
     [AST_NODE_TYPES.ReturnStatement, traceReturnStatement],
+    [AST_NODE_TYPES.TemplateLiteral, traceTemplateLiteral],
     [AST_NODE_TYPES.VariableDeclaration, traceVariableDeclaration],
 ]);
-
-/*
-    [AST_NODE_TYPES.TemplateLiteral, traceTemplateLiteral],
-    [AST_NODE_TYPES.ImportDeclaration, traceImportDeclaration],
-
- */
 
 // Create 'something went wrong' return object.
 export const getErrorObj = (node: TSESTree.Node, nodeTrace: ITraceNode) => {

@@ -29,9 +29,9 @@ describe('Scope tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe("inner");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("Identifier");
-        expect(nodeComponentTrace[1].type).toBe("Literal");
+        expect(nodeComponentTrace.type).toBe('Identifier');
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of sco_004', () => {
@@ -53,9 +53,9 @@ describe('Scope tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe("outer");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("Identifier");
-        expect(nodeComponentTrace[1].type).toBe("Literal");
+        expect(nodeComponentTrace.type).toBe('Identifier');
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of sco_006', () => {
@@ -77,9 +77,6 @@ describe('Scope tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe("safe");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("Identifier");
-        expect(nodeComponentTrace[1].type).toBe("Literal");
     });
 
     test('Verifying value of sco_008', () => {
@@ -101,8 +98,8 @@ describe('Scope tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe("reassignment");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("Identifier");
-        expect(nodeComponentTrace[1].type).toBe("Literal");
+        expect(nodeComponentTrace.type).toBe('Identifier');
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
     });
 });

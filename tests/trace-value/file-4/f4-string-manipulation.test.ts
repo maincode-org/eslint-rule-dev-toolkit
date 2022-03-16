@@ -29,10 +29,10 @@ describe('String manipulation tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('1');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(3);
-        expect(nodeComponentTrace[0].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[1].type).toBe("Literal");
-        expect(nodeComponentTrace[2].type).toBe("Literal");
+        expect(nodeComponentTrace.type).toBe("BinaryExpression");
+        expect(nodeComponentTrace.children?.length).toBe(2);
+        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.children?.[1].type).toBe("Literal");
     });
 
     test('Verifying value of str_002', () => {
@@ -54,7 +54,10 @@ describe('String manipulation tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('2');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(6);
+        expect(nodeComponentTrace.type).toBe("BinaryExpression");
+        expect(nodeComponentTrace.children?.length).toBe(2);
+        expect(nodeComponentTrace.children?.[0].type).toBe("BinaryExpression");
+        expect(nodeComponentTrace.children?.[1].type).toBe("Literal");
     });
 
     test('Verifying value of str_003', () => {
@@ -75,9 +78,9 @@ describe('String manipulation tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[1].type).toBe("CallExpression");
+        expect(nodeComponentTrace.type).toBe("BinaryExpression");
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of str_004', () => {
@@ -98,9 +101,9 @@ describe('String manipulation tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[1].type).toBe("CallExpression");
+        expect(nodeComponentTrace.type).toBe("BinaryExpression");
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of str_005', () => {
@@ -122,9 +125,9 @@ describe('String manipulation tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe(1);
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe('TemplateLiteral');
-        expect(nodeComponentTrace[1].type).toBe('Literal');
+        expect(nodeComponentTrace.type).toBe("TemplateLiteral");
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of str_006', () => {
@@ -145,8 +148,8 @@ describe('String manipulation tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe('TemplateLiteral');
-        expect(nodeComponentTrace[1].type).toBe('CallExpression');
+        expect(nodeComponentTrace.type).toBe("TemplateLiteral");
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
     });
 });

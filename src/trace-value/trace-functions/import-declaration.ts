@@ -1,6 +1,5 @@
-import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
-import { SourceCode } from "eslint";
-import {getErrorObj, ITraceNode, ITraceValueReturn} from "../trace-value";
+import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
+import { getErrorObj, ITraceNode, ITraceValueReturn } from "../trace-value";
 
 /**
  * Development of dynamically setting parserOptions,

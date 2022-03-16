@@ -28,7 +28,11 @@ describe('Array with simple values tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe value');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace.type).toBe("ArrayExpression");
+        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of arr_sim_002', () => {
@@ -49,10 +53,14 @@ describe('Array with simple values tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace.type).toBe("ArrayExpression");
+        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("CallExpression");
     });
 
-    test('LIMITATION: Verifying value of arr_sim_003', () => {
+    test('Verifying value of arr_sim_003', () => {
         const variableName = 'arr_sim_003';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
@@ -71,6 +79,17 @@ describe('Array with simple values tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe value2');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(17);
+        expect(nodeComponentTrace.type).toBe("ArrayExpression");
+        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[1].type).toBe("Identifier");
+
+        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.children?.[1].children?.[0].type).toBe("CallExpression");
+
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[1].children?.[0].children?.[0].type).toBe("Identifier");
+
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.children?.[1].children?.[0].children?.[0].children?.[0].type).toBe("Literal");
     });
 });

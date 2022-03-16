@@ -29,9 +29,8 @@ describe('Simple tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe("A safe value");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(1);
-        expect(nodeComponentTrace[0].type).toBe("Literal");
-        expect((nodeComponentTrace[0] as TSESTree.Literal).value).toBe("A safe value");
+        expect(nodeComponentTrace.type).toBe("Literal");
+        expect(nodeComponentTrace.children).toBeUndefined();
     });
 
     test('Verifying value of sim_002', () => {
@@ -52,8 +51,8 @@ describe('Simple tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(1);
-        expect(nodeComponentTrace[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.type).toBe("CallExpression");
+        expect(nodeComponentTrace.children).toBeUndefined();
     });
 
     test('Verifying value of sim_003', () => {
@@ -75,8 +74,8 @@ describe('Simple tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe("A safe value1");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(1);
-        expect(nodeComponentTrace[0].type).toBe("Literal");
+        expect(nodeComponentTrace.type).toBe("Literal");
+        expect(nodeComponentTrace.children).toBeUndefined();
     });
 
     test('Verifying value of sim_004', () => {
@@ -98,8 +97,8 @@ describe('Simple tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe("A safe value2");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(1);
-        expect(nodeComponentTrace[0].type).toBe("Literal");
+        expect(nodeComponentTrace.type).toBe("Literal");
+        expect(nodeComponentTrace.children).toBeUndefined();
     });
 
     test('Verifying value of sim_005', () => {
@@ -120,8 +119,8 @@ describe('Simple tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("Identifier");
-        expect(nodeComponentTrace[1].type).toBe("CallExpression");
+        expect(nodeComponentTrace.type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
     });
 });

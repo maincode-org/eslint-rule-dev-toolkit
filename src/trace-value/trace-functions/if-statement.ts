@@ -24,11 +24,6 @@ const traceIfStatement = (node: TSESTree.Node, context: TSESLint.SourceCode, ver
 
     const results = [...consequentResults, ...alternateResults];
 
-    const unverifiedNode = results.find(result => !result.result.isVerified);
-    if (unverifiedNode) {
-        return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: { ...node, children: [unverifiedNode.nodeComponentTrace] } };
-    } else {
-        return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: { ...node, children: results.map(v => v.nodeComponentTrace) } };
-    }
+    return makeComponentTrace(node, results);
 }
 export default traceIfStatement;

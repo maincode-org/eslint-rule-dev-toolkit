@@ -9,22 +9,13 @@ A toolkit of awesome helpers for developing advanced ESLint rules with ease!
 - [X] Documentation upgrade
 - [ ] Add function call tests that fails for .concat, .push .map etc.
 - [X] Multi-file tests
-- [ ] Improve/Refactor nodeComponentTrace algorithm (returns the parent multiple times)
-  - [ ] List of complete refactors (with tests)
-    - [X] ArrayExpression
-    - [X] ArrowFunctionExpression
-    - [X] FunctionExpression
-    - [X] FunctionExpression with IfStatement
-    - [X] LogicalExpression
-    - [X] Maps
-    - [X] MathematicalExpression
-    - [X] ObjectExpression
+- [X] Improve/Refactor nodeComponentTrace algorithm (returns the parent multiple times)
 - [ ] Handle function calls (CallExpressions)
 - [ ] Implement `includes` parameter to traceValue
 
 ### Order of execution
 Step 1
-- [ ] Improve nodeComponentTrace algorithm
+- [X] Improve nodeComponentTrace algorithm
 
 Step 2
 - [ ] Use traceValue in a rule implementation

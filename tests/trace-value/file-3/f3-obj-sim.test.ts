@@ -29,7 +29,11 @@ describe('Object with simple values tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe value');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace.type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of obj_sim_002', () => {
@@ -50,6 +54,10 @@ describe('Object with simple values tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace.type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("CallExpression");
     });
 });

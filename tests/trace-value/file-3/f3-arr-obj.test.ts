@@ -29,10 +29,17 @@ describe('Array with object values tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe string');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(7);
+        expect(nodeComponentTrace.type).toBe("ArrayExpression");
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("ObjectExpression"); // the export
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("Literal");
     });
 
-    test('LIMITATION: Verifying value of arr_obj_002', () => {
+    test('Verifying value of arr_obj_002', () => {
         const variableName = 'arr_obj_002';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
@@ -50,7 +57,13 @@ describe('Array with object values tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(6);
+        expect(nodeComponentTrace.type).toBe("ArrayExpression");
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier"); // the export
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("CallExpression");
     });
 
     test('LIMITATION: Verifying value of arr_obj_003', () => {
@@ -71,7 +84,6 @@ describe('Array with object values tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(7);
     });
 
     test('LIMITATION: Verifying value of arr_obj_004', () => {
@@ -92,7 +104,6 @@ describe('Array with object values tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(6);
     });
 
     test('Verifying value of arr_obj_005', () => {
@@ -114,6 +125,13 @@ describe('Array with object values tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe string3');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(25);
+        expect(nodeComponentTrace.type).toBe("ArrayExpression");
+        expect(nodeComponentTrace.children?.length).toBe(1);
+        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier"); // the export
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[1].type).toBe("ObjectExpression");
     });
 });

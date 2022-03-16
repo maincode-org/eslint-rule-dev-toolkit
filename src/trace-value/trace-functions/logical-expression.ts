@@ -9,11 +9,6 @@ const traceLogicalExpression = (node: TSESTree.Node, context: TSESLint.SourceCod
     const leftResult = innerTraceValue(node.left, context, verify, nodeTrace);
     const rightResult = innerTraceValue(node.right, context, verify, nodeTrace);
 
-    const unverifiedNode = [leftResult, rightResult].find(result => !result.result.isVerified);
-    if (unverifiedNode) {
-        return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: { ...node, children: [unverifiedNode.nodeComponentTrace] } };
-    } else {
-        return { result: { isVerified: true, determiningNode: rightResult.result.determiningNode }, nodeComponentTrace: { ...node, children: [leftResult.nodeComponentTrace, rightResult.nodeComponentTrace] } };
-    }
+    return makeComponentTrace(node, [leftResult, rightResult]);
 }
 export default traceLogicalExpression;
