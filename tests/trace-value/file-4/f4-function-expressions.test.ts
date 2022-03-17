@@ -30,8 +30,8 @@ describe('Function expressions tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("FunctionExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
     });
 
     test('Verifying value of fun_010', () => {
@@ -53,8 +53,8 @@ describe('Function expressions tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("FunctionExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
     });
 
     test('Verifying value of fun_017', () => {
@@ -77,9 +77,9 @@ describe('Function expressions tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("FunctionExpression");
-        expect(nodeComponentTrace.children?.length).toBe(2);
-        expect(nodeComponentTrace.children?.[0].type).toBe("VariableDeclaration");
-        expect(nodeComponentTrace.children?.[1].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("VariableDeclaration");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("ReturnStatement");
     });
 
     test('Verifying value of fun_018', () => {
@@ -101,7 +101,7 @@ describe('Function expressions tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("FunctionExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
     });
 });

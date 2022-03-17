@@ -30,8 +30,8 @@ describe('Object tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of obj_002', () => {
@@ -53,8 +53,8 @@ describe('Object tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of obj_003', () => {
@@ -77,9 +77,9 @@ describe('Object tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
-        expect(nodeComponentTrace.children?.length).toBe(2);
-        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
-        expect(nodeComponentTrace.children?.[1].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Literal");
     });
 
     test('Verifying value of obj_004', () => {
@@ -101,8 +101,8 @@ describe('Object tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of obj_005', () => {
@@ -124,8 +124,8 @@ describe('Object tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of obj_006', () => {
@@ -147,8 +147,8 @@ describe('Object tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("MemberExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("MemberExpression");
     });
 
     test('Verifying value of obj_007', () => {
@@ -170,8 +170,8 @@ describe('Object tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of obj_008', () => {
@@ -193,8 +193,8 @@ describe('Object tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of obj_009', () => {
@@ -217,9 +217,9 @@ describe('Object tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
-        expect(nodeComponentTrace.children?.length).toBe(2);
-        expect(nodeComponentTrace.children?.[0].type).toBe("ObjectExpression");
-        expect(nodeComponentTrace.children?.[1].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("ObjectExpression");
     });
 
     test('Verifying value of obj_010', () => {
@@ -241,8 +241,8 @@ describe('Object tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ObjectExpression");
     });
 
     test('Verifying value of obj_011', () => {
@@ -265,9 +265,9 @@ describe('Object tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
-        expect(nodeComponentTrace.children?.length).toBe(2);
-        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
-        expect(nodeComponentTrace.children?.[1].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Literal");
     });
 
     test('LIMITATION: Verifying value of obj_012', () => {

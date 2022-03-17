@@ -30,7 +30,7 @@ describe('Simple tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("Literal");
-        expect(nodeComponentTrace.children).toBeUndefined();
+        expect(nodeComponentTrace.traceChildren).toBeUndefined();
     });
 
     test('Verifying value of sim_002', () => {
@@ -52,7 +52,7 @@ describe('Simple tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("CallExpression");
-        expect(nodeComponentTrace.children).toBeUndefined();
+        expect(nodeComponentTrace.traceChildren).toBeUndefined();
     });
 
     test('Verifying value of sim_003', () => {
@@ -75,7 +75,7 @@ describe('Simple tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("Literal");
-        expect(nodeComponentTrace.children).toBeUndefined();
+        expect(nodeComponentTrace.traceChildren).toBeUndefined();
     });
 
     test('Verifying value of sim_004', () => {
@@ -98,7 +98,7 @@ describe('Simple tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("Literal");
-        expect(nodeComponentTrace.children).toBeUndefined();
+        expect(nodeComponentTrace.traceChildren).toBeUndefined();
     });
 
     test('Verifying value of sim_005', () => {
@@ -120,7 +120,7 @@ describe('Simple tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("Identifier");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
 });

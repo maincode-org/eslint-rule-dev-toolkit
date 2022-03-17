@@ -29,10 +29,10 @@ describe('Array with simple values tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrayExpression");
-        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
-        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of arr_sim_002', () => {
@@ -54,10 +54,10 @@ describe('Array with simple values tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrayExpression");
-        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
-        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of arr_sim_003', () => {
@@ -80,16 +80,16 @@ describe('Array with simple values tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrayExpression");
-        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
-        expect(nodeComponentTrace.children?.[1].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Identifier");
 
-        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
-        expect(nodeComponentTrace.children?.[1].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].type).toBe("CallExpression");
 
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
-        expect(nodeComponentTrace.children?.[1].children?.[0].children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
 
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("Literal");
-        expect(nodeComponentTrace.children?.[1].children?.[0].children?.[0].children?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Literal");
     });
 });

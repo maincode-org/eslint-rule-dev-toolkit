@@ -30,25 +30,25 @@ describe('Logical expression with simple values tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ConditionalExpression");
-        expect(nodeComponentTrace.children?.length).toBe(2);
-        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
-        expect(nodeComponentTrace.children?.[1].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Identifier");
 
-        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
-        expect(nodeComponentTrace.children?.[1].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].type).toBe("CallExpression");
 
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
-        expect(nodeComponentTrace.children?.[1].children?.[0].children?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
 
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("ArrayExpression");
-        expect(nodeComponentTrace.children?.[1].children?.[0].children?.[0].children?.[0].type).toBe("ArrayExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ArrayExpression");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ArrayExpression");
 
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("Literal");
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[1].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[1].type).toBe("Literal");
 
-        expect(nodeComponentTrace.children?.[1].children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("Literal");
-        expect(nodeComponentTrace.children?.[1].children?.[0].children?.[0].children?.[0].children?.[1].type).toBe("Literal");
-        expect(nodeComponentTrace.children?.[1].children?.[0].children?.[0].children?.[0].children?.[2].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[1].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[2].type).toBe("Literal");
     });
 
     test('Verifying value of log_arr_002', () => {
@@ -70,10 +70,10 @@ describe('Logical expression with simple values tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ConditionalExpression");
-        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
-        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("ArrayExpression");
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ArrayExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
     });
 });

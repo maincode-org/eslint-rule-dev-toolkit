@@ -1,9 +1,9 @@
 import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
 import { innerTraceValue } from "../../index";
-import { ITraceNode, ITraceValueReturn } from "../trace-value";
+import { ITraceValueReturn } from "../trace-value";
 import { makeComponentTrace } from '../../helpers';
 
-const traceObjectExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: ITraceNode): ITraceValueReturn => {
+const traceObjectExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.ObjectExpression) throw `Node type mismatch: Cannot traceObjectExpression on node of type ${node.type}`;
 
     // Call recursively with each value of each property.
@@ -12,7 +12,6 @@ const traceObjectExpression = (node: TSESTree.Node, context: TSESLint.SourceCode
           p.type === AST_NODE_TYPES.SpreadElement ? p.argument : p.value,
           context,
           verify,
-          nodeTrace
         );
     });
 

@@ -144,14 +144,10 @@ export const analyzeIdentifierNode = (identifier: TSESTree.Identifier, context: 
 export const makeComponentTrace = (node: TSESTree.Node, results: ITraceValueReturn[]): ITraceValueReturn => {
     if (node.type === "Program") throw "Program is not a valid node type for trace";
 
-    //TODO: Convince compiler that node can not be of type Program.
-
     const unverifiedNode = results.find(result => !result.result.isVerified);
     if (unverifiedNode) {
-        // @ts-ignore
-        return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: { ...node, children: [unverifiedNode.nodeComponentTrace] } };
+        return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: { ...node, traceChildren: [unverifiedNode.nodeComponentTrace] } };
     } else {
-        // @ts-ignore
-        return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: { ...node, children: results.map(v => v.nodeComponentTrace) } };
+        return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: { ...node, traceChildren: results.map(v => v.nodeComponentTrace) } };
     }
 }

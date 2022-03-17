@@ -1,5 +1,4 @@
 import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
-import { SourceCode } from "eslint";
 
 // Import trace functions
 import traceArrowFunctionExpression from "./trace-functions/arrow-function-expression";
@@ -19,7 +18,7 @@ import traceVariableDeclaration from "./trace-functions/variable-declaration";
 import traceImportDeclaration from "./trace-functions/import-declaration";
 import traceCallExpression from "./trace-functions/call-expression";
 
-export type ITraceNode = (TSESTree.Node & { file?: string, children?: ITraceNode[] });
+export type ITraceNode = (TSESTree.Node & { file?: string, traceChildren?: ITraceNode[] });
 
 export type ITraceValueReturn = {
     result: {
@@ -29,7 +28,7 @@ export type ITraceValueReturn = {
     nodeComponentTrace: ITraceNode,
 }
 
-type ITraceFunction = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: ITraceNode) => ITraceValueReturn;
+type ITraceFunction = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean) => ITraceValueReturn;
 
 const traceFunctionMap = new Map<AST_NODE_TYPES, ITraceFunction>([
     [AST_NODE_TYPES.ArrayExpression, traceArrayExpression],
@@ -55,17 +54,16 @@ export const getErrorObj = (node: TSESTree.Node, nodeTrace: ITraceNode) => {
     return { result: { isVerified: false, determiningNode: node }, nodeComponentTrace: nodeTrace };
 };
 
-export const innerTraceValue = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: ITraceNode) => {
+export const innerTraceValue = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean) => {
     if (node.type === AST_NODE_TYPES.Literal) return { result: { isVerified: verify(node), determiningNode: node }, nodeComponentTrace: node };
 
     const inEnum = (Object.values(AST_NODE_TYPES) as string[]).includes(node.type);
-    if (!inEnum) throw `Node type of ${node.type} is not implemented yet.`;
+    if (!inEnum) throw `Node type of ${node.type} is unrecognizable`;
 
     const traceFunction = traceFunctionMap.get(node.type);
-    if (traceFunction) return traceFunction(node, context, verify, nodeTrace);
-    else return getErrorObj(node, nodeTrace);
+    if (traceFunction) return traceFunction(node, context, verify);
+    else return getErrorObj(node, node);
 }
 
 // TODO: Change type of context to RuleContext
-// TODO: Change file from 'file4' to Context.getFile()
-export const traceValue = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean): ITraceValueReturn => innerTraceValue(node, context, verify, { ...node, file: "file-4" });
+export const traceValue = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean): ITraceValueReturn => innerTraceValue(node, context, verify);

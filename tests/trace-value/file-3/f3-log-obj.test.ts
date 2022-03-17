@@ -29,10 +29,10 @@ describe('Logical expression with simple values tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ConditionalExpression");
-        expect(nodeComponentTrace.children?.[0].type).toBe("Identifier");
-        expect(nodeComponentTrace.children?.[0].children?.[0].type).toBe("CallExpression");
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].type).toBe("Identifier");
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("ObjectExpression");
-        expect(nodeComponentTrace.children?.[0].children?.[0].children?.[0].children?.[0].children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
     });
 });

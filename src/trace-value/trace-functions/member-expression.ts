@@ -1,16 +1,16 @@
 import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
 import { innerTraceValue } from "../../index";
-import {ITraceNode, ITraceValueReturn} from "../trace-value";
+import { ITraceValueReturn} from "../trace-value";
 import { analyzeIdentifierNode } from "../../helpers";
 
-const traceMemberExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: ITraceNode): ITraceValueReturn => {
+const traceMemberExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.MemberExpression) throw `Node type mismatch: Cannot traceMemberExpression on node of type ${node.type}`;
 
     // Array access
     if (node.computed) {
         // Call recursively with the object and analyze the whole array. Return the analysis of the array.
-        const result = innerTraceValue(node.object, context, verify, nodeTrace);
-        return { result: result.result, nodeComponentTrace: { ...node, children: [result.nodeComponentTrace] }};
+        const result = innerTraceValue(node.object, context, verify);
+        return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] }};
     } else { // Object access
         if (node.object.type !== AST_NODE_TYPES.Identifier) throw "Node type of object is not an Identifier";
 
@@ -19,8 +19,8 @@ const traceMemberExpression = (node: TSESTree.Node, context: TSESLint.SourceCode
 
         // Check if the identifier being accessed is from a require/import.
         if (identifierValue.type === AST_NODE_TYPES.CallExpression) {
-            const result = innerTraceValue(node.object, context, verify, nodeTrace);
-            return { result: result.result, nodeComponentTrace: { ...node, children: [result.nodeComponentTrace] }};
+            const result = innerTraceValue(node.object, context, verify);
+            return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] }};
         }
 
         /**
@@ -36,8 +36,8 @@ const traceMemberExpression = (node: TSESTree.Node, context: TSESLint.SourceCode
 
         if (!member || member.type === AST_NODE_TYPES.SpreadElement) throw "The accessed member does not exist on object";
 
-        const result = innerTraceValue(node.object, context, verify, nodeTrace);
-        return { result: result.result, nodeComponentTrace: { ...node, children: [result.nodeComponentTrace] }};
+        const result = innerTraceValue(node.object, context, verify);
+        return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] }};
     }
 }
 export default traceMemberExpression;

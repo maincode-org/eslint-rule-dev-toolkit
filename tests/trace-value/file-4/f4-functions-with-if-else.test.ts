@@ -30,9 +30,9 @@ describe('Functions with if-else statements tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("FunctionExpression");
-        expect(nodeComponentTrace.children?.length).toBe(2);
-        expect(nodeComponentTrace.children?.[0].type).toBe("IfStatement");
-        expect(nodeComponentTrace.children?.[1].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("IfStatement");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("ReturnStatement");
     });
 
     test('Verifying value of fun_020', () => {
@@ -55,8 +55,8 @@ describe('Functions with if-else statements tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("FunctionExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("IfStatement");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("IfStatement");
     });
 
     test('Verifying value of fun_021', () => {
@@ -78,8 +78,8 @@ describe('Functions with if-else statements tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("FunctionExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("IfStatement");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("IfStatement");
     });
 
     test('Verifying value of fun_022', () => {
@@ -101,7 +101,7 @@ describe('Functions with if-else statements tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("FunctionExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("IfStatement");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("IfStatement");
     });
 });

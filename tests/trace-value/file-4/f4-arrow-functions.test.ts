@@ -30,8 +30,8 @@ describe('Arrow function expressions tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("BinaryExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("BinaryExpression");
     });
 
     test('Verifying value of fun_002', () => {
@@ -53,7 +53,7 @@ describe('Arrow function expressions tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
 });

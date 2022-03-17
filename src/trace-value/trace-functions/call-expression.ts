@@ -1,14 +1,14 @@
 import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
 import { readFileSync } from "fs";
 import estraverse from "estraverse";
-import { getErrorObj, ITraceNode, ITraceValueReturn, innerTraceValue } from "../trace-value";
+import { getErrorObj, ITraceValueReturn, innerTraceValue } from "../trace-value";
 import ESTree from "estree";
 import { makeComponentTrace } from '../../helpers';
 
 /**
  * Can only analyze require calls atm.
  */
-const traceCallExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: ITraceNode): ITraceValueReturn => {
+const traceCallExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.CallExpression) throw `Node type mismatch: Cannot traceCallExpression on node of type ${node.type}`;
 
     if (!(node.callee.type === AST_NODE_TYPES.Identifier && node.callee.name === "require")) return getErrorObj(node, node);
@@ -43,7 +43,7 @@ const traceCallExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, 
     // Call the recursive case, for each export value found, on the new AST.
     if (exportValues.includes(null)) throw `Unable to find export statement exporting identifier(s)`;
 
-    const results = exportValues.map(i => i && innerTraceValue(i, linter.getSourceCode(), verify, nodeTrace))
+    const results = exportValues.map(i => i && innerTraceValue(i, linter.getSourceCode(), verify))
         .filter(r => !!r) as ITraceValueReturn[];
 
     return makeComponentTrace(node, results);

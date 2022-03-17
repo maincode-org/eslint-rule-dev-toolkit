@@ -30,9 +30,9 @@ describe('Logical expressions tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ConditionalExpression");
-        expect(nodeComponentTrace.children?.length).toBe(2);
-        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
-        expect(nodeComponentTrace.children?.[1].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Literal");
     });
 
     test('Verifying value of log_002', () => {
@@ -54,8 +54,8 @@ describe('Logical expressions tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ConditionalExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of log_003', () => {
@@ -77,8 +77,8 @@ describe('Logical expressions tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ConditionalExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of log_004', () => {
@@ -101,9 +101,9 @@ describe('Logical expressions tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("LogicalExpression");
-        expect(nodeComponentTrace.children?.length).toBe(2);
-        expect(nodeComponentTrace.children?.[0].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace.children?.[1].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("BinaryExpression");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Literal");
     });
 
     test('Verifying value of log_005', () => {
@@ -125,7 +125,7 @@ describe('Logical expressions tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("LogicalExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
 });

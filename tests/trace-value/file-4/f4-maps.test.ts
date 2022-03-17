@@ -30,8 +30,8 @@ describe('Maps tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("NewExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of map_002', () => {
@@ -53,8 +53,8 @@ describe('Maps tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("NewExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of map_003', () => {
@@ -77,9 +77,9 @@ describe('Maps tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("NewExpression");
-        expect(nodeComponentTrace.children?.length).toBe(2);
-        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
-        expect(nodeComponentTrace.children?.[1].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Literal");
     });
 
     test('Verifying value of map_004', () => {
@@ -101,8 +101,8 @@ describe('Maps tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("NewExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of map_005', () => {
@@ -125,7 +125,7 @@ describe('Maps tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("NewExpression");
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
     });
 });

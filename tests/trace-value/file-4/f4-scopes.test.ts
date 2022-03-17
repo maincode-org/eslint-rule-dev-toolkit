@@ -30,8 +30,8 @@ describe('Scope tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe('Identifier');
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of sco_004', () => {
@@ -54,8 +54,8 @@ describe('Scope tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe('Identifier');
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of sco_006', () => {
@@ -99,7 +99,7 @@ describe('Scope tests', () => {
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe('Identifier');
-        expect(nodeComponentTrace.children?.length).toBe(1);
-        expect(nodeComponentTrace.children?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
     });
 });

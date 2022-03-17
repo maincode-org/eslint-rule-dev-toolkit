@@ -7,11 +7,10 @@ const traceIdentifier = (
     node: TSESTree.Node,
     context: TSESLint.SourceCode,
     verify: (node: TSESTree.Node) => boolean,
-    nodeTrace: ITraceNode
 ): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.Identifier) throw `Node type mismatch: Cannot traceIdentifier on node of type ${node.type}`;
 
-    const result = innerTraceValue(analyzeIdentifierNode(node, context), context, verify, nodeTrace);
-    return { result: result.result, nodeComponentTrace: { ...node, children: [result.nodeComponentTrace] } };
+    const result = innerTraceValue(analyzeIdentifierNode(node, context), context, verify);
+    return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] } };
 }
 export default traceIdentifier;
