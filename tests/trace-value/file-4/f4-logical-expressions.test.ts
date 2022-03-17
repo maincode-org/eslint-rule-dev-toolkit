@@ -29,10 +29,10 @@ describe('Logical expressions tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe string1');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(3);
-        expect(nodeComponentTrace[0].type).toBe("ConditionalExpression");
-        expect(nodeComponentTrace[1].type).toBe("Literal");
-        expect(nodeComponentTrace[2].type).toBe("Literal");
+        expect(nodeComponentTrace.type).toBe("ConditionalExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Literal");
     });
 
     test('Verifying value of log_002', () => {
@@ -53,9 +53,9 @@ describe('Logical expressions tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("ConditionalExpression");
-        expect(nodeComponentTrace[1].type).toBe("CallExpression");
+        expect(nodeComponentTrace.type).toBe("ConditionalExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of log_003', () => {
@@ -76,9 +76,9 @@ describe('Logical expressions tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("ConditionalExpression");
-        expect(nodeComponentTrace[1].type).toBe("CallExpression");
+        expect(nodeComponentTrace.type).toBe("ConditionalExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of log_004', () => {
@@ -100,11 +100,14 @@ describe('Logical expressions tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe string');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(7);
+        expect(nodeComponentTrace.type).toBe("LogicalExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("BinaryExpression");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Literal");
     });
 
     test('Verifying value of log_005', () => {
-        const variableName = 'log_010';
+        const variableName = 'log_005';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -121,8 +124,8 @@ describe('Logical expressions tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(2);
-        expect(nodeComponentTrace[0].type).toBe("LogicalExpression");
-        expect(nodeComponentTrace[1].type).toBe("CallExpression");
+        expect(nodeComponentTrace.type).toBe("LogicalExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
 });

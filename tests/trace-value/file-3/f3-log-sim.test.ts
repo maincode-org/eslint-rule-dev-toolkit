@@ -29,7 +29,19 @@ describe('Logical expression with simple values tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe value2');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(13);
+        expect(nodeComponentTrace.type).toBe("ConditionalExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Identifier");
+
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].type).toBe("CallExpression");
+
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of log_sim_002', () => {
@@ -50,6 +62,10 @@ describe('Logical expression with simple values tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace.type).toBe("ConditionalExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
     });
 });

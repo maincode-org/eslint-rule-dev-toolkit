@@ -29,7 +29,13 @@ describe('String manipulation with simple values tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe value');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(6);
+        expect(nodeComponentTrace.type).toBe("BinaryExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of str_sim_002', () => {
@@ -50,7 +56,11 @@ describe('String manipulation with simple values tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace.type).toBe("BinaryExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of str_sim_003', () => {
@@ -72,7 +82,11 @@ describe('String manipulation with simple values tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe value');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace.type).toBe("TemplateLiteral");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of str_sim_004', () => {
@@ -93,6 +107,10 @@ describe('String manipulation with simple values tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace.type).toBe("TemplateLiteral");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
     });
 });

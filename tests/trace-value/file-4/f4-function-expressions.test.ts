@@ -29,10 +29,9 @@ describe('Function expressions tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe value');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(3);
-        expect(nodeComponentTrace[0].type).toBe("FunctionExpression");
-        expect(nodeComponentTrace[1].type).toBe("ReturnStatement");
-        expect(nodeComponentTrace[2].type).toBe("Literal");
+        expect(nodeComponentTrace.type).toBe("FunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
     });
 
     test('Verifying value of fun_010', () => {
@@ -53,10 +52,9 @@ describe('Function expressions tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(3);
-        expect(nodeComponentTrace[0].type).toBe("FunctionExpression");
-        expect(nodeComponentTrace[1].type).toBe("ReturnStatement");
-        expect(nodeComponentTrace[2].type).toBe("CallExpression");
+        expect(nodeComponentTrace.type).toBe("FunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
     });
 
     test('Verifying value of fun_017', () => {
@@ -78,7 +76,10 @@ describe('Function expressions tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe("1");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(10);
+        expect(nodeComponentTrace.type).toBe("FunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(2);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("VariableDeclaration");
+        expect(nodeComponentTrace.traceChildren?.[1].type).toBe("ReturnStatement");
     });
 
     test('Verifying value of fun_018', () => {
@@ -99,10 +100,8 @@ describe('Function expressions tests', () => {
         expect(result.determiningNode.type).toBe("CallExpression");
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(4);
-        expect(nodeComponentTrace[0].type).toBe("FunctionExpression");
-        expect(nodeComponentTrace[1].type).toBe("ReturnStatement");
-        expect(nodeComponentTrace[2].type).toBe("BinaryExpression");
-        expect(nodeComponentTrace[3].type).toBe("CallExpression");
+        expect(nodeComponentTrace.type).toBe("FunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
     });
 });

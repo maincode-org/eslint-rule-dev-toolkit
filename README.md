@@ -9,16 +9,19 @@ A toolkit of awesome helpers for developing advanced ESLint rules with ease!
 - [X] Documentation upgrade
 - [ ] Add function call tests that fails for .concat, .push .map etc.
 - [X] Multi-file tests
-- [ ] Improve nodeComponentTrace algorithm (returns the parent multiple times)
+- [X] Improve/Refactor nodeComponentTrace algorithm (returns the parent multiple times)
+- [ ] Improve/Refactor the Identifier handler
 - [ ] Handle function calls (CallExpressions)
+- [ ] Add filename to nodes in nodeComponentTrace
 - [ ] Implement `includes` parameter to traceValue
 
 ### Order of execution
 Step 1
-- [ ] Improve nodeComponentTrace algorithm
+- [X] Improve nodeComponentTrace algorithm
 
 Step 2
 - [ ] Use traceValue in a rule implementation
+- [ ] Refactor Identifier handler
 - [ ] Add more interesting test cases
 
 Step 3
@@ -50,7 +53,7 @@ As a result of this approach, whenever the algorithm visits a node that can not 
 In cases where there are no unverified nodes, the `nodeComponentTrace` includes all visited nodes.
 
 ### The type of the returned object:
-{ result: { isVerified: boolean, determiningNode: ESTree.Node }, nodeComponentTrace: ESTree.Node[] }
+{ result: { isVerified: boolean, determiningNode: TSESTree.Node }, nodeComponentTrace: ITraceNode[] }
 
 ## TraceValue examples
 ### Object example - safe

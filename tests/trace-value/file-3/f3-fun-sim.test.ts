@@ -28,7 +28,11 @@ describe('Function with simple values tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe value');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of fun_sim_002', () => {
@@ -49,7 +53,11 @@ describe('Function with simple values tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(5);
+        expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
     });
 
     test('Verifying value of fun_sim_003', () => {
@@ -71,7 +79,12 @@ describe('Function with simple values tests', () => {
         expect((result.determiningNode as TSESTree.Literal).value).toBe('A safe value');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(6);
+        expect(nodeComponentTrace.type).toBe("FunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Literal");
     });
 
     test('Verifying value of fun_sim_004', () => {
@@ -92,6 +105,11 @@ describe('Function with simple values tests', () => {
         expect(result.determiningNode.type).toBe('CallExpression');
 
         // Analyze trace
-        expect(nodeComponentTrace.length).toBe(6);
+        expect(nodeComponentTrace.type).toBe("FunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
     });
 });

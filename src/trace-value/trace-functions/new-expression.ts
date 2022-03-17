@@ -1,14 +1,13 @@
-import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
+import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
 import ESTree from "estree";
-import { SourceCode } from "eslint";
-import { traceValue } from "../../index";
+import { innerTraceValue } from "../../index";
 import { ITraceValueReturn } from "../trace-value";
-import { makeComponentTrace } from "../../helpers";
+import { makeComponentTrace } from '../../helpers';
 
 type IExpression = TSESTree.Expression | { type: AST_NODE_TYPES.SpreadElement, argument: TSESTree.Identifier };
 
 // Can only handle new Map().
-const traceNewExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, nodeTrace: TSESTree.Node[] = []): ITraceValueReturn => {
+const traceNewExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.NewExpression) throw `Node type mismatch: Cannot traceNewExpression on node of type ${node.type}`;
     if (node.callee.type !== AST_NODE_TYPES.Identifier && (node.callee as unknown as ESTree.Identifier).name !== "Map") throw "New Expression is not a Map";
 
@@ -17,11 +16,11 @@ const traceNewExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, v
     const initializationValues = initializationElements.map((mapItem) => mapItem.elements[1]);
 
     const results = (initializationValues as IExpression[]).map(value => {
-        if (!value) return { result: { isVerified: true, determiningNode: node }, nodeComponentTrace: [...nodeTrace, node]};
-        else if (value.type === AST_NODE_TYPES.SpreadElement) return traceValue(value.argument, context, verify, [...nodeTrace, node]);
-        else return traceValue(value, context, verify, [...nodeTrace, node]);
+        if (!value) return { result: { isVerified: true, determiningNode: node }, nodeComponentTrace: node }; // null or undefined value is safe.
+        else if (value.type === AST_NODE_TYPES.SpreadElement) return innerTraceValue(value.argument, context, verify);
+        else return innerTraceValue(value, context, verify);
     });
 
-    return makeComponentTrace(results);
+    return makeComponentTrace(node, results);
 }
 export default traceNewExpression;

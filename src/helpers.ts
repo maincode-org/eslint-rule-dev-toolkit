@@ -139,25 +139,15 @@ export const analyzeIdentifierNode = (identifier: TSESTree.Identifier, context: 
 
 /**
  * Takes a ITraceValueReturn[].
- * Returns a collective nodeComponentTrace of all the recursive paths.
- * Note: Head is removed as it will always be the parent node itself in all its child paths.
+ * Returns a merged nodeComponentTrace in accordance to the approach describes in the README.
  */
-export const mergeRecursiveTraces = (traceValueResult: ITraceValueReturn[]) => {
-    return traceValueResult.map(result => result.nodeComponentTrace).reduce((acc, cur) => {
-        const [, ...tail] = cur;
-        return [...acc, ...tail];
-    });
-}
+export const makeComponentTrace = (node: TSESTree.Node, results: ITraceValueReturn[]): ITraceValueReturn => {
+    if (node.type === "Program") throw "Program is not a valid node type for trace";
 
-/**
- * Takes a ITraceValueReturn[].
- * Returns a nodeComponentTrace in accordance to the approach describes in the README.
- */
-export const makeComponentTrace = (results: ITraceValueReturn[]) => {
     const unverifiedNode = results.find(result => !result.result.isVerified);
     if (unverifiedNode) {
-        return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: unverifiedNode.nodeComponentTrace};
+        return { result: { isVerified: false, determiningNode: unverifiedNode.result.determiningNode }, nodeComponentTrace: { ...node, traceChildren: [unverifiedNode.nodeComponentTrace] } };
     } else {
-        return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: mergeRecursiveTraces(results)};
+        return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: { ...node, traceChildren: results.map(v => v.nodeComponentTrace) } };
     }
 }
