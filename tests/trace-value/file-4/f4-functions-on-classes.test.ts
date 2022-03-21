@@ -1,0 +1,245 @@
+import { TSESTree } from "@typescript-eslint/utils";
+import { getVarDeclarationByName, targetFileAST, ETestFiles } from "../../../src/helpers";
+import { traceValue } from "../../../src";
+
+// All tests in this file uses source code from file 'file-4'.
+const sourceCode = targetFileAST.get(ETestFiles.FILE4);
+if (!sourceCode) throw "Unable to find AST for target file.";
+
+const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
+
+// Code starts in file-4 at line 170.
+describe('Functions on classes tests', () => {
+  test('Verifying value of fun_023', () => {
+    const variableName = 'fun_023';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+    expect((result.determiningNode as TSESTree.Literal).value).toBe(" string");
+
+    // Analyze trace
+    expect(nodeComponentTrace.type).toBe("CallExpression");
+    expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
+    expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Literal");
+  });
+
+  test('Verifying value of fun_024', () => {
+    const variableName = 'fun_024';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(false);
+    expect(result.determiningNode.type).toBe("CallExpression");
+
+    // Analyze trace
+    expect(nodeComponentTrace.type).toBe("CallExpression");
+    expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+  });
+
+  test('Verifying value of fun_025', () => {
+    const variableName = 'fun_025';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+    expect((result.determiningNode as TSESTree.Literal).value).toBe("A safe string");
+
+    // Analyze trace
+    expect(nodeComponentTrace.type).toBe("CallExpression");
+    expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
+    expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Literal");
+    expect(nodeComponentTrace.traceChildren?.[2].type).toBe("Literal");
+  });
+
+  test('Verifying value of fun_026', () => {
+    const variableName = 'fun_026';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(false);
+    expect(result.determiningNode.type).toBe("CallExpression");
+
+    // Analyze trace
+    expect(nodeComponentTrace.type).toBe("CallExpression");
+    expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+  });
+
+  test('Verifying value of fun_027', () => {
+    const variableName = 'fun_027';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+    expect((result.determiningNode as TSESTree.Literal).value).toBe(0);
+
+    // Analyze trace
+    expect(nodeComponentTrace.type).toBe("CallExpression");
+    expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Literal");
+    expect(nodeComponentTrace.traceChildren?.[1].type).toBe("Literal");
+  });
+
+  test('Verifying value of fun_028', () => {
+    const variableName = 'fun_028';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+    expect((result.determiningNode as TSESTree.Literal).value).toBe("A safe string");
+
+    // Analyze trace
+    expect(nodeComponentTrace.type).toBe("CallExpression");
+  });
+
+  test('Verifying value of fun_029', () => {
+    const variableName = 'fun_029';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+    expect((result.determiningNode as TSESTree.Literal).value).toBe(5);
+
+    // Analyze trace
+    expect(nodeComponentTrace.type).toBe("CallExpression");
+    expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ArrayExpression");
+    expect(nodeComponentTrace.traceChildren?.[1].type).toBe("ArrayExpression");
+  });
+
+  test('Verifying value of fun_030', () => {
+    const variableName = 'fun_030';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(false);
+    expect(result.determiningNode.type).toBe("CallExpression");
+
+    // Analyze trace
+    expect(nodeComponentTrace.type).toBe("CallExpression");
+    expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ArrayExpression");
+    expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+  });
+
+  test('Verifying value of fun_031', () => {
+    const variableName = 'fun_031';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(false);
+    expect(result.determiningNode.type).toBe("CallExpression");
+
+    // Analyze trace
+    expect(nodeComponentTrace.type).toBe("CallExpression");
+    expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+  });
+
+  test('Verifying value of fun_032', () => {
+    const variableName = 'fun_032';
+
+    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    expect(varDeclaration).toBeDefined();
+    if (!varDeclaration) return;
+
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    expect(traceValueResult).toBeDefined();
+    if (!traceValueResult) return;
+
+    const { result, nodeComponentTrace } = traceValueResult;
+
+    // Analyze result
+    expect(result.isVerified).toBe(true);
+    expect(result.determiningNode.type).toBe("Literal");
+    expect((result.determiningNode as TSESTree.Literal).value).toBe(2);
+
+    // Analyze trace
+    expect(nodeComponentTrace.type).toBe("CallExpression");
+    expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ArrayExpression");
+    expect(nodeComponentTrace.traceChildren?.[1].type).toBe("ArrowFunctionExpression");
+    expect(nodeComponentTrace.traceChildren?.[1].traceChildren?.[0].type).toBe("BinaryExpression");
+  });
+});

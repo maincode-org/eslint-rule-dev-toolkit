@@ -4,15 +4,16 @@ A toolkit of awesome helpers for developing advanced ESLint rules with ease!
 ### TODO
 - [X] Refactor to enums and Map (traceValue)
 - [X] Refactor nodeTrace out to its own helper
-- [X] Check traceFunctionExpression - seems wrong...
+- [X] Refactor traceFunctionExpression
 - [X] Dependency Injection of traceValue import
 - [X] Documentation upgrade
-- [ ] Add function call tests that fails for .concat, .push .map etc.
 - [X] Multi-file tests
 - [X] Improve/Refactor nodeComponentTrace algorithm (returns the parent multiple times)
-- [ ] Improve/Refactor the Identifier handler
-- [ ] Handle function calls (CallExpressions)
+- [ ] Handle function calls on classes (strings, arrays etc.)
 - [ ] Add filename to nodes in nodeComponentTrace
+
+Down prioritized:
+- [ ] Improve/Refactor the Identifier handler
 - [ ] Implement `includes` parameter to traceValue
 
 ### Order of execution
@@ -21,7 +22,7 @@ Step 1
 
 Step 2
 - [ ] Use traceValue in a rule implementation
-- [ ] Refactor Identifier handler
+- [ ] Add function call for .concat, .push .map etc.
 - [ ] Add more interesting test cases
 
 Step 3

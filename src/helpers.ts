@@ -119,19 +119,19 @@ export const analyzeIdentifierNode = (identifier: TSESTree.Identifier, context: 
     }
 
     // Find nodes that manipulate the identifier - look first in the scope of which the identifier is being used.
-    const a = findNodeWithNameInScope(identifier.name, identifier.loc, scopes[identifierScopeIndex] as unknown as TSESLintScope.Scope);
-    if (!a) throw `Could not find any relevant nodes for identifier ${identifier.name}`;
+    const scopeNode = findNodeWithNameInScope(identifier.name, identifier.loc, scopes[identifierScopeIndex] as unknown as TSESLintScope.Scope);
+    if (!scopeNode) throw `Could not find any relevant nodes for identifier ${identifier.name}`;
     // The return here is either an ExpressionStatement or a VariableDeclaration or null.
     // Find value of a
-    if (a.type === AST_NODE_TYPES.ExpressionStatement) {
-        if (a.expression.type !== AST_NODE_TYPES.AssignmentExpression) throw "The expression of the ExpressionStatement is not an assignment";
-        return a.expression.right;
-    } else if (a.type === AST_NODE_TYPES.ObjectPattern) {
-        const valueOfIdentifier = (a.parent as TSESTree.VariableDeclarator).init;
+    if (scopeNode.type === AST_NODE_TYPES.ExpressionStatement) {
+        if (scopeNode.expression.type !== AST_NODE_TYPES.AssignmentExpression) throw "The expression of the ExpressionStatement is not an assignment";
+        return scopeNode.expression.right;
+    } else if (scopeNode.type === AST_NODE_TYPES.ObjectPattern) {
+        const valueOfIdentifier = (scopeNode.parent as TSESTree.VariableDeclarator).init;
         if (!valueOfIdentifier) throw "Declaration value is null or undefined";
         return valueOfIdentifier;
     } else { // VariableDeclaration
-        const valueOfIdentifier = a.declarations[0].init;
+        const valueOfIdentifier = scopeNode.declarations[0].init;
         if (!valueOfIdentifier) throw "Declaration value is null or undefined";
         return valueOfIdentifier;
     }
@@ -151,3 +151,8 @@ export const makeComponentTrace = (node: TSESTree.Node, results: ITraceValueRetu
         return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: { ...node, traceChildren: results.map(v => v.nodeComponentTrace) } };
     }
 }
+
+/**
+ * Takes an enum e and a string s and returns whether or not the string is a value in the enum.
+ */
+export const stringInEnum = (e: { [s: number]: string }, s: string): boolean => (Object.values(e) as string[]).includes(s);

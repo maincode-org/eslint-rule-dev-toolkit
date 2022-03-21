@@ -3,14 +3,36 @@ import { readFileSync } from "fs";
 import estraverse from "estraverse";
 import { getErrorObj, ITraceValueReturn, innerTraceValue } from "../trace-value";
 import ESTree from "estree";
-import { makeComponentTrace } from '../../helpers';
+import { makeComponentTrace, stringInEnum } from '../../helpers';
 
+enum EClassWhitelistNodeTypes {
+    LITERAL = 'Literal',
+    ARRAY = 'ArrayExpression'
+}
 /**
- * Can only analyze require calls atm.
+ * Can only analyze functions on classes and require calls atm.
  */
 const traceCallExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.CallExpression) throw `Node type mismatch: Cannot traceCallExpression on node of type ${node.type}`;
 
+    // FUNCTION CALLS ON CLASSES
+    if (node.callee.type === "MemberExpression") {
+        const classInstance = node.callee.object;
+
+        // Check if the class is in the EClassWhitelistNodeTypes enum.
+        if (!(stringInEnum(EClassWhitelistNodeTypes, classInstance.type))) return getErrorObj(node, node);
+
+        // Class itself is safe
+        const leftResult = innerTraceValue(classInstance, context, verify);
+
+        // Parameter(s) are safe
+        const rightResults = node.arguments.map(arg => innerTraceValue(arg, context, verify));
+
+        const results = [leftResult, ...rightResults];
+        return makeComponentTrace(node, results);
+    }
+
+    // REQUIRE CALLS
     if (!(node.callee.type === AST_NODE_TYPES.Identifier && node.callee.name === "require")) return getErrorObj(node, node);
 
     // Check if arguments provided to the require call are not literals.
@@ -86,31 +108,3 @@ const exportIncludesIdentifier = (exportValueNode: TSESTree.ExpressionStatement,
         });
     }
 }
-
-// ------------------------- WIP -------------------------
-/**
- * A CallExpression is safe if the callee node is safe, and the arguments are safe.
- * This is not quite ready yet.
- */
-/*
-else if (node.type === "CallExpression") {
-    const calleeResult = index(node.callee, context, verify, [...nodeTrace, node]);
-    const argumentsResults = node.arguments.map(arg => index(arg, context, verify, [...nodeTrace, node]));
-    const results = [calleeResult, ...argumentsResults];
- */
-
-/*
-const unverifiedNode = results.find(result => !result.result.isVerified);
-if (unverifiedNode) {
-    return {
-        result: {isVerified: false, determiningNode: unverifiedNode.result.determiningNode},
-        nodeComponentTrace: unverifiedNode.nodeComponentTrace
-    };
-} else {
-    return {
-        result: {isVerified: true, determiningNode: results[results.length - 1].result.determiningNode},
-        nodeComponentTrace: makeNodeComponentTrace(results)
-    };
-}
-}
-*/
