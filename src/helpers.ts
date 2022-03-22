@@ -1,5 +1,6 @@
 import ESTree from "estree";
 import { AST_NODE_TYPES, TSESTree, TSESLintScope, TSESLint } from "@typescript-eslint/utils";
+import * as tsParser from "@typescript-eslint/parser";
 import estraverse from "estraverse";
 import { readFileSync } from "fs";
 import { ITraceValueReturn } from "./trace-value/trace-value";
@@ -9,22 +10,44 @@ export enum ETestFiles {
     FILE2 = 'file-2',
     FILE3 = 'file-3',
     FILE4 = 'file-4',
+    TSFILE4 = 'ts-file-4'
 }
 
-export const createSourceCode = (file: ETestFiles): TSESLint.SourceCode => {
-    const fileContents = readFileSync('tests/trace-value/target-files/' + file + '.js', 'utf-8');
+export enum ESourceCodeLanguages {
+    JAVASCRIPT = 'javascript',
+    TYPESCRIPT = 'typescript'
+}
 
-    // Creating AST
-    const linter = new TSESLint.Linter();
-    linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2021 }, env: { es6: true } });
-    return linter.getSourceCode();
+export const createSourceCode = (file: ETestFiles, language: ESourceCodeLanguages): TSESLint.SourceCode => {
+    if (language === ESourceCodeLanguages.JAVASCRIPT) {
+        const fileContents = readFileSync('tests/trace-value/target-files/' + file + '.js', 'utf-8');
+
+        // Creating AST
+        const linter = new TSESLint.Linter();
+        linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2021 }, env: { es6: true } });
+        return linter.getSourceCode();
+    } else {
+        const fileContents = readFileSync('tests/trace-value/target-files/' + file + '.ts', 'utf-8');
+
+        // Creating AST
+        // Documentation --> https://eslint.org/docs/developer-guide/nodejs-api#linterdefineparser
+        const linter = new TSESLint.Linter();
+        linter.defineParser("typescriptParser", {
+            parse(code, options) {
+                return tsParser.parseForESLint(code, options).ast;
+            }
+        });
+        linter.verify(fileContents, { parser: "typescriptParser", parserOptions: { "ecmaVersion": 2021 }, env: { es6: true } });
+        return linter.getSourceCode();
+    }
 }
 
 export const targetFileAST = new Map<ETestFiles, TSESLint.SourceCode>([
-    [ETestFiles.FILE1, createSourceCode(ETestFiles.FILE1)],
-    [ETestFiles.FILE2, createSourceCode(ETestFiles.FILE2)],
-    [ETestFiles.FILE3, createSourceCode(ETestFiles.FILE3)],
-    [ETestFiles.FILE4, createSourceCode(ETestFiles.FILE4)],
+    [ETestFiles.FILE1, createSourceCode(ETestFiles.FILE1, ESourceCodeLanguages.JAVASCRIPT)],
+    [ETestFiles.FILE2, createSourceCode(ETestFiles.FILE2, ESourceCodeLanguages.JAVASCRIPT)],
+    [ETestFiles.FILE3, createSourceCode(ETestFiles.FILE3, ESourceCodeLanguages.JAVASCRIPT)],
+    [ETestFiles.FILE4, createSourceCode(ETestFiles.FILE4, ESourceCodeLanguages.JAVASCRIPT)],
+    [ETestFiles.TSFILE4, createSourceCode(ETestFiles.TSFILE4, ESourceCodeLanguages.TYPESCRIPT)],
 ]);
 
 export const getVarDeclarationByName = (ast: TSESTree.Program, variableName: string): TSESTree.VariableDeclarator | null => {
