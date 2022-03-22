@@ -22,7 +22,7 @@ Step 1
 
 Step 2
 - [ ] Use traceValue in a rule implementation
-- [ ] Add function call for .concat, .push .map etc.
+- [X] Add function call for .concat, .push .map etc.
 - [ ] Add more interesting test cases
 
 Step 3
@@ -31,7 +31,7 @@ Step 3
 - [ ] Add test cases to showcase different parsers
 
 Step 4:
-- [ ] Add more functionality (loops etc.)
+- [ ] Add more functionality (loops, classes etc.)
 - [ ] Use traceValue in more rule implementations
 
 Step 5:

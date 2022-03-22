@@ -208,14 +208,16 @@ const fun_034 = [1,2,3].map(() => fetch('https://evilcorp.com/hackyhacky'));
 
 const fun_035 = [1,2,3].filter((a) => a > 2);
 const fun_036 = [fetch('https://evilcorp.com/hackyhacky')].filter((a) => a > 2);
-const fun_037 = [1,2,3].map(() => fetch('https://evilcorp.com/hackyhacky') > 2);
+const fun_037 = [1,2,3].filter(() => fetch('https://evilcorp.com/hackyhacky') > 2);
 
 const fun_038 = [1,2,3].push(4);
-const fun_039 = [1,2,3].pop();
-const fun_040 = [1,2,3].slice(0,1);
-const fun_041 = [1,2,3].length;
+const fun_039 = [1,2,3].push(fetch('https://evilcorp.com/hackyhacky'));
+const fun_040 = [1,2,3].pop();
+const fun_041 = [1,2,3].slice(0,1);
+const fun_042 = [1,2,3].length;
 
-const fun_042 = arr_001.pop();
+const fun_043 = arr_001.pop();
+const fun_044 = arr_003.pop();
 
 // Function cases - code path analysis - not implemented yet.
 

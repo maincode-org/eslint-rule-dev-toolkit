@@ -7,7 +7,8 @@ import { makeComponentTrace, stringInEnum } from '../../helpers';
 
 enum EClassWhitelistNodeTypes {
     LITERAL = 'Literal',
-    ARRAY = 'ArrayExpression'
+    ARRAY = 'ArrayExpression',
+    IDENTIFIER = 'Identifier',
 }
 /**
  * Can only analyze functions on classes and require calls atm.
