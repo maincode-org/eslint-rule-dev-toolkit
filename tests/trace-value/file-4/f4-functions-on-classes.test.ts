@@ -8,7 +8,7 @@ if (!sourceCode) throw "Unable to find AST for target file.";
 
 const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
-// Code starts in file-4 at line 170.
+// Code starts in file-4 at line 191.
 describe('Functions on classes tests', () => {
   test('Verifying value of fun_023', () => {
     const variableName = 'fun_023';

