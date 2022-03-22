@@ -9,7 +9,7 @@ A toolkit of awesome helpers for developing advanced ESLint rules with ease!
 - [X] Documentation upgrade
 - [X] Multi-file tests
 - [X] Improve/Refactor nodeComponentTrace algorithm (returns the parent multiple times)
-- [ ] Handle function calls on classes (strings, arrays etc.)
+- [X] Handle function calls on classes (strings, arrays etc.)
 - [ ] Add filename to nodes in nodeComponentTrace
 
 Down prioritized:
@@ -32,6 +32,7 @@ Step 3
 
 Step 4:
 - [ ] Add more functionality (loops, classes etc.)
+- [ ] Add Typescript support (ability to analyze Typescript source files)
 - [ ] Use traceValue in more rule implementations
 
 Step 5:
