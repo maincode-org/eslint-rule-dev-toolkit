@@ -57,6 +57,30 @@ describe('Function expressions tests', () => {
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
     });
 
+    test('Verifying value of fun_011', () => {
+        const variableName = 'fun_011';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(true);
+        expect(result.determiningNode.type).toBe("Identifier");
+
+        // Analyze trace
+        expect(nodeComponentTrace.type).toBe("FunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.length).toBe(1);
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+    });
+
     test('Verifying value of fun_017', () => {
         const variableName = 'fun_017';
 

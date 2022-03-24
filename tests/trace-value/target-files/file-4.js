@@ -159,6 +159,9 @@ const fun_009 = function () {
 const fun_010 = function () {
     return fetch('https://evilcorp.com/hackyhacky');
 }
+const fun_011 = function (a) {
+    return a;
+}
 const fun_017 = function () {
     const a = 'A safe string';
     return a + "1";

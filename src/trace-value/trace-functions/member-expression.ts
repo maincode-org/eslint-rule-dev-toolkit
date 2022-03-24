@@ -1,15 +1,15 @@
 import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
 import { innerTraceValue } from "../../index";
-import { ITraceValueReturn} from "../trace-value";
+import {IClosureDetails, ITraceValueReturn} from "../trace-value";
 import { analyzeIdentifierNode } from "../../helpers";
 
-const traceMemberExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean): ITraceValueReturn => {
+const traceMemberExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.MemberExpression) throw `Node type mismatch: Cannot traceMemberExpression on node of type ${node.type}`;
 
     // Array access
     if (node.computed) {
         // Call recursively with the object and analyze the whole array. Return the analysis of the array.
-        const result = innerTraceValue(node.object, context, verify);
+        const result = innerTraceValue(node.object, context, verify, closureDetails);
         return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] }};
     } else { // Object access
         if (node.object.type === AST_NODE_TYPES.Identifier) {
@@ -18,7 +18,7 @@ const traceMemberExpression = (node: TSESTree.Node, context: TSESLint.SourceCode
 
             // Check if the identifier being accessed is from a require/import.
             if (identifierValue.type === AST_NODE_TYPES.CallExpression) {
-                const result = innerTraceValue(node.object, context, verify);
+                const result = innerTraceValue(node.object, context, verify, closureDetails);
                 return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] }};
             }
 
@@ -35,13 +35,13 @@ const traceMemberExpression = (node: TSESTree.Node, context: TSESLint.SourceCode
 
             if (!member || member.type === AST_NODE_TYPES.SpreadElement) throw "The accessed member does not exist on object";
 
-            const result = innerTraceValue(node.object, context, verify);
+            const result = innerTraceValue(node.object, context, verify, closureDetails);
             return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] }};
         }
         else if (node.object.type === AST_NODE_TYPES.ArrayExpression || node.object.type === AST_NODE_TYPES.Literal) {
             // Member access on arrays and strings depends on safety of the class.
             // Example [1,2,3].length;
-            const result = innerTraceValue(node.object, context, verify);
+            const result = innerTraceValue(node.object, context, verify, closureDetails);
             return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] }};
         } else throw "Class type of the member access not yet implemented";
     }

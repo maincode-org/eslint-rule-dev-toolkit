@@ -176,6 +176,14 @@ export const makeComponentTrace = (node: TSESTree.Node, results: ITraceValueRetu
 }
 
 /**
- * Takes an enum e and a string s and returns whether or not the string is a value in the enum.
+ * Takes an enum e and a string s and returns whether the string is a value in the enum.
  */
 export const stringInEnum = (e: { [s: number]: string }, s: string): boolean => (Object.values(e) as string[]).includes(s);
+
+/**
+ * Takes an Identifier node and a parameter list and returns whether the name of the Identifier is in the parameter list.
+ */
+export const isIdentifierInParams = (identifier: TSESTree.Identifier, params: TSESTree.Parameter[]) => !!params.find(param => {
+    if (param.type !== AST_NODE_TYPES.Identifier) throw "Parameter type not supported";
+    else return param.name === identifier.name;
+});
