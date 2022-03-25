@@ -152,7 +152,18 @@ const fun_003 = () => {
 const fun_004 = () => {
     return fetch('https://evilcorp.com/hackyhacky');
 }
-
+const fun_005 = (a) => {
+    return a;
+}
+const fun_006 = (a) => {
+    return fetch('https://evilcorp.com/hackyhacky');
+}
+const fun_007 = (a,b) => {
+    return a + b;
+}
+const fun_008 = (a,b) => {
+    return a + fetch('https://evilcorp.com/hackyhacky');
+}
 const fun_009 = function () {
     return 'A safe value';
 }
@@ -161,6 +172,15 @@ const fun_010 = function () {
 }
 const fun_011 = function (a) {
     return a;
+}
+const fun_012 = function (a) {
+    return fetch('https://evilcorp.com/hackyhacky');
+}
+const fun_013 = function (a,b) {
+    return a + b;
+}
+const fun_014 = function (a,b) {
+    return a + fetch('https://evilcorp.com/hackyhacky');
 }
 const fun_017 = function () {
     const a = 'A safe string';
@@ -188,14 +208,6 @@ const fun_022 = function () {
     if (num <= 4) return fetch('https://evilcorp.com/hackyhacky');
     else return "A safe value";
 }
-
-// Can't solve this because fun_019 can't be deemed safe because of 'a' - an Identifier it cannot see the value of.
-/*
-const fun_019 = function (a) {
-    return 'A safe value' + a;
-}
-const fun_020 = fun_019("1");
-*/
 
 // Functions on classes
 // String class
