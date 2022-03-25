@@ -1,5 +1,6 @@
 import ESTree from "estree";
 import { AST_NODE_TYPES, TSESTree, TSESLintScope, TSESLint } from "@typescript-eslint/utils";
+import * as tsParser from "@typescript-eslint/parser";
 import estraverse from "estraverse";
 import { readFileSync } from "fs";
 import { ITraceValueReturn } from "./trace-value/trace-value";
@@ -9,22 +10,44 @@ export enum ETestFiles {
     FILE2 = 'file-2',
     FILE3 = 'file-3',
     FILE4 = 'file-4',
+    TSFILE4 = 'ts-file-4'
 }
 
-export const createSourceCode = (file: ETestFiles): TSESLint.SourceCode => {
-    const fileContents = readFileSync('tests/trace-value/target-files/' + file + '.js', 'utf-8');
+export enum ESourceCodeLanguages {
+    JAVASCRIPT = 'javascript',
+    TYPESCRIPT = 'typescript'
+}
 
-    // Creating AST
-    const linter = new TSESLint.Linter();
-    linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2021 }, env: { es6: true } });
-    return linter.getSourceCode();
+export const createSourceCode = (file: ETestFiles, language: ESourceCodeLanguages): TSESLint.SourceCode => {
+    if (language === ESourceCodeLanguages.JAVASCRIPT) {
+        const fileContents = readFileSync('tests/trace-value/target-files/' + file + '.js', 'utf-8');
+
+        // Creating AST
+        const linter = new TSESLint.Linter();
+        linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2021 }, env: { es6: true } });
+        return linter.getSourceCode();
+    } else {
+        const fileContents = readFileSync('tests/trace-value/target-files/' + file + '.ts', 'utf-8');
+
+        // Creating AST
+        // Documentation --> https://eslint.org/docs/developer-guide/nodejs-api#linterdefineparser
+        const linter = new TSESLint.Linter();
+        linter.defineParser("typescriptParser", {
+            parse(code, options) {
+                return tsParser.parseForESLint(code, options).ast;
+            }
+        });
+        linter.verify(fileContents, { parser: "typescriptParser", parserOptions: { "ecmaVersion": 2021 }, env: { es6: true } });
+        return linter.getSourceCode();
+    }
 }
 
 export const targetFileAST = new Map<ETestFiles, TSESLint.SourceCode>([
-    [ETestFiles.FILE1, createSourceCode(ETestFiles.FILE1)],
-    [ETestFiles.FILE2, createSourceCode(ETestFiles.FILE2)],
-    [ETestFiles.FILE3, createSourceCode(ETestFiles.FILE3)],
-    [ETestFiles.FILE4, createSourceCode(ETestFiles.FILE4)],
+    [ETestFiles.FILE1, createSourceCode(ETestFiles.FILE1, ESourceCodeLanguages.JAVASCRIPT)],
+    [ETestFiles.FILE2, createSourceCode(ETestFiles.FILE2, ESourceCodeLanguages.JAVASCRIPT)],
+    [ETestFiles.FILE3, createSourceCode(ETestFiles.FILE3, ESourceCodeLanguages.JAVASCRIPT)],
+    [ETestFiles.FILE4, createSourceCode(ETestFiles.FILE4, ESourceCodeLanguages.JAVASCRIPT)],
+    [ETestFiles.TSFILE4, createSourceCode(ETestFiles.TSFILE4, ESourceCodeLanguages.TYPESCRIPT)],
 ]);
 
 export const getVarDeclarationByName = (ast: TSESTree.Program, variableName: string): TSESTree.VariableDeclarator | null => {
@@ -119,19 +142,19 @@ export const analyzeIdentifierNode = (identifier: TSESTree.Identifier, context: 
     }
 
     // Find nodes that manipulate the identifier - look first in the scope of which the identifier is being used.
-    const a = findNodeWithNameInScope(identifier.name, identifier.loc, scopes[identifierScopeIndex] as unknown as TSESLintScope.Scope);
-    if (!a) throw `Could not find any relevant nodes for identifier ${identifier.name}`;
+    const scopeNode = findNodeWithNameInScope(identifier.name, identifier.loc, scopes[identifierScopeIndex] as unknown as TSESLintScope.Scope);
+    if (!scopeNode) throw `Could not find any relevant nodes for identifier ${identifier.name}`;
     // The return here is either an ExpressionStatement or a VariableDeclaration or null.
     // Find value of a
-    if (a.type === AST_NODE_TYPES.ExpressionStatement) {
-        if (a.expression.type !== AST_NODE_TYPES.AssignmentExpression) throw "The expression of the ExpressionStatement is not an assignment";
-        return a.expression.right;
-    } else if (a.type === AST_NODE_TYPES.ObjectPattern) {
-        const valueOfIdentifier = (a.parent as TSESTree.VariableDeclarator).init;
+    if (scopeNode.type === AST_NODE_TYPES.ExpressionStatement) {
+        if (scopeNode.expression.type !== AST_NODE_TYPES.AssignmentExpression) throw "The expression of the ExpressionStatement is not an assignment";
+        return scopeNode.expression.right;
+    } else if (scopeNode.type === AST_NODE_TYPES.ObjectPattern) {
+        const valueOfIdentifier = (scopeNode.parent as TSESTree.VariableDeclarator).init;
         if (!valueOfIdentifier) throw "Declaration value is null or undefined";
         return valueOfIdentifier;
     } else { // VariableDeclaration
-        const valueOfIdentifier = a.declarations[0].init;
+        const valueOfIdentifier = scopeNode.declarations[0].init;
         if (!valueOfIdentifier) throw "Declaration value is null or undefined";
         return valueOfIdentifier;
     }
@@ -151,3 +174,16 @@ export const makeComponentTrace = (node: TSESTree.Node, results: ITraceValueRetu
         return { result: { isVerified: true, determiningNode: results[results.length-1].result.determiningNode }, nodeComponentTrace: { ...node, traceChildren: results.map(v => v.nodeComponentTrace) } };
     }
 }
+
+/**
+ * Takes an enum e and a string s and returns whether the string is a value in the enum.
+ */
+export const stringInEnum = (e: { [s: number]: string }, s: string): boolean => (Object.values(e) as string[]).includes(s);
+
+/**
+ * Takes an Identifier node and a parameter list and returns whether the name of the Identifier is in the parameter list.
+ */
+export const isIdentifierInParams = (identifier: TSESTree.Identifier, params: TSESTree.Parameter[]) => !!params.find(param => {
+    if (param.type !== AST_NODE_TYPES.Identifier) throw "Parameter type not supported";
+    else return param.name === identifier.name;
+});

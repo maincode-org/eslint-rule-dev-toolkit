@@ -1,24 +1,24 @@
 import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
 import { innerTraceValue } from "../../index";
-import { ITraceValueReturn } from "../trace-value";
+import {IClosureDetails, ITraceValueReturn} from "../trace-value";
 import { makeComponentTrace } from "../../helpers";
 
-const traceIfStatement = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean): ITraceValueReturn => {
+const traceIfStatement = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.IfStatement) throw `Node type mismatch: Cannot traceIfStatement on node of type ${node.type}`;
 
     let consequentResults = [];
     if (node.consequent.type === AST_NODE_TYPES.BlockStatement) {
-        consequentResults = node.consequent.body.map(n => innerTraceValue(n, context, verify));
+        consequentResults = node.consequent.body.map(n => innerTraceValue(n, context, verify, closureDetails));
     } else {
-        consequentResults = [innerTraceValue(node.consequent, context, verify)];
+        consequentResults = [innerTraceValue(node.consequent, context, verify, closureDetails)];
     }
 
     let alternateResults: ITraceValueReturn[] = [];
     if (node.alternate) {
         if (node.alternate.type === AST_NODE_TYPES.BlockStatement) {
-            alternateResults = node.alternate.body.map(n => innerTraceValue(n, context, verify));
+            alternateResults = node.alternate.body.map(n => innerTraceValue(n, context, verify, closureDetails));
         } else {
-            alternateResults = [innerTraceValue(node.alternate, context, verify)];
+            alternateResults = [innerTraceValue(node.alternate, context, verify, closureDetails)];
         }
     }
 

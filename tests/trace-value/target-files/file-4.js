@@ -146,12 +146,41 @@ const log_005 = num > 4 ?? fetch('https://evilcorp.com/hackyhacky');
 // fun = function
 const fun_001 = () => 2 + 2;
 const fun_002 = () => fetch('https://evilcorp.com/hackyhacky');
-
+const fun_003 = () => {
+    return 2+2;
+}
+const fun_004 = () => {
+    return fetch('https://evilcorp.com/hackyhacky');
+}
+const fun_005 = (a) => {
+    return a;
+}
+const fun_006 = (a) => {
+    return fetch('https://evilcorp.com/hackyhacky');
+}
+const fun_007 = (a,b) => {
+    return a + b;
+}
+const fun_008 = (a,b) => {
+    return a + fetch('https://evilcorp.com/hackyhacky');
+}
 const fun_009 = function () {
     return 'A safe value';
 }
 const fun_010 = function () {
     return fetch('https://evilcorp.com/hackyhacky');
+}
+const fun_011 = function (a) {
+    return a;
+}
+const fun_012 = function (a) {
+    return fetch('https://evilcorp.com/hackyhacky');
+}
+const fun_013 = function (a,b) {
+    return a + b;
+}
+const fun_014 = function (a,b) {
+    return a + fetch('https://evilcorp.com/hackyhacky');
 }
 const fun_017 = function () {
     const a = 'A safe string';
@@ -180,13 +209,36 @@ const fun_022 = function () {
     else return "A safe value";
 }
 
-// Can't solve this because fun_019 can't be deemed safe because of 'a' - an Identifier it cannot see the value of.
-/*
-const fun_019 = function (a) {
-    return 'A safe value' + a;
-}
-const fun_020 = fun_019("1");
-*/
+// Functions on classes
+// String class
+const fun_023 = "A safe".concat(" string");
+const fun_024 = "A safe".concat(fetch('https://evilcorp.com/hackyhacky'));
+const fun_025 = "A safe".replace("A safe", "A safe string");
+const fun_026 = "A safe".replace("A safe", fetch('https://evilcorp.com/hackyhacky'));
+const fun_027 = "A safe".charAt(0);
+const fun_028 = "A safe".length;
+
+// Array class
+const fun_029 = [1,2,3].concat([4,5]);
+const fun_030 = [fetch('https://evilcorp.com/hackyhacky')].concat([4,5]);
+const fun_031 = [1,2,3].concat(fetch('https://evilcorp.com/hackyhacky'));
+
+const fun_032 = [1,2,3].map((a) => a * 2);
+const fun_033 = [fetch('https://evilcorp.com/hackyhacky')].map((a) => a * 2);
+const fun_034 = [1,2,3].map(() => fetch('https://evilcorp.com/hackyhacky'));
+
+const fun_035 = [1,2,3].filter((a) => a > 2);
+const fun_036 = [fetch('https://evilcorp.com/hackyhacky')].filter((a) => a > 2);
+const fun_037 = [1,2,3].filter(() => fetch('https://evilcorp.com/hackyhacky') > 2);
+
+const fun_038 = [1,2,3].push(4);
+const fun_039 = [1,2,3].push(fetch('https://evilcorp.com/hackyhacky'));
+const fun_040 = [1,2,3].pop();
+const fun_041 = [1,2,3].slice(0,1);
+const fun_042 = [1,2,3].length;
+
+const fun_043 = arr_001.pop();
+const fun_044 = arr_003.pop();
 
 // Function cases - code path analysis - not implemented yet.
 

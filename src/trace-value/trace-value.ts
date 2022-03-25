@@ -17,18 +17,24 @@ import traceTemplateLiteral from "./trace-functions/template-literal";
 import traceVariableDeclaration from "./trace-functions/variable-declaration";
 import traceImportDeclaration from "./trace-functions/import-declaration";
 import traceCallExpression from "./trace-functions/call-expression";
+import { stringInEnum } from '../helpers';
 
 export type ITraceNode = (TSESTree.Node & { file?: string, traceChildren?: ITraceNode[] });
 
-export type ITraceValueReturn = {
-    result: {
-        isVerified: boolean,
-        determiningNode: TSESTree.Node,
-    },
-    nodeComponentTrace: ITraceNode,
+export type IClosureDetails = {
+    functionParams?: TSESTree.Parameter[];
+    accessor?: TSESTree.Identifier;
 }
 
-type ITraceFunction = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean) => ITraceValueReturn;
+export type ITraceValueReturn = {
+    result: {
+        isVerified: boolean;
+        determiningNode: TSESTree.Node;
+    },
+    nodeComponentTrace: ITraceNode;
+}
+
+type ITraceFunction = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails) => ITraceValueReturn;
 
 const traceFunctionMap = new Map<AST_NODE_TYPES, ITraceFunction>([
     [AST_NODE_TYPES.ArrayExpression, traceArrayExpression],
@@ -54,14 +60,13 @@ export const getErrorObj = (node: TSESTree.Node, nodeTrace: ITraceNode) => {
     return { result: { isVerified: false, determiningNode: node }, nodeComponentTrace: nodeTrace };
 };
 
-export const innerTraceValue = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean) => {
+export const innerTraceValue = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails) => {
     if (node.type === AST_NODE_TYPES.Literal) return { result: { isVerified: verify(node), determiningNode: node }, nodeComponentTrace: node };
 
-    const inEnum = (Object.values(AST_NODE_TYPES) as string[]).includes(node.type);
-    if (!inEnum) throw `Node type of ${node.type} is unrecognizable`;
+    if (!(stringInEnum(AST_NODE_TYPES, node.type))) throw `Node type of ${node.type} is unrecognizable`;
 
     const traceFunction = traceFunctionMap.get(node.type);
-    if (traceFunction) return traceFunction(node, context, verify);
+    if (traceFunction) return traceFunction(node, context, verify, closureDetails);
     else return getErrorObj(node, node);
 }
 

@@ -56,4 +56,147 @@ describe('Arrow function expressions tests', () => {
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
     });
+
+    test('Verifying value of fun_003', () => {
+        const variableName = 'fun_003';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(true);
+        expect(result.determiningNode.type).toBe("Literal");
+
+        // Analyze trace
+        expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("BinaryExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Literal");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[1].type).toBe("Literal");
+    });
+
+    test('Verifying value of fun_004', () => {
+        const variableName = 'fun_004';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(false);
+        expect(result.determiningNode.type).toBe("CallExpression");
+
+        // Analyze trace
+        expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+    });
+
+    test('Verifying value of fun_005', () => {
+        const variableName = 'fun_005';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(true);
+        expect(result.determiningNode.type).toBe("Identifier");
+
+        // Analyze trace
+        expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+    });
+
+    test('Verifying value of fun_006', () => {
+        const variableName = 'fun_006';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(false);
+        expect(result.determiningNode.type).toBe("CallExpression");
+
+        // Analyze trace
+        expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+    });
+
+    test('Verifying value of fun_007', () => {
+        const variableName = 'fun_007';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(true);
+        expect(result.determiningNode.type).toBe("Identifier");
+
+        // Analyze trace
+        expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("BinaryExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[1].type).toBe("Identifier");
+    });
+
+    test('Verifying value of fun_008', () => {
+        const variableName = 'fun_008';
+
+        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        expect(varDeclaration).toBeDefined();
+        if (!varDeclaration) return;
+
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+        expect(traceValueResult).toBeDefined();
+        if (!traceValueResult) return;
+
+        const { result, nodeComponentTrace } = traceValueResult;
+
+        // Analyze result
+        expect(result.isVerified).toBe(false);
+        expect(result.determiningNode.type).toBe("CallExpression");
+
+        // Analyze trace
+        expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("BinaryExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+    });
 });
