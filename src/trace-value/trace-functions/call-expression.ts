@@ -1,15 +1,16 @@
-import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
-import { readFileSync } from "fs";
+import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
+import {readFileSync} from "fs";
 import estraverse from "estraverse";
 import {getErrorObj, ITraceValueReturn, innerTraceValue, IClosureDetails} from "../trace-value";
 import ESTree from "estree";
-import { makeComponentTrace, stringInEnum } from '../../helpers';
+import {makeComponentTrace, stringInEnum} from '../../helpers';
 
 enum EClassWhitelistNodeTypes {
     LITERAL = 'Literal',
     ARRAY = 'ArrayExpression',
     IDENTIFIER = 'Identifier',
 }
+
 /**
  * Can only analyze functions on classes and require calls atm.
  */
@@ -17,7 +18,7 @@ const traceCallExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, 
     if (node.type !== AST_NODE_TYPES.CallExpression) throw `Node type mismatch: Cannot traceCallExpression on node of type ${node.type}`;
 
     // FUNCTION CALLS ON CLASSES
-    if (node.callee.type === "MemberExpression") {
+    if (node.callee.type === AST_NODE_TYPES.MemberExpression) {
         const classInstance = node.callee.object;
 
         // Check if the class is in the EClassWhitelistNodeTypes enum.
@@ -34,42 +35,57 @@ const traceCallExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, 
     }
 
     // REQUIRE CALLS
-    if (!(node.callee.type === AST_NODE_TYPES.Identifier && node.callee.name === "require")) return getErrorObj(node, node);
+    else if (node.callee.type === AST_NODE_TYPES.Identifier && node.callee.name === "require") {
+        // Check if argument provided to the require call is a literal.
+        if (node.arguments.find(arg => arg.type !== AST_NODE_TYPES.Literal)) throw "Require argument is not of type Literal";
 
-    // Check if arguments provided to the require call are not literals.
-    if (node.arguments.find(arg => arg.type !== "Literal")) throw "Require argument is not of type Literal";
+        const callExpressionArgument = node.arguments[0];
+        if (callExpressionArgument.type !== AST_NODE_TYPES.Literal) throw "Argument provided to require call is not of type Literal";
+        const sourceFile = (callExpressionArgument as TSESTree.StringLiteral).value.replace('.', '').replace('/', '');
+        const fileContents = readFileSync('tests/trace-value/target-files/' + sourceFile + '.js', 'utf-8');
 
-    const callExpressionArgument = node.arguments[0];
-    if (callExpressionArgument.type !== AST_NODE_TYPES.Literal) throw "Argument provided to require call is not of type Literal";
-    const sourceFile = (callExpressionArgument as TSESTree.StringLiteral).value.replace('.', '').replace('/','');
-    const fileContents = readFileSync('tests/trace-value/target-files/' + sourceFile + '.js', 'utf-8');
+        // Creating AST
+        const linter = new TSESLint.Linter();
+        linter.verify(fileContents, {parserOptions: {"ecmaVersion": 2021}, env: {es6: true}});
+        const requireFileAST = linter.getSourceCode().ast;
 
-    // Creating AST
-    const linter = new TSESLint.Linter();
-    linter.verify(fileContents, { parserOptions: { "ecmaVersion": 2021 }, env: { es6: true } });
-    const requireFileAST = linter.getSourceCode().ast;
+        // Is of type Identifier or ObjectPattern (deconstruction).
+        const requireIdentifier = (node.parent as TSESTree.VariableDeclarator).id;
 
-    // Is of type Identifier or ObjectPattern (deconstruction).
-    const requireIdentifier = (node.parent as TSESTree.VariableDeclarator).id;
+        // Traverse the new AST and find the export value(s) matching the requireIdentifier.
+        let exportValues: (TSESTree.Expression | null)[];
 
-    // Traverse the new AST and find the export value(s) matching the requireIdentifier.
-    let exportValues: (TSESTree.Expression | null)[];
+        if (requireIdentifier.type === AST_NODE_TYPES.ObjectPattern) {
+            exportValues = requireIdentifier.properties.map(p => {
+                if (p.type === AST_NODE_TYPES.RestElement) throw "Deconstruction of require includes RestElement."
+                if (p.key.type !== AST_NODE_TYPES.Identifier) throw "Deconstruction value's key is not of type Identifier";
+                else return findExportValueForIdentifier(requireFileAST, p.key);
+            });
+        } else exportValues = [findExportValueForIdentifier(requireFileAST, requireIdentifier as TSESTree.Identifier)];
 
-    if (requireIdentifier.type === AST_NODE_TYPES.ObjectPattern) {
-        exportValues = requireIdentifier.properties.map(p => {
-            if (p.type === AST_NODE_TYPES.RestElement) throw "Deconstruction of require includes RestElement."
-            if (p.key.type !== AST_NODE_TYPES.Identifier) throw "Deconstruction value's key is not of type Identifier";
-            else return findExportValueForIdentifier(requireFileAST, p.key);
-        });
-    } else exportValues = [findExportValueForIdentifier(requireFileAST, requireIdentifier as TSESTree.Identifier)];
+        // Call the recursive case, for each export value found, on the new AST.
+        if (exportValues.includes(null)) throw `Unable to find export statement exporting identifier(s)`;
 
-    // Call the recursive case, for each export value found, on the new AST.
-    if (exportValues.includes(null)) throw `Unable to find export statement exporting identifier(s)`;
+        const results = exportValues.map(i => i && innerTraceValue(i, linter.getSourceCode(), verify, closureDetails))
+            .filter(r => !!r) as ITraceValueReturn[];
 
-    const results = exportValues.map(i => i && innerTraceValue(i, linter.getSourceCode(), verify, closureDetails))
-        .filter(r => !!r) as ITraceValueReturn[];
+        return makeComponentTrace(node, results);
+    }
 
-    return makeComponentTrace(node, results);
+    // NORMAL FUNCTION CALLS
+    else if (node.callee.type === AST_NODE_TYPES.Identifier) {
+        let rightResults: ITraceValueReturn[] = [];
+
+        const leftResult = innerTraceValue(node.callee, context, verify, closureDetails);
+
+        // If arguments are provided analyze them.
+        if (node.arguments.length > 0) {
+            rightResults = node.arguments.map(arg => innerTraceValue(arg, context, verify, closureDetails));
+        }
+
+        const results = [leftResult, ...rightResults];
+        return makeComponentTrace(node, results);
+    } else return getErrorObj(node, node);
 }
 export default traceCallExpression;
 

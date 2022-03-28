@@ -3,7 +3,7 @@ import { AST_NODE_TYPES, TSESTree, TSESLintScope, TSESLint } from "@typescript-e
 import * as tsParser from "@typescript-eslint/parser";
 import estraverse from "estraverse";
 import { readFileSync } from "fs";
-import { ITraceValueReturn } from "./trace-value/trace-value";
+import {getErrorObj, ITraceValueReturn} from "./trace-value/trace-value";
 
 export enum ETestFiles {
     FILE1 = 'file-1',
@@ -81,7 +81,9 @@ const findNodeWithNameInScope = (name: string, location: TSESTree.SourceLocation
     // Analyze the global scope by looking at the set of variables in the scope.
     if (scope.type === "global") {
         const nameNode = scope.set.get(name);
-        if (!nameNode) throw `Node with name ${name} could not be found in global scope`;
+
+        // An identifier node with that name could not be found.
+        if (!nameNode) return null;
 
         // Check if nameNode is a part of a deconstruction.
         if (nameNode.identifiers[0].parent && nameNode.identifiers[0].parent.type === "Property") {
@@ -128,7 +130,7 @@ const findNodeWithNameInScope = (name: string, location: TSESTree.SourceLocation
  * starting from the scope of which the identifier is being used, going one scope up,
  * until reaching global scope in which the identifier has to be declared (or imported).
  */
-export const analyzeIdentifierNode = (identifier: TSESTree.Identifier, context: TSESLint.SourceCode): TSESTree.Node => {
+export const analyzeIdentifierNode = (identifier: TSESTree.Identifier, context: TSESLint.SourceCode): TSESTree.Node | null => {
     // Find the scope of the provided identifier node.
     const scopes = context.scopeManager?.scopes;
     if (!scopes) throw "Scopes are undefined";
@@ -143,7 +145,10 @@ export const analyzeIdentifierNode = (identifier: TSESTree.Identifier, context: 
 
     // Find nodes that manipulate the identifier - look first in the scope of which the identifier is being used.
     const scopeNode = findNodeWithNameInScope(identifier.name, identifier.loc, scopes[identifierScopeIndex] as unknown as TSESLintScope.Scope);
-    if (!scopeNode) throw `Could not find any relevant nodes for identifier ${identifier.name}`;
+
+    // findNodeWithNameInScope could not find any matching node in any relevant scope.
+    if (!scopeNode) return null;
+
     // The return here is either an ExpressionStatement or a VariableDeclaration or null.
     // Find value of a
     if (scopeNode.type === AST_NODE_TYPES.ExpressionStatement) {

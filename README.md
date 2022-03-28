@@ -11,6 +11,8 @@ A toolkit of awesome helpers for developing advanced ESLint rules with ease!
 - [X] Improve/Refactor nodeComponentTrace algorithm (returns the parent multiple times)
 - [X] Handle function calls on classes (strings, arrays etc.)
 - [X] Implement analysis of functions with parameters
+- [ ] Add analysis of normal function calls
+  - [ ] Correct relevant tests to CallExpression --> Identifier in trace analysis
 - [ ] Implement support for reassignments in global scope
 - [ ] Implement correct functionality for file I/O
   - [ ] Trace through files by looking at import from source file  

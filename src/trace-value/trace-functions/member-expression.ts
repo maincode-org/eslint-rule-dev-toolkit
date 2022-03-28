@@ -1,6 +1,6 @@
 import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
 import { innerTraceValue } from "../../index";
-import {IClosureDetails, ITraceValueReturn} from "../trace-value";
+import {getErrorObj, IClosureDetails, ITraceValueReturn} from "../trace-value";
 import { analyzeIdentifierNode } from "../../helpers";
 
 const traceMemberExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails): ITraceValueReturn => {
@@ -15,6 +15,9 @@ const traceMemberExpression = (node: TSESTree.Node, context: TSESLint.SourceCode
         if (node.object.type === AST_NODE_TYPES.Identifier) {
             // Find the object being referenced in the MemberExpression.
             const identifierValue = analyzeIdentifierNode(node.object, context);
+
+            // If the value of the identifier could not be found return error.
+            if (!identifierValue) return getErrorObj(node, node);
 
             // Check if the identifier being accessed is from a require/import.
             if (identifierValue.type === AST_NODE_TYPES.CallExpression) {

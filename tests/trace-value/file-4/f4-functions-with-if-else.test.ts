@@ -8,10 +8,10 @@ if (!sourceCode) throw "Unable to find AST for target file.";
 
 const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
-// Code starts in file-4 at line 170.
+// Code starts in file-4 at line 201.
 describe('Functions with if-else statements tests', () => {
-    test('Verifying value of fun_019', () => {
-        const variableName = 'fun_019';
+    test('Verifying value of fun_023', () => {
+        const variableName = 'fun_023';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -35,8 +35,8 @@ describe('Functions with if-else statements tests', () => {
         expect(nodeComponentTrace.traceChildren?.[1].type).toBe("ReturnStatement");
     });
 
-    test('Verifying value of fun_020', () => {
-        const variableName = 'fun_020';
+    test('Verifying value of fun_024', () => {
+        const variableName = 'fun_024';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -59,8 +59,8 @@ describe('Functions with if-else statements tests', () => {
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("IfStatement");
     });
 
-    test('Verifying value of fun_021', () => {
-        const variableName = 'fun_021';
+    test('Verifying value of fun_025', () => {
+        const variableName = 'fun_025';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -74,16 +74,19 @@ describe('Functions with if-else statements tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("FunctionExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("IfStatement");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
-    test('Verifying value of fun_022', () => {
-        const variableName = 'fun_022';
+    test('Verifying value of fun_026', () => {
+        const variableName = 'fun_026';
 
         const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
         expect(varDeclaration).toBeDefined();
@@ -97,11 +100,14 @@ describe('Functions with if-else statements tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("FunctionExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("IfStatement");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("ReturnStatement");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 });

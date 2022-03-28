@@ -48,11 +48,11 @@ describe('Simple tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("CallExpression");
-        expect(nodeComponentTrace.traceChildren).toBeUndefined();
+        expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of sim_003', () => {
@@ -116,11 +116,12 @@ describe('Simple tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("Identifier");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 });

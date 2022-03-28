@@ -1,6 +1,6 @@
 import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
 import { innerTraceValue } from "../../index";
-import {IClosureDetails, ITraceNode, ITraceValueReturn} from "../trace-value";
+import {getErrorObj, IClosureDetails, ITraceNode, ITraceValueReturn} from "../trace-value";
 import {analyzeIdentifierNode, isIdentifierInParams} from "../../helpers";
 
 const traceIdentifier = (
@@ -15,8 +15,14 @@ const traceIdentifier = (
     if (closureDetails && closureDetails.functionParams && isIdentifierInParams(node, closureDetails.functionParams)) {
         return { result: { isVerified: true, determiningNode: node }, nodeComponentTrace: node }
     } else {
-        const result = innerTraceValue(analyzeIdentifierNode(node, context), context, verify, closureDetails);
-        return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] } };
+        const valueOfIdentifier = analyzeIdentifierNode(node, context);
+
+        // If the value of the identifier could not be found return error.
+        if (!valueOfIdentifier) return { result: { isVerified: false, determiningNode: node }, nodeComponentTrace: node };
+        else {
+            const result = innerTraceValue(valueOfIdentifier, context, verify, closureDetails);
+            return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] } };
+        }
     }
 }
 export default traceIdentifier;
