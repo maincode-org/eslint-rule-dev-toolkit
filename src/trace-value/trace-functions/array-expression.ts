@@ -1,11 +1,11 @@
-import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
+import { AST_NODE_TYPES, TSESTree } from "@typescript-eslint/utils";
 import { innerTraceValue } from "../../index";
-import { IClosureDetails, ITraceValueReturn } from "../trace-value";
+import { IClosureDetails, IRuleContext, ITraceValueReturn } from '../trace-value';
 import { makeComponentTrace } from '../../helpers';
 
 type IExpression = TSESTree.Expression | { type: AST_NODE_TYPES.SpreadElement, argument: TSESTree.Identifier };
 
-const traceArrayExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails): ITraceValueReturn => {
+const traceArrayExpression = (node: TSESTree.Node, context: IRuleContext, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.ArrayExpression) throw `Node type mismatch: Cannot traceArrayExpression on node of type ${node.type}`;
 
     // Call recursively with each array value.

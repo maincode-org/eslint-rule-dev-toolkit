@@ -1,9 +1,9 @@
-import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
+import { AST_NODE_TYPES, TSESTree } from "@typescript-eslint/utils";
 import { innerTraceValue } from "../../index";
-import {IClosureDetails, ITraceValueReturn} from "../trace-value";
+import { IClosureDetails, IRuleContext, ITraceValueReturn } from '../trace-value';
 import { makeComponentTrace } from "../../helpers";
 
-const traceIfStatement = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails): ITraceValueReturn => {
+const traceIfStatement = (node: TSESTree.Node, context: IRuleContext, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.IfStatement) throw `Node type mismatch: Cannot traceIfStatement on node of type ${node.type}`;
 
     let consequentResults = [];

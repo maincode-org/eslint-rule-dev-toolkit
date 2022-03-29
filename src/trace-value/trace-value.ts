@@ -21,6 +21,11 @@ import { stringInEnum } from '../helpers';
 
 export type ITraceNode = (TSESTree.Node & { file?: string, traceChildren?: ITraceNode[] });
 
+// Helper to construct IRuleContext type
+type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>
+
+export type IRuleContext = AtLeast<TSESLint.RuleContext<string, unknown[]>, 'getSourceCode'>
+
 export type IClosureDetails = {
     functionParams?: TSESTree.Parameter[];
     accessor?: TSESTree.Identifier;
@@ -34,7 +39,7 @@ export type ITraceValueReturn = {
     nodeComponentTrace: ITraceNode;
 }
 
-type ITraceFunction = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails) => ITraceValueReturn;
+type ITraceFunction = (node: TSESTree.Node, context: IRuleContext, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails) => ITraceValueReturn;
 
 const traceFunctionMap = new Map<AST_NODE_TYPES, ITraceFunction>([
     [AST_NODE_TYPES.ArrayExpression, traceArrayExpression],
@@ -60,7 +65,7 @@ export const getErrorObj = (node: TSESTree.Node, nodeTrace: ITraceNode) => {
     return { result: { isVerified: false, determiningNode: node }, nodeComponentTrace: nodeTrace };
 };
 
-export const innerTraceValue = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails) => {
+export const innerTraceValue = (node: TSESTree.Node, context: IRuleContext, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails) => {
     if (node.type === AST_NODE_TYPES.Literal) return { result: { isVerified: verify(node), determiningNode: node }, nodeComponentTrace: node };
 
     if (!(stringInEnum(AST_NODE_TYPES, node.type))) throw `Node type of ${node.type} is unrecognizable`;
@@ -70,5 +75,4 @@ export const innerTraceValue = (node: TSESTree.Node, context: TSESLint.SourceCod
     else return getErrorObj(node, node);
 }
 
-// TODO: Change type of context to RuleContext
-export const traceValue = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean): ITraceValueReturn => innerTraceValue(node, context, verify);
+export const traceValue = (node: TSESTree.Node, context: IRuleContext, verify: (node: TSESTree.Node) => boolean): ITraceValueReturn => innerTraceValue(node, context, verify);

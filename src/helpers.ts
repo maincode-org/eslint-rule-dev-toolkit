@@ -3,7 +3,7 @@ import { AST_NODE_TYPES, TSESTree, TSESLintScope, TSESLint } from "@typescript-e
 import * as tsParser from "@typescript-eslint/parser";
 import estraverse from "estraverse";
 import { readFileSync } from "fs";
-import {getErrorObj, ITraceValueReturn} from "./trace-value/trace-value";
+import { IRuleContext, ITraceValueReturn } from './trace-value/trace-value';
 
 export enum ETestFiles {
     FILE1 = 'file-1',
@@ -130,9 +130,9 @@ const findNodeWithNameInScope = (name: string, location: TSESTree.SourceLocation
  * starting from the scope of which the identifier is being used, going one scope up,
  * until reaching global scope in which the identifier has to be declared (or imported).
  */
-export const analyzeIdentifierNode = (identifier: TSESTree.Identifier, context: TSESLint.SourceCode): TSESTree.Node | null => {
+export const analyzeIdentifierNode = (identifier: TSESTree.Identifier, context: IRuleContext): TSESTree.Node | null => {
     // Find the scope of the provided identifier node.
-    const scopes = context.scopeManager?.scopes;
+    const scopes = context.getSourceCode()?.scopeManager?.scopes;
     if (!scopes) throw "Scopes are undefined";
 
     const scopeBodies = scopes.map(scope => ((scope.block as TSESTree.ArrowFunctionExpression).body as TSESTree.BlockStatement).body);

@@ -1,9 +1,9 @@
-import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
+import { AST_NODE_TYPES, TSESTree } from "@typescript-eslint/utils";
 import { innerTraceValue } from "../../index";
-import {getErrorObj, IClosureDetails, ITraceValueReturn} from "../trace-value";
+import { getErrorObj, IClosureDetails, IRuleContext, ITraceValueReturn } from '../trace-value';
 import { analyzeIdentifierNode } from "../../helpers";
 
-const traceMemberExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails): ITraceValueReturn => {
+const traceMemberExpression = (node: TSESTree.Node, context: IRuleContext, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.MemberExpression) throw `Node type mismatch: Cannot traceMemberExpression on node of type ${node.type}`;
 
     // Array access
