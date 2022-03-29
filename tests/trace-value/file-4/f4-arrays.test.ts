@@ -71,12 +71,13 @@ describe('Array tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrayExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of arr_004', () => {
@@ -94,12 +95,13 @@ describe('Array tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrayExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of arr_005', () => {
@@ -167,12 +169,15 @@ describe('Array tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrayExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("ArrayExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of arr_008', () => {
@@ -190,12 +195,16 @@ describe('Array tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrayExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("MemberExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ArrayExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of arr_009', () => {
@@ -213,12 +222,16 @@ describe('Array tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrayExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("MemberExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ArrayExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of arr_010', () => {
@@ -285,12 +298,13 @@ describe('Array tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrayExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of arr_013', () => {
@@ -332,12 +346,13 @@ describe('Array tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrayExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('LIMITATION: Verifying value of arr_015', () => {

@@ -49,12 +49,13 @@ describe('Object tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of obj_003', () => {
@@ -97,12 +98,13 @@ describe('Object tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of obj_005', () => {
@@ -120,12 +122,13 @@ describe('Object tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of obj_006', () => {
@@ -143,12 +146,16 @@ describe('Object tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("MemberExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of obj_007', () => {
@@ -166,12 +173,15 @@ describe('Object tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of obj_008', () => {
@@ -189,12 +199,15 @@ describe('Object tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("Identifier");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of obj_009', () => {
@@ -237,12 +250,14 @@ describe('Object tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ObjectExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ObjectExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of obj_011', () => {

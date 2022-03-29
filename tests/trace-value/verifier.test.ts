@@ -60,6 +60,6 @@ describe('Verifier function tests',() => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
     });
 });

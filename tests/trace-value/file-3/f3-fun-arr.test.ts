@@ -8,6 +8,7 @@ if (!sourceCode) throw "Unable to find AST for target file.";
 
 const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
+// Code starts in file-3 at line 77.
 describe('Function with array values tests', () => {
     test('Verifying value of fun_arr_001', () => {
         const variableName = 'fun_arr_001';
@@ -52,7 +53,7 @@ describe('Function with array values tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
@@ -61,6 +62,7 @@ describe('Function with array values tests', () => {
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ArrayExpression");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of fun_arr_003', () => {
@@ -107,7 +109,7 @@ describe('Function with array values tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("FunctionExpression");
@@ -117,6 +119,7 @@ describe('Function with array values tests', () => {
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ArrayExpression");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of fun_arr_005', () => {

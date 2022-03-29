@@ -50,12 +50,13 @@ describe('Mathematical expressions tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("BinaryExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of mat_003', () => {
@@ -98,12 +99,13 @@ describe('Mathematical expressions tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("BinaryExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of mat_005', () => {
@@ -146,12 +148,13 @@ describe('Mathematical expressions tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("BinaryExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of mat_007', () => {
@@ -194,12 +197,13 @@ describe('Mathematical expressions tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("BinaryExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of mat_009', () => {
@@ -242,12 +246,13 @@ describe('Mathematical expressions tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("BinaryExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of mat_011', () => {
@@ -290,11 +295,12 @@ describe('Mathematical expressions tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("BinaryExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 });

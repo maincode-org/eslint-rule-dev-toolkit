@@ -8,7 +8,7 @@ if (!sourceCode) throw "Unable to find AST for target file.";
 
 const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
-// Code starts in file-3 at line ?.
+// Code starts in file-3 at line 42.
 describe('Map with object values tests', () => {
     test('Verifying value of map_obj_001', () => {
         const variableName = 'map_obj_001';
@@ -53,7 +53,7 @@ describe('Map with object values tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("NewExpression");
@@ -62,6 +62,7 @@ describe('Map with object values tests', () => {
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ObjectExpression");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('LIMITATION: Verifying value of map_obj_003', () => {
@@ -79,7 +80,7 @@ describe('Map with object values tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("NewExpression");
@@ -89,5 +90,6 @@ describe('Map with object values tests', () => {
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ObjectExpression");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 });

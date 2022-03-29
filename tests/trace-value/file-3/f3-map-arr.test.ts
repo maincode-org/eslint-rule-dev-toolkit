@@ -8,7 +8,7 @@ if (!sourceCode) throw "Unable to find AST for target file.";
 
 const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
-// Code starts in file-3 at line ?.
+// Code starts in file-3 at line 46.
 describe('Map with object values tests', () => {
     test('Verifying value of map_arr_001', () => {
         const variableName = 'map_arr_001';
@@ -53,7 +53,7 @@ describe('Map with object values tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("NewExpression");
@@ -62,5 +62,6 @@ describe('Map with object values tests', () => {
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ArrayExpression");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 });

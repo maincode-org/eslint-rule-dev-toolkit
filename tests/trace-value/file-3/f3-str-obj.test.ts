@@ -8,7 +8,7 @@ if (!sourceCode) throw "Unable to find AST for target file.";
 
 const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
-// Code starts in file-3 at line ?.
+// Code starts in file-3 at line 33.
 describe('String manipulation with object values tests', () => {
     test('Verifying value of str_obj_001', () => {
         const variableName = 'str_obj_001';
@@ -56,7 +56,7 @@ describe('String manipulation with object values tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("BinaryExpression");
@@ -66,6 +66,7 @@ describe('String manipulation with object values tests', () => {
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ObjectExpression");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of str_obj_003', () => {
@@ -112,7 +113,7 @@ describe('String manipulation with object values tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("TemplateLiteral");
@@ -122,6 +123,7 @@ describe('String manipulation with object values tests', () => {
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ObjectExpression");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of str_obj_005', () => {
@@ -139,7 +141,7 @@ describe('String manipulation with object values tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe('CallExpression');
+        expect(result.determiningNode.type).toBe('Identifier');
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("TemplateLiteral");
@@ -149,5 +151,6 @@ describe('String manipulation with object values tests', () => {
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("ObjectExpression");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 });

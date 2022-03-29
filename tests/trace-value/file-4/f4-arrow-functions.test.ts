@@ -49,12 +49,13 @@ describe('Arrow function expressions tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
         expect(nodeComponentTrace.traceChildren?.length).toBe(1);
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of fun_003', () => {
@@ -97,12 +98,13 @@ describe('Arrow function expressions tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of fun_005', () => {
@@ -143,12 +145,13 @@ describe('Arrow function expressions tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 
     test('Verifying value of fun_007', () => {
@@ -191,12 +194,13 @@ describe('Arrow function expressions tests', () => {
 
         // Analyze result
         expect(result.isVerified).toBe(false);
-        expect(result.determiningNode.type).toBe("CallExpression");
+        expect(result.determiningNode.type).toBe("Identifier");
 
         // Analyze trace
         expect(nodeComponentTrace.type).toBe("ArrowFunctionExpression");
         expect(nodeComponentTrace.traceChildren?.[0].type).toBe("ReturnStatement");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].type).toBe("BinaryExpression");
         expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("CallExpression");
+        expect(nodeComponentTrace.traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].traceChildren?.[0].type).toBe("Identifier");
     });
 });
