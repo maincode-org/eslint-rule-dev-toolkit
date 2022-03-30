@@ -21,18 +21,9 @@ const rule = createRule({
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
-        const { result, nodeComponentTrace } = traceValueResult;
+        const { result } = traceValueResult;
 
-        // Analyze result
-        expect(result.isVerified).toBe(true);
-        expect(result.determiningNode.type).toBe("Literal");
-        expect((result.determiningNode as TSESTree.Literal).value).toBe("A safe value");
-
-        // Analyze trace
-        expect(nodeComponentTrace.type).toBe("Literal");
-        expect(nodeComponentTrace.traceChildren).toBeUndefined();
-
-        if (result) {
+        if (!result) {
           context.report({
             messageId: 'mockRule',
             node: node,
@@ -62,10 +53,7 @@ const ruleTester = new ESLintUtils.RuleTester({ parser: "@typescript-eslint/pars
 
 describe('Testing RuleTester',() => {
   ruleTester.run('my-rule', rule, {
-    valid: [],
-    invalid: [{ code: fs.readFileSync('tests/trace-value/target-files/file-4.js', 'utf8'), errors: [{ messageId: 'mockRule', data: {}}] }]
+    valid: [{ code: fs.readFileSync('tests/trace-value/target-files/file-4.js', 'utf8') }],
+    invalid: []
   });
 });
-
-// valid: [{ code: fs.readFileSync('tests/trace-value/target-files/file-4.js', 'utf8') }],
-// invalid: [{ code: fs.readFileSync('tests/trace-value/target-files/file-4.js', 'utf8'), errors: [{ messageId: 'uppercase', data: {}}] }]

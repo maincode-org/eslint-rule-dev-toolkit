@@ -1,10 +1,10 @@
 import { TSESTree } from "@typescript-eslint/utils";
-import { ETestFiles, getVarDeclarationByName, targetFileAST } from "../../../src/helpers";
+import { ETestFiles, getVarDeclarationByName, targetFileContext } from "../../../src/helpers";
 import { traceValue } from "../../../src";
 
 // All tests in this file uses source code from file 'ts-file-4'.
-const sourceCode = targetFileAST.get(ETestFiles.TSFILE4);
-if (!sourceCode) throw "Unable to find AST for target file.";
+const context = targetFileContext.get(ETestFiles.TSFILE4);
+if (!context) throw "Unable to find AST for target file.";
 
 const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
@@ -12,11 +12,11 @@ describe('Typescript source code tests', () => {
   test('Verifying value of arr_001', () => {
     const variableName = 'arr_001';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -36,11 +36,11 @@ describe('Typescript source code tests', () => {
   test('Verifying value of fun_001', () => {
     const variableName = 'fun_001';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 

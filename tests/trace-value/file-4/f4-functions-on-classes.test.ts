@@ -1,10 +1,10 @@
 import { TSESTree } from "@typescript-eslint/utils";
-import { getVarDeclarationByName, targetFileAST, ETestFiles } from "../../../src/helpers";
+import { getVarDeclarationByName, targetFileContext, ETestFiles } from "../../../src/helpers";
 import { traceValue } from "../../../src";
 
 // All tests in this file uses source code from file 'file-4'.
-const sourceCode = targetFileAST.get(ETestFiles.FILE4);
-if (!sourceCode) throw "Unable to find AST for target file.";
+const context = targetFileContext.get(ETestFiles.FILE4);
+if (!context) throw "Unable to find AST for target file.";
 
 const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
@@ -13,11 +13,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_027', () => {
     const variableName = 'fun_027';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -37,11 +37,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_028', () => {
     const variableName = 'fun_028';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -60,11 +60,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_029', () => {
     const variableName = 'fun_029';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -85,11 +85,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_030', () => {
     const variableName = 'fun_030';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -108,11 +108,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_031', () => {
     const variableName = 'fun_031';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -132,11 +132,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_032', () => {
     const variableName = 'fun_032';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -155,11 +155,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_033', () => {
     const variableName = 'fun_033';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -179,11 +179,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_034', () => {
     const variableName = 'fun_034';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -203,11 +203,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_035', () => {
     const variableName = 'fun_035';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -226,11 +226,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_036', () => {
     const variableName = 'fun_036';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -253,11 +253,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_037', () => {
     const variableName = 'fun_037';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -277,11 +277,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_038', () => {
     const variableName = 'fun_038';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -301,11 +301,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_039', () => {
     const variableName = 'fun_039';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -328,11 +328,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_040', () => {
     const variableName = 'fun_040';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -352,11 +352,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_041', () => {
     const variableName = 'fun_041';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -377,11 +377,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_042', () => {
     const variableName = 'fun_042';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -401,11 +401,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_043', () => {
     const variableName = 'fun_043';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -424,11 +424,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_044', () => {
     const variableName = 'fun_044';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -448,11 +448,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_045', () => {
     const variableName = 'fun_045';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -474,11 +474,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_046', () => {
     const variableName = 'fun_046';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -500,11 +500,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_047', () => {
     const variableName = 'fun_047';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
@@ -526,11 +526,11 @@ describe('Functions on classes tests', () => {
   test('Verifying value of fun_048', () => {
     const variableName = 'fun_048';
 
-    const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+    const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
     expect(varDeclaration).toBeDefined();
     if (!varDeclaration) return;
 
-    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+    const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
     expect(traceValueResult).toBeDefined();
     if (!traceValueResult) return;
 
