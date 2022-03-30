@@ -13,15 +13,15 @@ const traceIdentifier = (
 
     // Check if the node is in fact just a reference to a parameter of a function in this closure.
     if (closureDetails && closureDetails.functionParams && isIdentifierInParams(node, closureDetails.functionParams)) {
-        return { result: { isVerified: true, determiningNode: node }, nodeComponentTrace: node }
+        return { result: { isVerified: true, determiningNode: node }, nodeComponentTrace: { ...node, filename: context.getFilename() } }
     } else {
         const valueOfIdentifier = analyzeIdentifierNode(node, context);
 
         // If the value of the identifier could not be found return error.
-        if (!valueOfIdentifier) return { result: { isVerified: false, determiningNode: node }, nodeComponentTrace: node };
+        if (!valueOfIdentifier) return { result: { isVerified: false, determiningNode: node }, nodeComponentTrace: {...node, filename: context.getFilename() } };
         else {
             const result = innerTraceValue(valueOfIdentifier, context, verify, closureDetails);
-            return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] } };
+            return { result: result.result, nodeComponentTrace: { ...node, filename: context.getFilename(), traceChildren: [result.nodeComponentTrace] } };
         }
     }
 }

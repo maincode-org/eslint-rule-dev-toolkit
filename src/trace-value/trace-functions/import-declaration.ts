@@ -11,7 +11,7 @@ const traceImportDeclaration = (node: TSESTree.Node, context: IRuleContext, veri
     const sourceFile = node.source.value.replace('.', '').replace('/','');
     console.log('sourceFile', sourceFile);
 
-    return getErrorObj(node, node);
+    return getErrorObj(node, { ...node, filename: context.getFilename() });
 
     /*
     const fileContents = readFileSync('tests/trace-value/target-files/' + sourceFile + '.js', 'utf-8');

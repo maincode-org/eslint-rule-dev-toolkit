@@ -1,9 +1,8 @@
-import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
-import { readFileSync } from "fs";
-import estraverse from "estraverse";
-import { getErrorObj, ITraceValueReturn, innerTraceValue, IClosureDetails, IRuleContext } from '../trace-value';
-import ESTree from "estree";
-import { makeComponentTrace, stringInEnum } from '../../helpers';
+import { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/utils';
+import estraverse from 'estraverse';
+import { getErrorObj, IClosureDetails, innerTraceValue, IRuleContext, ITraceValueReturn } from '../trace-value';
+import ESTree from 'estree';
+import { EFileExtensions, makeComponentTrace, makeContext, stringInEnum } from '../../helpers';
 
 enum EClassWhitelistNodeTypes {
     LITERAL = 'Literal',
@@ -31,7 +30,7 @@ const traceCallExpression = (node: TSESTree.Node, context: IRuleContext, verify:
         const rightResults = node.arguments.map(arg => innerTraceValue(arg, context, verify, closureDetails));
 
         const results = [leftResult, ...rightResults];
-        return makeComponentTrace(node, results);
+        return makeComponentTrace({ ...node, filename: context.getFilename() }, results);
     }
 
     // REQUIRE CALLS
@@ -41,15 +40,13 @@ const traceCallExpression = (node: TSESTree.Node, context: IRuleContext, verify:
 
         const callExpressionArgument = node.arguments[0];
         if (callExpressionArgument.type !== AST_NODE_TYPES.Literal) throw "Argument provided to require call is not of type Literal";
+
+        // Find the filename of the import file.
         const sourceFile = (callExpressionArgument as TSESTree.StringLiteral).value.replace('.', '').replace('/', '');
-        const fileContents = readFileSync('tests/trace-value/target-files/' + sourceFile + '.js', 'utf-8');
+        // Create new context of the import file.
+        const newContext = makeContext(sourceFile, EFileExtensions.JAVASCRIPT);
 
-        // Creating AST
-        const linter = new TSESLint.Linter();
-        linter.verify(fileContents, {parserOptions: {"ecmaVersion": 2021}, env: {es6: true}});
-        const requireFileAST = linter.getSourceCode().ast;
-
-        // Is of type Identifier or ObjectPattern (deconstruction).
+        // This is of type Identifier or ObjectPattern (deconstruction).
         const requireIdentifier = (node.parent as TSESTree.VariableDeclarator).id;
 
         // Traverse the new AST and find the export value(s) matching the requireIdentifier.
@@ -59,17 +56,17 @@ const traceCallExpression = (node: TSESTree.Node, context: IRuleContext, verify:
             exportValues = requireIdentifier.properties.map(p => {
                 if (p.type === AST_NODE_TYPES.RestElement) throw "Deconstruction of require includes RestElement."
                 if (p.key.type !== AST_NODE_TYPES.Identifier) throw "Deconstruction value's key is not of type Identifier";
-                else return findExportValueForIdentifier(requireFileAST, p.key);
+                else return findExportValueForIdentifier(newContext.getSourceCode().ast, p.key);
             });
-        } else exportValues = [findExportValueForIdentifier(requireFileAST, requireIdentifier as TSESTree.Identifier)];
+        } else exportValues = [findExportValueForIdentifier(newContext.getSourceCode().ast, requireIdentifier as TSESTree.Identifier)];
 
         // Call the recursive case, for each export value found, on the new AST.
         if (exportValues.includes(null)) throw `Unable to find export statement exporting identifier(s)`;
 
-        const results = exportValues.map(i => i && innerTraceValue(i, linter, verify, closureDetails))
+        const results = exportValues.map(i => i && innerTraceValue(i, newContext, verify, closureDetails))
             .filter(r => !!r) as ITraceValueReturn[];
 
-        return makeComponentTrace(node, results);
+        return makeComponentTrace({ ...node, filename: context.getFilename() }, results);
     }
 
     // NORMAL FUNCTION CALLS
@@ -84,8 +81,8 @@ const traceCallExpression = (node: TSESTree.Node, context: IRuleContext, verify:
         }
 
         const results = [leftResult, ...rightResults];
-        return makeComponentTrace(node, results);
-    } else return getErrorObj(node, node);
+        return makeComponentTrace({ ...node, filename: context.getFilename() }, results);
+    } else return getErrorObj(node, { ...node, filename: context.getFilename() });
 }
 export default traceCallExpression;
 

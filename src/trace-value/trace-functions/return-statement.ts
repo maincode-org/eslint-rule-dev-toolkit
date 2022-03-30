@@ -7,6 +7,6 @@ const traceReturnStatement = (node: TSESTree.Node, context: IRuleContext, verify
     if (!node.argument) throw "The argument of the ReturnStatement is undefined.";
 
     const result = innerTraceValue(node.argument, context, verify, closureDetails);
-    return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] }};
+    return { result: result.result, nodeComponentTrace: { ...node, filename: context.getFilename(), traceChildren: [result.nodeComponentTrace] }};
 }
 export default traceReturnStatement;

@@ -16,6 +16,6 @@ const traceObjectExpression = (node: TSESTree.Node, context: IRuleContext, verif
         );
     });
 
-    return makeComponentTrace(node, results);
+    return makeComponentTrace({ ...node, filename: context.getFilename() }, results);
 }
 export default traceObjectExpression;

@@ -11,13 +11,16 @@ A toolkit of awesome helpers for developing advanced ESLint rules with ease!
 - [X] Improve/Refactor nodeComponentTrace algorithm (returns the parent multiple times)
 - [X] Handle function calls on classes (strings, arrays etc.)
 - [X] Implement analysis of functions with parameters
-- [ ] Add analysis of normal function calls
-  - [ ] Correct relevant tests to CallExpression --> Identifier in trace analysis
+- [X] Add analysis of normal function calls
+  - [X] Correct relevant tests to CallExpression --> Identifier in trace analysis
 - [ ] Implement support for reassignments in global scope
-- [ ] Implement correct functionality for file I/O
-  - [ ] Trace through files by looking at import from source file  
-  - [ ] Add filename to nodes in nodeComponentTrace
-  - [ ] Use the parser provided in the context
+- [ ] Refactor type of context to RuleContext
+  - [X] Refactor tests to use RuleContext type
+  - [X] Add filename to nodes in nodeComponentTrace
+  - [ ] Add env as argument to makeContext
+  - [ ] Change implementation of makeContext to actually access the file
+    in the filesystem.
+- [ ] Implement analysis of ImportStatements
 
 Down prioritized:
 - [ ] Improve/Refactor the Identifier handler
@@ -33,9 +36,7 @@ Step 2
 - [ ] Add more interesting test cases
 
 Step 3
-- [ ] Handle some simple function calls
-- [ ] Use the parser provided in the context
-- [ ] Add test cases to showcase different parsers
+- [X] Handle some simple function calls
 
 Step 4:
 - [ ] Add more functionality (loops, classes etc.)

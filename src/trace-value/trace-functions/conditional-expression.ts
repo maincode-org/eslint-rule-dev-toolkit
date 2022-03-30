@@ -9,6 +9,6 @@ const traceConditionalExpression = (node: TSESTree.Node, context: IRuleContext, 
     const consequentResult = innerTraceValue(node.consequent, context, verify, closureDetails);
     const alternateResult = innerTraceValue(node.alternate, context, verify, closureDetails);
 
-    return makeComponentTrace(node, [consequentResult, alternateResult]);
+    return makeComponentTrace({ ...node, filename: context.getFilename() }, [consequentResult, alternateResult]);
 }
 export default traceConditionalExpression;

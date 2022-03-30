@@ -16,13 +16,13 @@ const traceArrowFunctionExpression = (
             ? node.body.body.map(innerNode => innerTraceValue(innerNode, context, verify, { functionParams: node.params }))
             : node.body.body.map(innerNode => innerTraceValue(innerNode, context, verify));
 
-        return makeComponentTrace(node, results);
+        return makeComponentTrace({ ...node, filename: context.getFilename() }, results);
     } else {
         const result = node.params.length > 0
             ? innerTraceValue(node.body, context, verify, { functionParams: node.params })
             : innerTraceValue(node.body, context, verify)
 
-        return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] } };
+        return { result: result.result, nodeComponentTrace: { ...node, filename: context.getFilename(), traceChildren: [result.nodeComponentTrace] } };
     }
 }
 export default traceArrowFunctionExpression;

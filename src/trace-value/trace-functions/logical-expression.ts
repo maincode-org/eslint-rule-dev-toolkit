@@ -9,6 +9,6 @@ const traceLogicalExpression = (node: TSESTree.Node, context: IRuleContext, veri
     const leftResult = innerTraceValue(node.left, context, verify, closureDetails);
     const rightResult = innerTraceValue(node.right, context, verify, closureDetails);
 
-    return makeComponentTrace(node, [leftResult, rightResult]);
+    return makeComponentTrace({ ...node, filename: context.getFilename() }, [leftResult, rightResult]);
 }
 export default traceLogicalExpression;
