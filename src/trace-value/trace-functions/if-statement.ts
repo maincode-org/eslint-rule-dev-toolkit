@@ -24,6 +24,6 @@ const traceIfStatement = (node: TSESTree.Node, context: IRuleContext, verify: (n
 
     const results = [...consequentResults, ...alternateResults];
 
-    return makeComponentTrace(node, results);
+    return makeComponentTrace({ ...node, filename: context.getFilename() }, results);
 }
 export default traceIfStatement;

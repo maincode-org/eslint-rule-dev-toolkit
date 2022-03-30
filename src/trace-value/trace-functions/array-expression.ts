@@ -16,6 +16,6 @@ const traceArrayExpression = (node: TSESTree.Node, context: IRuleContext, verify
         else return innerTraceValue(localArrValue, context, verify, closureDetails);
     });
 
-    return makeComponentTrace(node, results);
+    return makeComponentTrace({ ...node, filename: context.getFilename() }, results);
 }
 export default traceArrayExpression;

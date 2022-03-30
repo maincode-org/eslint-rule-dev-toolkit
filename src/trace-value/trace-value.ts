@@ -19,12 +19,13 @@ import traceImportDeclaration from "./trace-functions/import-declaration";
 import traceCallExpression from "./trace-functions/call-expression";
 import { stringInEnum } from '../helpers';
 
-export type ITraceNode = (TSESTree.Node & { file?: string, traceChildren?: ITraceNode[] });
+export type ITraceNode = (TSESTree.Node & { filename?: string, traceChildren?: ITraceNode[] });
 
 // Helper to construct IRuleContext type
 type AtLeast<T, K extends keyof T> = Partial<T> & Pick<T, K>
 
-export type IRuleContext = AtLeast<TSESLint.RuleContext<string, unknown[]>, 'getSourceCode'>
+// export type IRuleContext = AtLeast<AtLeast<TSESLint.RuleContext<string, unknown[]>, 'getSourceCode'>, 'getFilename'>
+export type IRuleContext = AtLeast<TSESLint.RuleContext<string, unknown[]>, 'getSourceCode' | 'getFilename'>;
 
 export type IClosureDetails = {
     functionParams?: TSESTree.Parameter[];
@@ -66,7 +67,7 @@ export const getErrorObj = (node: TSESTree.Node, nodeTrace: ITraceNode) => {
 };
 
 export const innerTraceValue = (node: TSESTree.Node, context: IRuleContext, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails) => {
-    if (node.type === AST_NODE_TYPES.Literal) return { result: { isVerified: verify(node), determiningNode: node }, nodeComponentTrace: node };
+    if (node.type === AST_NODE_TYPES.Literal) return { result: { isVerified: verify(node), determiningNode: node }, nodeComponentTrace: { ...node, filename: context.getFilename() } };
 
     if (!(stringInEnum(AST_NODE_TYPES, node.type))) throw `Node type of ${node.type} is unrecognizable`;
 

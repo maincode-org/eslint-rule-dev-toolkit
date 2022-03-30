@@ -11,6 +11,6 @@ const traceFunctionExpression = (node: TSESTree.Node, context: IRuleContext, ver
         ? node.body.body.map(innerNode => innerTraceValue(innerNode, context, verify, { functionParams: node.params }))
         : node.body.body.map(innerNode => innerTraceValue(innerNode, context, verify));
 
-    return makeComponentTrace(node, results);
+    return makeComponentTrace({ ...node, filename: context.getFilename() }, results);
 }
 export default traceFunctionExpression;

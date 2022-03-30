@@ -3,7 +3,7 @@ import { AST_NODE_TYPES, TSESTree, TSESLintScope, TSESLint } from '@typescript-e
 import * as tsParser from '@typescript-eslint/parser';
 import estraverse from 'estraverse';
 import { readFileSync } from 'fs';
-import { IRuleContext, ITraceValueReturn } from './trace-value/trace-value';
+import { IRuleContext, ITraceNode, ITraceValueReturn } from './trace-value/trace-value';
 
 export enum ETestFiles {
   FILE1 = 'file-1',
@@ -18,8 +18,8 @@ export enum EFileExtensions {
   TYPESCRIPT = 'ts'
 }
 
-export const createSourceCode = (file: ETestFiles, fileExtension: EFileExtensions, parserOptions: TSESLint.ParserOptions): TSESLint.SourceCode => {
-  const fileContents = readFileSync(`tests/trace-value/target-files/${file}.${fileExtension}`, 'utf-8');
+export const createSourceCode = (filename: string, fileExtension: EFileExtensions, parserOptions: TSESLint.ParserOptions): TSESLint.SourceCode => {
+  const fileContents = readFileSync(`tests/trace-value/target-files/${filename}.${fileExtension}`, 'utf-8');
 
   // Creating AST
   // Documentation --> https://eslint.org/docs/developer-guide/nodejs-api#linterdefineparser
@@ -33,7 +33,7 @@ export const createSourceCode = (file: ETestFiles, fileExtension: EFileExtension
   return linter.getSourceCode();
 };
 
-export const makeContext = (filename: ETestFiles, fileExtension: EFileExtensions): IRuleContext => {
+export const makeContext = (filename: string, fileExtension: EFileExtensions): IRuleContext => {
   return {
     parserOptions: { 'ecmaVersion': 2021 },
     getSourceCode: () => createSourceCode(filename, fileExtension, { 'ecmaVersion': 2021 }),
@@ -168,7 +168,7 @@ export const analyzeIdentifierNode = (identifier: TSESTree.Identifier, context: 
  * Takes a ITraceValueReturn[].
  * Returns a merged nodeComponentTrace in accordance to the approach describes in the README.
  */
-export const makeComponentTrace = (node: TSESTree.Node, results: ITraceValueReturn[]): ITraceValueReturn => {
+export const makeComponentTrace = (node: ITraceNode, results: ITraceValueReturn[]): ITraceValueReturn => {
   if (node.type === 'Program') throw 'Program is not a valid node type for trace';
 
   const unverifiedNode = results.find(result => !result.result.isVerified);

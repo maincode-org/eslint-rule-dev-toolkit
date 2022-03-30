@@ -6,6 +6,6 @@ const traceVariableDeclaration = (node: TSESTree.Node, context: IRuleContext, ve
     if (!node.declarations[0].init) throw "The declaration value of the VariableDeclaration is undefined.";
 
     const result = innerTraceValue(node.declarations[0].init, context, verify, closureDetails);
-    return { result: result.result, nodeComponentTrace: { ...node, traceChildren: [result.nodeComponentTrace] }};
+    return { result: result.result, nodeComponentTrace: { ...node, filename: context.getFilename(), traceChildren: [result.nodeComponentTrace] }};
 }
 export default traceVariableDeclaration;

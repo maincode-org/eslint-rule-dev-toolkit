@@ -21,6 +21,6 @@ const traceNewExpression = (node: TSESTree.Node, context: IRuleContext, verify: 
         else return innerTraceValue(value, context, verify, closureDetails);
     });
 
-    return makeComponentTrace(node, results);
+    return makeComponentTrace({ ...node, filename: context.getFilename() }, results);
 }
 export default traceNewExpression;

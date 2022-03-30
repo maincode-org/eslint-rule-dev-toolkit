@@ -9,6 +9,6 @@ const traceTemplateLiteral = (node: TSESTree.Node, context: IRuleContext, verify
     const expressions = node.expressions;
     const results = expressions.map(e => innerTraceValue(e, context, verify, closureDetails));
 
-    return makeComponentTrace(node, results);
+    return makeComponentTrace({ ...node, filename: context.getFilename() }, results);
 }
 export default traceTemplateLiteral;
