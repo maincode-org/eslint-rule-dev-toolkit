@@ -1,9 +1,9 @@
-import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
-import {readFileSync} from "fs";
+import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
+import { readFileSync } from "fs";
 import estraverse from "estraverse";
-import {getErrorObj, ITraceValueReturn, innerTraceValue, IClosureDetails} from "../trace-value";
+import { getErrorObj, ITraceValueReturn, innerTraceValue, IClosureDetails, IRuleContext } from '../trace-value';
 import ESTree from "estree";
-import {makeComponentTrace, stringInEnum} from '../../helpers';
+import { makeComponentTrace, stringInEnum } from '../../helpers';
 
 enum EClassWhitelistNodeTypes {
     LITERAL = 'Literal',
@@ -14,7 +14,7 @@ enum EClassWhitelistNodeTypes {
 /**
  * Can only analyze functions on classes and require calls atm.
  */
-const traceCallExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails): ITraceValueReturn => {
+const traceCallExpression = (node: TSESTree.Node, context: IRuleContext, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.CallExpression) throw `Node type mismatch: Cannot traceCallExpression on node of type ${node.type}`;
 
     // FUNCTION CALLS ON CLASSES
@@ -66,7 +66,7 @@ const traceCallExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, 
         // Call the recursive case, for each export value found, on the new AST.
         if (exportValues.includes(null)) throw `Unable to find export statement exporting identifier(s)`;
 
-        const results = exportValues.map(i => i && innerTraceValue(i, linter.getSourceCode(), verify, closureDetails))
+        const results = exportValues.map(i => i && innerTraceValue(i, linter, verify, closureDetails))
             .filter(r => !!r) as ITraceValueReturn[];
 
         return makeComponentTrace(node, results);

@@ -1,10 +1,10 @@
 import { TSESTree } from "@typescript-eslint/utils";
-import { getVarDeclarationByName, ETestFiles, targetFileAST } from "../../../src/helpers";
+import { getVarDeclarationByName, ETestFiles, targetFileContext } from "../../../src/helpers";
 import { traceValue } from "../../../src";
 
 // All tests in this file uses source code from file 'file-3'.
-const sourceCode = targetFileAST.get(ETestFiles.FILE3);
-if (!sourceCode) throw "Unable to find AST for target file.";
+const context = targetFileContext.get(ETestFiles.FILE3);
+if (!context) throw "Unable to find AST for target file.";
 
 const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
 
@@ -13,11 +13,11 @@ describe('Map with object values tests', () => {
     test('Verifying value of map_arr_001', () => {
         const variableName = 'map_arr_001';
 
-        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 
@@ -41,11 +41,11 @@ describe('Map with object values tests', () => {
     test('Verifying value of map_arr_002', () => {
         const variableName = 'map_arr_002';
 
-        const varDeclaration = getVarDeclarationByName(sourceCode.ast, variableName);
+        const varDeclaration = getVarDeclarationByName(context.getSourceCode().ast, variableName);
         expect(varDeclaration).toBeDefined();
         if (!varDeclaration) return;
 
-        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, sourceCode, verifierFunction);
+        const traceValueResult = varDeclaration.init && traceValue(varDeclaration.init, context, verifierFunction);
         expect(traceValueResult).toBeDefined();
         if (!traceValueResult) return;
 

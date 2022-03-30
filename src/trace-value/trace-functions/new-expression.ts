@@ -1,13 +1,13 @@
-import { AST_NODE_TYPES, TSESLint, TSESTree } from "@typescript-eslint/utils";
+import { AST_NODE_TYPES, TSESTree } from "@typescript-eslint/utils";
 import ESTree from "estree";
 import { innerTraceValue } from "../../index";
-import {IClosureDetails, ITraceValueReturn} from "../trace-value";
+import { IClosureDetails, IRuleContext, ITraceValueReturn } from '../trace-value';
 import { makeComponentTrace } from '../../helpers';
 
 type IExpression = TSESTree.Expression | { type: AST_NODE_TYPES.SpreadElement, argument: TSESTree.Identifier };
 
 // Can only handle new Map().
-const traceNewExpression = (node: TSESTree.Node, context: TSESLint.SourceCode, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails): ITraceValueReturn => {
+const traceNewExpression = (node: TSESTree.Node, context: IRuleContext, verify: (node: TSESTree.Node) => boolean, closureDetails?: IClosureDetails): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.NewExpression) throw `Node type mismatch: Cannot traceNewExpression on node of type ${node.type}`;
     if (node.callee.type !== AST_NODE_TYPES.Identifier && (node.callee as unknown as ESTree.Identifier).name !== "Map") throw "New Expression is not a Map";
 

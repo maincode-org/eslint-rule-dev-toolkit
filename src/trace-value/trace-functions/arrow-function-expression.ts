@@ -1,11 +1,11 @@
-import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
-import {innerTraceValue} from "../../index";
-import {IClosureDetails, ITraceValueReturn} from "../trace-value";
-import {isIdentifierInParams, makeComponentTrace} from '../../helpers';
+import { AST_NODE_TYPES, TSESTree } from "@typescript-eslint/utils";
+import { innerTraceValue } from "../../index";
+import { IRuleContext, ITraceValueReturn } from '../trace-value';
+import { makeComponentTrace } from '../../helpers';
 
 const traceArrowFunctionExpression = (
     node: TSESTree.Node,
-    context: TSESLint.SourceCode,
+    context: IRuleContext,
     verify: (node: TSESTree.Node) => boolean,
 ): ITraceValueReturn => {
     if (node.type !== AST_NODE_TYPES.ArrowFunctionExpression) throw `Node type mismatch: Cannot traceArrowFunctionExpression on node of type ${node.type}`;
