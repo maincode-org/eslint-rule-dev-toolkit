@@ -5,6 +5,8 @@ import estraverse from 'estraverse';
 import { readFileSync } from 'fs';
 import { IRuleContext, ITraceNode, ITraceValueReturn } from './trace-value/trace-value';
 
+type IFindNodeInScopeReturn = TSESTree.ExpressionStatement | TSESTree.VariableDeclaration | TSESTree.ObjectPattern | null
+
 export enum ETestFiles {
   FILE1 = 'file-1',
   FILE2 = 'file-2',
@@ -70,7 +72,7 @@ export const getVarDeclarationByName = (ast: TSESTree.Program, variableName: str
  * Returns the closest ExpressionStatement or VariableDeclaration node where the left side's name is equal to 'name'.
  * Searches recursively through layers of scopes until finally reaching global scope.
  */
-const findNodeWithNameInScope = (name: string, location: TSESTree.SourceLocation, scope: TSESLintScope.Scope): TSESTree.ExpressionStatement | TSESTree.VariableDeclaration | TSESTree.ObjectPattern | null => {
+const findNodeWithNameInScope = (name: string, location: TSESTree.SourceLocation, scope: TSESLintScope.Scope): IFindNodeInScopeReturn => {
   if (!scope) throw 'Scope is undefined';
   if (!location) throw 'Location is undefined';
 
@@ -119,8 +121,8 @@ const findNodeWithNameInScope = (name: string, location: TSESTree.SourceLocation
     // Return the node closest to and less than the location.
     const goal = location.start.line;
     const closest = analyzedNodes.reduce((prev, curr) => (Math.abs(curr - goal) < Math.abs(prev - goal) && curr <= goal ? curr : prev));
-    // @ts-ignore
-    return relevantNodes[analyzedNodes.findIndex((e) => e === closest)];
+
+    return relevantNodes[analyzedNodes.findIndex((e) => e === closest)] as IFindNodeInScopeReturn;
   }
 };
 
