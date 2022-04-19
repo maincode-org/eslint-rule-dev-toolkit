@@ -1,4 +1,21 @@
 {
+  "name": "eslint-rule-dev-toolkit",
+  "version": "1.0.0",
+  "description": "A toolkit of awesome helpers for developing advanced ESLint rules with ease!",
+  "main": "builds/src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maincode-org/eslint-rule-dev-toolkit.git"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Mathias Høyrup Nielsen & Mark Kragerup",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maincode-org/eslint-rule-dev-toolkit/issues"
+  },
+  "homepage": "https://github.com/maincode-org/eslint-rule-dev-toolkit#readme",
   "dependencies": {
     "@typescript-eslint/parser": "^5.16.0",
     "@typescript-eslint/utils": "^5.13.0",
@@ -13,8 +30,5 @@
     "prettier": "^2.4.1",
     "ts-jest": "^27.0.7",
     "typescript": "^4.5.2"
-  },
-  "scripts": {
-    "test": "jest"
   }
 }
