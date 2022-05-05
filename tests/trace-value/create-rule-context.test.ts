@@ -1,11 +1,11 @@
 import { ESLintUtils, TSESTree } from '@typescript-eslint/utils';
 import { getVarDeclarationByName } from '../../src/helpers';
-import { traceValue } from '../../src';
+import { traceValue } from '../../index';
 import fs from 'fs';
 
-const createRule = ESLintUtils.RuleCreator(name => `https://example.com/rule/${name}`);
+const createRule = ESLintUtils.RuleCreator((name) => `https://example.com/rule/${name}`);
 
-const verifierFunction = (node: TSESTree.Node) => node.type === "Literal";
+const verifierFunction = (node: TSESTree.Node) => node.type === 'Literal';
 
 const rule = createRule({
   create(context) {
@@ -36,8 +36,7 @@ const rule = createRule({
   meta: {
     docs: {
       recommended: false,
-      description:
-        'Mock rule',
+      description: 'Mock rule',
     },
     messages: {
       mockRule: 'Mock rule',
@@ -46,14 +45,14 @@ const rule = createRule({
     schema: [],
   },
   name: 'Mock rule',
-  defaultOptions: []
+  defaultOptions: [],
 });
 
-const ruleTester = new ESLintUtils.RuleTester({ parser: "@typescript-eslint/parser", parserOptions: { "ecmaVersion": 2021 }, env: { es6: true } });
+const ruleTester = new ESLintUtils.RuleTester({ parser: '@typescript-eslint/parser', parserOptions: { ecmaVersion: 2021 }, env: { es6: true } });
 
-describe('Testing RuleTester',() => {
+describe('Testing RuleTester', () => {
   ruleTester.run('my-rule', rule, {
     valid: [{ code: fs.readFileSync('tests/trace-value/target-files/file-4.js', 'utf8') }],
-    invalid: []
+    invalid: [],
   });
 });
